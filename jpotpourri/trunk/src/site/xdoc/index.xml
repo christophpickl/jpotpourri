@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+	<properties>
+		<title>Welcome</title>
+    <author email="christoph_pickl@users.sourceforge.net">Christoph Pickl</author>
+</properties>
+<body>
+<section name="asdf">
+
+<!--
+<subsection name="Class diagram">
+<img src="../img/classdiagramnew.png"/>
+</subsection>
+-->
+
+<subsection name="Intro">
+<p>wasup</p>
+</subsection>
+
+</section>
+
+</body>
+</document>

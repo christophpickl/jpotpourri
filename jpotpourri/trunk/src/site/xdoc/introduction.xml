@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+	<properties>
+		<title>Overview</title>
+    <author email="christoph_pickl@users.sourceforge.net">Christoph Pickl</author>
+</properties>
+<body>
+<section name="Overview">
+
+<!--
+<subsection name="Class diagram">
+<img src="../img/classdiagramnew.png"/>
+</subsection>
+-->
+
+<subsection name="Modules">
+<ul>
+	<li>Util</li>
+	<li>Gui</li>
+	<li>CodeGen</li>
+</ul>
+</subsection>
+
+<subsection name="Some Xml Data">
+<pre><![CDATA[
+   <profiles>
+     <profile>
+       <id>env-test</id>
+       <activation>
+         <property>
+           <name>env</name>
+           <value>test</value>
+         </property>
+       </activation>
+       <properties>
+         <appProperties>test.properties</appProperties>
+       </properties>
+     </profile>
+     <profile>
+       <id>env-production</id>
+       <activation>
+         <property>
+           <name>env</name>
+           <value>production</value>
+         </property>
+       </activation>
+       <properties>
+         <appProperties>app.properties</appProperties>
+       </properties>
+     </profile>
+   </profiles>
+        ]]>
+      </pre>
+</subsection>
+
+</section>
+
+</body>
+</document>
