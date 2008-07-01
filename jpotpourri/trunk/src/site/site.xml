@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="JPotpourri">
+<!--
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://maven.apache.org/maven-1.x/plugins/xdoc/maven-navigation.xsd"
+-->
+	<version position="none" />
+    <bannerLeft>
+        <name>JPotpourri</name>
+		<!--
+		<src>http://maven.apache.org/images/apache-maven-project.png</src>
+		<href>http://maven.apache.org/</href>
+		-->
+    </bannerLeft>
+    <!--
+	<bannerRight>
+		<src>http://maven.apache.org/images/maven-small.gif</src>
+	</bannerRight>
+    -->
+    <!--
+	<breadcrumbs>
+      <item name="Apache" href="http://www.apache.org/"/>
+      <item name="Maven" href="http://maven.apache.org/"/>
+    </breadcrumbs>
+    -->
+    <!--skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-default-skin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        </skin-->
+    <publishDate format="yyyy-MM-dd" />
+    <body>
+        <links>
+            <item name="Link1" href="http://www.orf.at/" />
+            <item name="OurMovies" href="http://omov.sourceforge.net/" />
+        </links>
+        <head>
+            <meta name="faq" content="something" />
+        </head>
+
+        <menu name="Overview">
+            <item name="Home" href="index.html" />
+            <item name="Introduction" href="introduction.html" />
+            <item name="FAQ" href="faq.html" />
+            
+        </menu>
+
+        <menu ref="reports" />
+        <!--menu name="Documentation">
+            <item name="Dependencies" href="dependencies.html"/>
+            <item name="Javadoc" href=""/>
+            </menu-->
+
+
+    </body>
+</project>

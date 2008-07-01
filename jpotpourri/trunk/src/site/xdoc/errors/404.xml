@@ -1,0 +1,20 @@
+<document>
+  <properties>
+    <title>Page Not Found</title>
+    <author email="christoph_pickl@users.sourceforge.net">Christoph Pickl</author>
+  </properties>
+<body>
+<section name="Page Not Found">
+
+<p>Sorry, the page you requested was not found. This may because:</p>
+<ul>
+  <li>The page has moved, was outdated, or has not been created yet</li>
+  <li>You typed the address incorrectly</li>
+  <li>You followed a link from another site that pointed to this page.</li>
+</ul>
+
+
+</section>
+
+</body>
+</document>
