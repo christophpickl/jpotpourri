@@ -11,7 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * @author christoph.pickl@bmi.gv.at
+ * @author christoph_pickl@users.sourceforge.net
  */
 public final class TestProperties {
 
@@ -32,7 +32,7 @@ public final class TestProperties {
 	
 	
 	
-	public TestProperties() {
+	private TestProperties() {
 		final ResourceBundle properties = ResourceBundle.getBundle(PROPERTIES_FILE_NAME);
 		
 		for (final Enumeration<String> keys = properties.getKeys(); keys.hasMoreElements();) {
