@@ -33,32 +33,35 @@ public class FileUtilTest extends AbstractUtilTestCase {
 		assertNull(FileUtil.extractExtension("/somewhere/asdf"));
 	}
 
-	public final void testCopyFile() {
-		fail("Not yet implemented");
-	}
-
-	public final void testCopyDirectoryRecursive() {
-		fail("Not yet implemented");
-	}
-
-	public final void testFormatFileSize() {
-		fail("Not yet implemented");
-	}
-
-	public final void testFormatFileSizeGb() {
-		fail("Not yet implemented");
-	}
-
-	public final void testGetGigaByteFromKiloByte() {
-		fail("Not yet implemented");
-	}
+//	public final void testCopyFile() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testCopyDirectoryRecursive() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testFormatFileSize() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testFormatFileSizeGb() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testGetGigaByteFromKiloByte() {
+//		fail("Not yet implemented");
+//	}
 
 	public final void testDeleteDirectoryRecursive() throws Exception {
-		final File parent = TestProperties.getInstance().getFolderTestRoot();
+		final String parentPath = TestProperties.getInstance().getFolderTestRootPath();
+		final File parentFile = new File(parentPath);
+		if(parentFile == null || parentFile.exists() == false) {
+			throw new RuntimeException("Invalid test configuration for parentPath = ["+parentPath+"]!");
+		}
+		final int expectedFileCount = parentFile.listFiles().length;
 		
-		final int expectedFileCount = parent.listFiles().length;
-		
-		final File dir1Delete = new File(parent, "folder1_delme");
+		final File dir1Delete = new File(parentFile, "folder1_delme");
 		final File dir2Delete = new File(dir1Delete, "folder2_delme");
 		if(dir2Delete.mkdirs() == false) {
 			throw new RuntimeException("Could not create directory structure [" + dir2Delete.getAbsolutePath() + "]!");
@@ -72,7 +75,7 @@ public class FileUtilTest extends AbstractUtilTestCase {
 		
 		FileUtil.deleteDirectoryRecursive(dir1Delete);
 		
-		assertEquals(expectedFileCount, parent.listFiles().length);
+		assertEquals(expectedFileCount, parentFile.listFiles().length);
 		
 		try {
 			FileUtil.deleteDirectoryRecursive(dir1Delete);
@@ -82,24 +85,24 @@ public class FileUtilTest extends AbstractUtilTestCase {
 			assertTrue(true);
 		}
 	}
-	public final void testIsHiddenFile() {
-		fail("Not yet implemented");
-	}
-
-	public final void testGetFileContentsFromJar() {
-		fail("Not yet implemented");
-	}
-
-	public final void testExtractLastFolderName() {
-		fail("Not yet implemented");
-	}
-
-	public final void testGetSizeRecursive() {
-		fail("Not yet implemented");
-	}
-
-	public final void testGetParentByPath() {
-		fail("Not yet implemented");
-	}
+//	public final void testIsHiddenFile() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testGetFileContentsFromJar() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testExtractLastFolderName() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testGetSizeRecursive() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testGetParentByPath() {
+//		fail("Not yet implemented");
+//	}
 
 }
