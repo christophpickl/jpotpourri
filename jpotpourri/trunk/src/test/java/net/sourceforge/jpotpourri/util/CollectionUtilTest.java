@@ -14,49 +14,49 @@ import junit.framework.TestCase;
  */
 public class CollectionUtilTest extends TestCase {
 
-	public final void testAsCollection() {
-		fail("Not yet implemented");
-	}
-
-	public final void testAsSet() {
-		fail("Not yet implemented");
-	}
-
-	public final void testAsList() {
-		fail("Not yet implemented");
-	}
-
-	public final void testAsImmutableList() {
-		fail("Not yet implemented");
-	}
-
-	public final void testAsStringCollection() {
-		fail("Not yet implemented");
-	}
-
-	public final void testAsStringSet() {
-		fail("Not yet implemented");
-	}
-
-	public final void testAsArray() {
-		fail("Not yet implemented");
-	}
-
-	public final void testToStringCollectionOfQ() {
-		fail("Not yet implemented");
-	}
-
-	public final void testImmutableSetSetOfString() {
-		fail("Not yet implemented");
-	}
-
-	public final void testImmutableSetStringArray() {
-		fail("Not yet implemented");
-	}
-
-	public final void testImmutableList() {
-		fail("Not yet implemented");
-	}
+//	public final void testAsCollection() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testAsSet() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testAsList() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testAsImmutableList() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testAsStringCollection() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testAsStringSet() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testAsArray() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testToStringCollectionOfQ() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testImmutableSetSetOfString() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testImmutableSetStringArray() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testImmutableList() {
+//		fail("Not yet implemented");
+//	}
 
 	public final void testToStringSetOfObject() {
 
@@ -69,10 +69,10 @@ public class CollectionUtilTest extends TestCase {
 		assertEquals("Set[abc;def]", CollectionUtil.toString(set));
 	}
 
-	public final void testToStringSetOfObjectString() {
-		fail("Not yet implemented");
-		// with own separator
-	}
+//	public final void testToStringSetOfObjectString() {
+//		fail("Not yet implemented");
+//		// with own separator
+//	}
 
 
 	public final void testToStringMapOfObjectObject() throws Exception {

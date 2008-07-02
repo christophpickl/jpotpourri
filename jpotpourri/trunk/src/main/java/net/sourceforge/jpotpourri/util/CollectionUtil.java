@@ -18,7 +18,7 @@ public class CollectionUtil<T> {
 
     private static final String DEFAULT_ELEMENT_SEPARATOR = ";";
     
-    protected CollectionUtil() {
+    public CollectionUtil() {
         // instantiation used to replace type parameter T
     }
     

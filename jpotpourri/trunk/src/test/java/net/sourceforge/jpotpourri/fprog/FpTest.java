@@ -11,13 +11,13 @@ import net.sourceforge.jpotpourri.fprog.predsfuncs.IBinaryFunction;
  */
 public class FpTest extends TestCase {
 
-	public final void testMap() {
-		fail("Not yet implemented");
-	}
-
-	public final void testFilter() {
-		fail("Not yet implemented");
-	}
+//	public final void testMap() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testFilter() {
+//		fail("Not yet implemented");
+//	}
 
 	public final void testReduce() {
 		List<Integer> list = new ArrayList<Integer>();
