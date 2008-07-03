@@ -34,12 +34,17 @@ public final class GenArgument implements IJavaCode {
 		final List<GenArgument> list = new ArrayList<GenArgument>();
 		
 		for (int i = 0, n = args.length / 2; i < n; i++) {
-			list.add(new GenArgument(args[i], args[i + 1]));
+			list.add(new GenArgument(args[i * 2], args[i * 2 + 1]));
 		}
 		
 		return Collections.unmodifiableList(list);
 	}
 
+	@Override
+	public String toString() {
+		return "GenArgument[type=" + this.type + ";name=" + this.name + "]";
+	}
+	
 	@Override
 	public boolean equals(final Object other) {
 		if((other instanceof GenArgument) == false) {
