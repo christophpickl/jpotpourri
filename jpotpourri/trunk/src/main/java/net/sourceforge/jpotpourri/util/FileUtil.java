@@ -1,9 +1,12 @@
 package net.sourceforge.jpotpourri.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -321,7 +324,37 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 //        sb.append(extension);
 //        return sb.toString();
 //    }
-    
+
+
+	public static void writeFileContent(final File file, final String content) throws IOException {
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(file));
+			writer.write(content);
+		} finally {
+			CloseUtil.close(writer);
+		}
+	}
+
+	public static String getFileContent(final File file) throws IOException {
+		return getFileContent(file.getAbsolutePath());
+	}
+	
+	public static String getFileContent(final String absoluteAbsolutePath) throws IOException {
+		final StringBuilder sb = new StringBuilder();
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(absoluteAbsolutePath));
+			String line = reader.readLine();
+			while(line != null) {
+				sb.append(line).append("\n");
+				line = reader.readLine();
+			}
+		} finally {
+			CloseUtil.close(reader);
+		}
+		return sb.toString();
+	}
     
     public static void main(final String[] args) {
 //        System.out.println(extractLastFolderName("/folder3/folder2/folder1"));
