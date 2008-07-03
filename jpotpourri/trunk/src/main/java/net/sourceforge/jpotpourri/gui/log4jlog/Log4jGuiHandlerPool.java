@@ -41,19 +41,15 @@ final class Log4jGuiHandlerPool {
 		return this.instances.get(appenderName);
 	}
 	Log4jGuiHandler createLog4jGuiHandler(final Log4jGuiHandlerDefinition handlerDefinition) {
-		System.out.println("createeeeeeeeeeeeeeeeeee");
 		final String appenderName = handlerDefinition.getAppenderName();
-		System.out.println("1");
 		assert(this.isLog4jGuiHandlerRegistered(appenderName) == false);
-		System.out.println("2");
+		
 		final Log4jGuiHandler result = new Log4jGuiHandler(handlerDefinition);
-		System.out.println("3");
 		De.bug("Log4jGuiHandlerPool --- inserting gui handler for appender ["+appenderName+"]: " + result + " (size="+this.instances.size()+")");
 		this.instances.put(appenderName, result);
-		System.out.println("4");
+		
 		De.bug("Log4jGuiHandlerPool --- after inserting is size="+this.instances.size()+"");
 
-		System.out.println("5");
 		return result;
 	}
 

@@ -1,6 +1,7 @@
 package net.sourceforge.jpotpourri.fprog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -24,12 +25,17 @@ public class FpTest extends TestCase {
 		list.add(3);
 		list.add(6);
 		list.add(2);
-		int i = Fp.reduce(new IBinaryFunction<Integer, Integer>() {
+		list = Collections.unmodifiableList(list);
+		
+		final IBinaryFunction<Integer, Integer> reduceNums = new IBinaryFunction<Integer, Integer>() {
 			public Integer execute(final Integer t1, final Integer t2) {
 				return t1.intValue() + t2.intValue();
 			}
-		}, list, 0);
-		System.out.println("i=" + i);
+		};
+		
+		assertEquals(11,  Fp.reduce(reduceNums, list, 0).intValue());
+		assertEquals(21, Fp.reduce(reduceNums, list, 10).intValue());
+
 	}
 
 }

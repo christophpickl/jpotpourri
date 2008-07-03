@@ -51,7 +51,7 @@ public final class TestProperties {
 		return INSTANCE;
 	}
 
-	public String getFolderTestRootPath() {
+	public String getTestRootPath() {
 		return this.values.get(TestKey.FOLDER_TESTROOT);
 	}
 

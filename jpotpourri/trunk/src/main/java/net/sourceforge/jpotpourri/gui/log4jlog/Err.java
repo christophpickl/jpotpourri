@@ -1,8 +1,8 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
-public final class Er {
+public final class Err {
 	
-	private Er() {
+	private Err() {
 		// no instantiation
 	}
 	

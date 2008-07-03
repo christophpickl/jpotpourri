@@ -21,21 +21,21 @@ class PropertiesTable {
 			if(this.colorEven != null) {
 				newColorEven = parseColorString(this.colorEven);
 				if(newColorEven == null) {
-					Er.or(" Invalid tableColorEven attribute value [" + this.colorEven + "]!");
+					Err.or(" Invalid tableColorEven attribute value [" + this.colorEven + "]!");
 				}
 			}
 			Color newColorOdd = null;
 			if(this.colorEven != null) {
 				newColorOdd = parseColorString(this.colorOdd);
 				if(newColorOdd == null) {
-					Er.or("Invalid tableColorOdd attribute value [" + this.colorEven + "]!");
+					Err.or("Invalid tableColorOdd attribute value [" + this.colorEven + "]!");
 				}
 			}
 			Integer newRows = null;
 			if(this.rows != null) {
 				newRows = parseNumberString(this.rows, 0, 9999);
 				if(newRows == null) {
-					Er.or("Invalid tableRows attribute value [" + this.rows + "]!");
+					Err.or("Invalid tableRows attribute value [" + this.rows + "]!");
 				}
 			}
 			
