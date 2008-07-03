@@ -1,7 +1,6 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +75,7 @@ public final class Log4jGuiHandlerPool { // stays public
 		De.bug("Log4jGuiHandlerPool --- pool size after insert: " + this.instances.size() + "");
 
 		
-		final String debugProperty = System.getProperty("jpotpourri.JpotGuiAppender.DEBUG");
+		final String debugProperty = System.getProperty(JPotGuiAppender.SYSPROPERT_SHOW_DEBUG_GUI);
 		final boolean debugEnabled = debugProperty != null && debugProperty.length() > 0;
 		if(debugEnabled) {
 			final DebugFrame debugFrame = new DebugFrame(result);
@@ -101,11 +100,12 @@ public final class Log4jGuiHandlerPool { // stays public
 			panel.add(handler.getJComponent(), BorderLayout.CENTER);
 			
 			this.getContentPane().add(panel);
-			final Dimension dim = new Dimension(400, 200);
-			this.setMinimumSize(dim);
-			this.setSize(dim);
-			this.setPreferredSize(dim);
-			this.setMaximumSize(dim);
+//			final Dimension dim = new Dimension(400, 200);
+//			this.setMinimumSize(dim);
+//			this.setSize(dim);
+//			this.setPreferredSize(dim);
+//			this.setMaximumSize(dim);
+			this.pack();
 			this.setLocationRelativeTo(null);
 		}
 	}

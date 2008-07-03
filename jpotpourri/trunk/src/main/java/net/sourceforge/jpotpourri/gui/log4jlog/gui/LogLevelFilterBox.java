@@ -17,8 +17,9 @@ final class LogLevelFilterBox extends JComboBox {
 		this(Level.ALL);
 	}
 	public LogLevelFilterBox(final Level initLevel) {
-		super(AllLogLevels.LEVELS.toArray());
+		super(AllLogLevels.LEVELS_WITHOUT_ALL_AND_OFF.toArray());
 		this.setSelectedItem(initLevel);
+
 	}
 	
 	public Level getSelectedLevel() {

@@ -44,6 +44,12 @@ final class ModelCoreData {
 		return this.list().size();
 	}
 	
+	public synchronized void doClear() {
+		this.allEvents.clear();
+		this.filteredEvents.clear();
+	}
+	
+	
 	private List<Log4jEvent> list() {
 		return this.isFilter() ? this.filteredEvents : this.allEvents;
 	}

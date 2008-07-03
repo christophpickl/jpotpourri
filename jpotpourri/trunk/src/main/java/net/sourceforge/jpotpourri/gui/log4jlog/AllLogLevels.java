@@ -30,4 +30,17 @@ public final class AllLogLevels {
 		 tmp.add(Level.OFF);
 		 LEVELS = Collections.unmodifiableSet(tmp);
 	}
+	
+	public static final Set<Level> LEVELS_WITHOUT_ALL_AND_OFF;
+	static {
+		 final Set<Level> tmp = new LinkedHashSet<Level>();
+		 tmp.add(Level.TRACE);
+		 tmp.add(Level.DEBUG);
+		 tmp.add(Level.TRACE);
+		 tmp.add(Level.INFO);
+		 tmp.add(Level.WARN);
+		 tmp.add(Level.ERROR);
+		 tmp.add(Level.FATAL);
+		 LEVELS_WITHOUT_ALL_AND_OFF = Collections.unmodifiableSet(tmp);
+	}
 }
