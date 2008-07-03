@@ -10,10 +10,10 @@ public class Log4jGuiAdapter extends AppenderSkeleton {
 
 	private PropertiesTable tableProps = new PropertiesTable();
 
-	static {
-		De.bug("Configuring property configurator with log4j.properties");
-		PropertyConfigurator.configure(Log4jGuiAdapter.class.getResource("/log4j.properties"));
-	}
+//	static {
+//		De.bug("Configuring property configurator with log4j.properties");
+//		PropertyConfigurator.configure(Log4jGuiAdapter.class.getResource("/log4j.properties"));
+//	}
 	
 	public Log4jGuiAdapter() {
 		// nothing to do

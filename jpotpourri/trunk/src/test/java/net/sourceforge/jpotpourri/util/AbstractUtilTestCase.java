@@ -22,7 +22,7 @@ public abstract class AbstractUtilTestCase extends TestCase {
 		
 		final Constructor<?> c = constructors[0];
 		assertFalse(c.isAccessible());
-		System.out.println(c.getModifiers());
+//		System.out.println(c.getModifiers());
 		
 		c.setAccessible(true);
 		final Object utilInstance = c.newInstance((Object[]) null); 

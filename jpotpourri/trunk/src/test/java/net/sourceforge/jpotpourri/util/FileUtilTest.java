@@ -6,10 +6,15 @@ import java.io.FileWriter;
 
 import net.sourceforge.jpotpourri.TestProperties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author christoph.pickl@bmi.gv.at
  */
 public class FileUtilTest extends AbstractUtilTestCase {
+
+	private static final Log LOG = LogFactory.getLog(FileUtilTest.class);
 	
 	public final void testExtractExtensionFile() {
 		assertEquals("xml", FileUtil.extractExtension(new File("asdf.xml")));
@@ -54,31 +59,43 @@ public class FileUtilTest extends AbstractUtilTestCase {
 //	}
 
 	public final void testDeleteDirectoryRecursive() throws Exception {
-		final String parentPath = TestProperties.getInstance().getFolderTestRootPath();
-		final File parentFile = new File(parentPath);
-		if(parentFile == null || parentFile.exists() == false) {
-			throw new RuntimeException("Invalid test configuration for parentPath = ["+parentPath+"]!");
+		final String testRootPath = TestProperties.getInstance().getTestRootPath();
+		final File testRootFile = new File(testRootPath);
+		if(testRootFile.exists() == false) {
+			LOG.debug("Creating test rootfolder: " + testRootPath);
+			final boolean created = testRootFile.mkdirs();
+			if(created == false) {
+				throw new RuntimeException("Could not create test rootfolder [" + testRootPath + "]!");
+			}
 		}
-		final int expectedFileCount = parentFile.listFiles().length;
+		final int expectedFileCount = testRootFile.listFiles().length;
 		
-		final File dir1Delete = new File(parentFile, "folder1_delme");
-		final File dir2Delete = new File(dir1Delete, "folder2_delme");
-		if(dir2Delete.mkdirs() == false) {
-			throw new RuntimeException("Could not create directory structure [" + dir2Delete.getAbsolutePath() + "]!");
+		final File dir2DeleteParent = new File(testRootFile, "dir2DeleteParent");
+		final File dir2DeleteSub = new File(dir2DeleteParent, "dir2DeleteSub");
+		if(dir2DeleteSub.mkdirs() == false) {
+			throw new RuntimeException("Could not create directory [" + dir2DeleteSub.getAbsolutePath() + "]!");
 		}
-		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(dir1Delete, "file1_delme")));
-		writer.write("abcd");
-		writer.close();
-		writer = new BufferedWriter(new FileWriter(new File(dir2Delete, "file2_delme")));
-		writer.write("efgh");
-		writer.close();
 		
-		FileUtil.deleteDirectoryRecursive(dir1Delete);
+		final BufferedWriter writer1 = new BufferedWriter(new FileWriter(new File(dir2DeleteParent, "file1_delme")));
+		try {
+			writer1.write("abcd");
+		} finally {
+			CloseUtil.close(writer1);
+		}
 		
-		assertEquals(expectedFileCount, parentFile.listFiles().length);
+		final BufferedWriter writer2 = new BufferedWriter(new FileWriter(new File(dir2DeleteSub, "file2_delme")));
+		try {
+			writer2.write("efgh");
+		} finally {
+			CloseUtil.close(writer2);
+		}
+		
+		FileUtil.deleteDirectoryRecursive(dir2DeleteParent);
+		
+		assertEquals(expectedFileCount, testRootFile.listFiles().length);
 		
 		try {
-			FileUtil.deleteDirectoryRecursive(dir1Delete);
+			FileUtil.deleteDirectoryRecursive(dir2DeleteParent);
 			fail("Should have thrown exception");
 		} catch(IllegalArgumentException e) {
 			// should fail, because directory is already delete
