@@ -45,16 +45,22 @@ class ModelCoreData {
 		return this.isFilter() ? this.filteredEvents : this.allEvents;
 	}
 
-	public synchronized void doFilter(final TableFilter filter) {
-		if(filter == null) {
+	public synchronized void doFilter(final TableFilter newFilter) {
+		if(newFilter == null) {
 			throw new NullPointerException("filter");
 		}
-		if(filter.isFilterOff()) {
+		if(newFilter.isFilterOff()) { // filter.level == Level.ALL && searchString == null
 			this.doUnfilter();
 		} else {
-			this.filter = filter;
-			De.bug("ModelCoreData --- filtering with filter: " + filter);
-			this.filteredEvents = Fp.<Log4jEvent>filter(this.filter, this.allEvents);
+			De.bug("ModelCoreData --- filtering with filter: " + newFilter);
+			this.filter = newFilter;
+			final List<Log4jEvent> filteredList;
+			if(this.filter.isFilterAll()) { // filter.level == Level.OFF
+				filteredList = new LinkedList<Log4jEvent>();
+			} else {
+				filteredList = new LinkedList<Log4jEvent>(Fp.<Log4jEvent>filter(this.filter, this.allEvents));
+			}
+			this.filteredEvents = filteredList;
 		}
 	}
 	

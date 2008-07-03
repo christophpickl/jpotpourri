@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui;
+package net.sourceforge.jpotpourri.gui.table;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import net.sourceforge.jpotpourri.gui.IMacColors;
 import net.sourceforge.jpotpourri.tools.UserSniffer;
 
 public class TableEmptyRowsPainter {
@@ -36,7 +37,7 @@ public class TableEmptyRowsPainter {
 
             // Mac OS' Aqua LAF never draws vertical grid lines, so we have to draw them ourselves.
             if (UserSniffer.isMacOSX() && table.getShowVerticalLines()) {
-                g.setColor(IMacColors.MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR);
+                g.setColor(IMacColors.MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE);
                 TableColumnModel model = table.getColumnModel();
                 int x = 0;
                 for (int i = 0; i < model.getColumnCount(); ++i) {

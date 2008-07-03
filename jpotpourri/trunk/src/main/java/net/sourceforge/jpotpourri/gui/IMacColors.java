@@ -35,12 +35,38 @@ public interface IMacColors {
 	
 	
 	// for renderer
-	public static final Color MAC_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR = new Color(0x7daaea);
-	public static final Color MAC_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR = new Color(0xe0e0e0);
-	public static final Color MAC_FOCUSED_UNSELECTED_VERTICAL_LINE_COLOR = new Color(0xd9d9d9);
-	public static final Color MAC_FOCUSED_SELECTED_VERTICAL_LINE_COLOR = new Color(0x346dbe);
-	public static final Color MAC_UNFOCUSED_SELECTED_VERTICAL_LINE_COLOR = new Color(0xacacac);
+	public static final Color MAC_COLOR_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE   = new Color(0x7daaea);
+	public static final Color MAC_COLOR_FOCUSED_SELECTED_VERTICAL_LINE          = new Color(0x346dbe);
+	public static final Color MAC_COLOR_FOCUSED_UNSELECTED_VERTICAL_LINE        = new Color(0xd9d9d9);
+	
+	public static final Color MAC_COLOR_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE = new Color(0xe0e0e0);
+	public static final Color MAC_COLOR_UNFOCUSED_SELECTED_VERTICAL_LINE        = new Color(0xacacac);
+	public static final Color MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE      = new Color(0xd9d9d9);
 
-	public static final Color MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR = new Color(0xd9d9d9);
+
+	
+	
+
+	/** */
+	public static final Color MAC_COLOR_ROW_FOREGROUND = Color.BLACK;
+
+	/** */
+	public static final Color MAC_COLOR_ROW_BACKGROUND_EVEN = Color.WHITE;
+
+	/** */
+	public static final Color MAC_COLOR_ROW_BACKGROUND_ODD = new Color(241, 245, 250);
+
+	
+	
+    /** table background for selected rows */
+	public static final Color MAC_COLOR_SELECTED_ROW_BACKGROUND = new Color(61, 128, 223);
+
+    /** table foreground for selected rows */
+	public static final Color MAC_COLOR_SELECTED_ROW_FOREGROUND = Color.WHITE;	
+
+    /** table background for selected rows without focus */
+	public static final Color MAC_COLOR_SELECTED_NOFOCUS_BG = new Color(212, 212, 212);
+	
+
 
 }

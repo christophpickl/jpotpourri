@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import net.sourceforge.jpotpourri.gui.log4jlog.De;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jEvent;
 import net.sourceforge.jpotpourri.gui.log4jlog.TableFilter;
 
@@ -18,8 +19,15 @@ public class Log4jTableModel extends AbstractTableModel {
 	
 	private static final List<LogTableColumn> TABLE_COLUMNS = new ArrayList<LogTableColumn>(2);
 	static {
+		TABLE_COLUMNS.add(LogTableColumn.DATE);
 		TABLE_COLUMNS.add(LogTableColumn.LEVEL);
+		TABLE_COLUMNS.add(LogTableColumn.CLASS);
+		TABLE_COLUMNS.add(LogTableColumn.METHOD);
+		
 		TABLE_COLUMNS.add(LogTableColumn.MESSAGE);
+		TABLE_COLUMNS.add(LogTableColumn.THREAD);
+		TABLE_COLUMNS.add(LogTableColumn.EXCEPTION);
+		
 	}
 
 	
@@ -31,11 +39,13 @@ public class Log4jTableModel extends AbstractTableModel {
 	// ----------------- custom
 
 	public void addLoggingEvent(final Log4jEvent event) {
+		De.bug("Log4jTableModel --- addLoggignEvent");
 		this.data.addLoggingEvent(event);
 		this.fireTableDataChanged();
 	}
 	
 	public void doFilter(TableFilter filter) {
+		De.bug("Log4jTableModel --- doFilter");
 		this.data.doFilter(filter);
 		this.fireTableDataChanged();
 	}

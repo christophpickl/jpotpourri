@@ -30,6 +30,38 @@ public final class Log4jEvent {
 	public Level getLevel() {
 		return this.loggingEvent.getLevel();
 	}
+	
+	// DELEGATOR
+	/**
+	 * @return name of the class which sent log message
+	 */
+	public String getLogClassName() {
+		return this.loggingEvent.getLocationInformation().getClassName();
+	}
+
+	// DELEGATOR
+	public String getLogMethod() {
+		return this.loggingEvent.getLocationInformation().getMethodName();
+	}
+	// line number
+	// file
+	
+	// DELEGATOR
+	public String getThreadName() {
+		return this.loggingEvent.getThreadName();
+	}
+
+	public Throwable getThrowable() {
+		if(this.loggingEvent.getThrowableInformation() == null) {
+			return null;
+		}
+		return this.loggingEvent.getThrowableInformation().getThrowable();
+	}
+	
+	// DELEGATOR
+	public String getMessageRendered() {
+		return this.loggingEvent.getRenderedMessage();
+	}
 
 	// DELEGATOR
 	public Object getMessage() {
