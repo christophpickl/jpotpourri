@@ -14,7 +14,7 @@ public final class UserSniffer {
     /**  */
     private static OperatingSystem os;
 
-    static {
+    static { // TODO use lazy initializing instead
         final String osname = System.getProperty("os.name");
 
         if (osname.contains("Mac")) {

@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  * @author christoph_pickl@users.sourceforge.net
@@ -22,13 +23,15 @@ public final class Dummy {
     }
     
 	public static void main(final String[] args) throws Exception {
-
+		PropertyConfigurator.configure(JPotGuiAppender.class.getResource("/dummylog4j.properties"));
+		
+		System.out.println("writing error-hack-log \"MAIN: INIT LOG ERROR\"");
 		LOG.error("MAIN: INIT LOG ERROR"); // FIXME hack
 
 		
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		System.out.println("MAIN: getting JPOT appender!");
+//		System.out.println("MAIN: getting JPOT appender!");
 //		Log4jGuiHandler handler = Log4jGuiHandlerPool.getInstance().getLog4jGuiHandler("jpot");
 		
 		final JPanel panel = new JPanel(new BorderLayout());

@@ -1,9 +1,11 @@
 package net.sourceforge.jpotpourri.gui.log4jlog.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -81,6 +83,11 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 	private JPanel newFilterPanel() {
 		final JPanel panel = new JPanel(new BorderLayout());
 
+
+		final Dimension dim = new Dimension(this.logLevelFilterBox.getPreferredSize().width + 30,
+											this.logLevelFilterBox.getPreferredSize().height);
+		this.logLevelFilterBox.setPreferredSize(dim);
+		
 		this.logLevelFilterBox.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent e) {
@@ -89,8 +96,14 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 		});
 		this.doLogLevelFilterBoxChanged(); // apply initial filter
 		
+		final JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+			doClearLog();
+		}});
+		
 		final JPanel panelWest = new JPanel();
-		panelWest.add(new JLabel("Log Level"));
+		panelWest.add(btnClear);
+		panelWest.add(new JLabel("  Log Level: "));
 		panelWest.add(this.logLevelFilterBox);
 		panel.add(panelWest, BorderLayout.WEST);
 
@@ -103,6 +116,9 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 		return panel;
 	}
 	
+	private void doClearLog() {
+		this.tableModel.doClearData();
+	}
 	private void doLogLevelFilterBoxChanged() {
 		this.tableFilter = new TableFilter(this.logLevelFilterBox.getSelectedLevel(), this.searchField.getProperText());
 		this.tableModel.doFilter(this.tableFilter);

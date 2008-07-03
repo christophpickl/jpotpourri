@@ -11,9 +11,12 @@ import org.apache.log4j.spi.LoggingEvent;
  */
 public final class JPotGuiAppender extends AppenderSkeleton {
 
+	public static final String SYSPROPERT_SHOW_DEBUG_GUI = "jpotpourri.JpotGuiAppender.DEBUG";
+	
 	private final PropertiesTable tableProps = new PropertiesTable();
 
 	private final PropertiesHandler handlerProps = new PropertiesHandler();
+	
 	
 	private static final String PROPERTIES_FILE_NAME = "jpotlog4j.properties";
 	static {

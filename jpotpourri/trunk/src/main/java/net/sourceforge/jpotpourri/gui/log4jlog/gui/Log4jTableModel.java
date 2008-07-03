@@ -41,14 +41,20 @@ final class Log4jTableModel extends AbstractTableModel {
 	// ----------------- custom
 
 	public void addLoggingEvent(final Log4jEvent event) {
-		De.bug("Log4jTableModel --- addLoggignEvent");
+		De.bug("Log4jTableModel --- addLoggignEvent(" + event + ")");
 		this.data.addLoggingEvent(event);
 		this.fireTableDataChanged();
 	}
 	
 	public void doFilter(final TableFilter filter) {
-		De.bug("Log4jTableModel --- doFilter");
+		De.bug("Log4jTableModel --- doFilter(" + filter + ")");
 		this.data.doFilter(filter);
+		this.fireTableDataChanged();
+	}
+	
+	public void doClearData() {
+		De.bug("Log4jTableModel --- doClearData()");
+		this.data.doClear();
 		this.fireTableDataChanged();
 	}
 	
