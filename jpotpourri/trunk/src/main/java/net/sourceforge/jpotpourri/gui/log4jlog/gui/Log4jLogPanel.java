@@ -23,7 +23,7 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 	private static final long serialVersionUID = -2803278698478385285L;
 
 	
-	private final LogLevelFilterBox logLevelFilterBox = new LogLevelFilterBox(Level.ERROR);
+	private final LogLevelFilterBox logLevelFilterBox = new LogLevelFilterBox(Level.ALL);
 	private final LogSearchField searchField = new LogSearchField();
 	
 	private final Log4jTable table;

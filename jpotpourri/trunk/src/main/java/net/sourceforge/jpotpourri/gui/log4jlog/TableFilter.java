@@ -54,5 +54,10 @@ public class TableFilter implements IUnaryPredicate<Log4jEvent> {
 		
 		return levelOkay;
 	}
+
+	@Override
+	public final String toString() {
+		return "TableFilter[level=" + this.level + ";searchString=" + this.searchString + "]";
+	}
 	
 }

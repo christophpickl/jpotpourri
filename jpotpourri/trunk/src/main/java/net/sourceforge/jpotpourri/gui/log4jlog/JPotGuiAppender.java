@@ -3,6 +3,7 @@ package net.sourceforge.jpotpourri.gui.log4jlog;
 import java.util.Date;
 
 import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
@@ -14,10 +15,11 @@ public final class JPotGuiAppender extends AppenderSkeleton {
 
 	private final PropertiesHandler handlerProps = new PropertiesHandler();
 	
-//	static {
-//		De.bug("Configuring property configurator with log4j.properties");
-//		PropertyConfigurator.configure(Log4jGuiAdapter.class.getResource("/log4j.properties"));
-//	}
+	private static final String PROPERTIES_FILE_NAME = "jpotlog4j.properties";
+	static {
+		De.bug("Configuring property configurator with [" + PROPERTIES_FILE_NAME + "] ...");
+		PropertyConfigurator.configure(JPotGuiAppender.class.getResource("/" + PROPERTIES_FILE_NAME));
+	}
 	
 	public JPotGuiAppender() {
 		// nothing to do
