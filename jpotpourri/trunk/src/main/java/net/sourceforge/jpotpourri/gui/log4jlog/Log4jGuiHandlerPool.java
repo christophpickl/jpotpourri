@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 final class Log4jGuiHandlerPool {
 
 //    private static final Logger LOG = Logger.getLogger(Log4jGuiHandlerPool.class);
@@ -37,12 +40,16 @@ final class Log4jGuiHandlerPool {
 	
 	boolean isLog4jGuiHandlerRegistered(final String appenderName) {
 		final boolean result = this.instances.containsKey(appenderName);
-		if(result == false) De.bug("Log4jGuiHandlerPool --- GuiHandler NOT registered named ["+appenderName+"] (size="+this.instances.size()+").");
+		if(result == false) {
+			De.bug("Log4jGuiHandlerPool --- GuiHandler NOT registered named [" + appenderName + "] " +
+					"(size=" + this.instances.size() + ").");
+		}
 		return result;
 	}
 	
 	Log4jGuiHandler getLog4jGuiHandlerInternal(final String appenderName) {
-		De.bug("Log4jGuiHandlerPool --- Getting handler by appender name ["+appenderName+"] (size="+this.instances.size()+")");
+		De.bug("Log4jGuiHandlerPool --- Getting handler by appender name [" + appenderName + "] " +
+				"(size=" + this.instances.size() + ")");
 		assert(this.isLog4jGuiHandlerRegistered(appenderName));
 		return this.instances.get(appenderName);
 	}
@@ -62,10 +69,11 @@ final class Log4jGuiHandlerPool {
 	        }
 		}
 		final Log4jGuiHandler result = new Log4jGuiHandler(handlerDefinition);
-		De.bug("Log4jGuiHandlerPool --- inserting gui handler for appender ["+appenderName+"]: " + result + " (size="+this.instances.size()+";thread="+Thread.currentThread().getName()+")");
+		De.bug("Log4jGuiHandlerPool --- inserting gui handler for appender [" + appenderName + "]: " + result + " " +
+				"(size=" + this.instances.size() + ";thread=" + Thread.currentThread().getName() + ")");
 		this.instances.put(appenderName, result);
 		
-		De.bug("Log4jGuiHandlerPool --- pool size after insert: "+this.instances.size()+"");
+		De.bug("Log4jGuiHandlerPool --- pool size after insert: " + this.instances.size() + "");
 
 		if(debugEnabled) {
 			final DebugFrame debugFrame = new DebugFrame(result);
@@ -76,6 +84,9 @@ final class Log4jGuiHandlerPool {
 		return result;
 	}
 
+	/**
+	 * @author christoph_pickl@users.sourceforge.net
+	 */
 	private static class DebugFrame extends JFrame {
 		private static final long serialVersionUID = 4800350316457263714L;
 

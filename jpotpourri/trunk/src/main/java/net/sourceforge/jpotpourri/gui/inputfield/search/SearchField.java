@@ -70,21 +70,12 @@ public class SearchField extends JTextField {
     private boolean sendsNotificationForEachKeystroke = false;
     private boolean showingPlaceholderText = false;
     private boolean armed = false;
-    
-    
+        
     private final Set<ISearchFieldListener> listeners = new HashSet<ISearchFieldListener>();
-    public void addISearchFieldListener(ISearchFieldListener listener) {
-        this.listeners.add(listener);
-    }
-    public void removeISearchFieldListener(ISearchFieldListener listener) {
-        this.listeners.remove(listener);
-    }
-    private void notifiyListenersDidResetSearch() {
-        for (ISearchFieldListener listener : this.listeners) {
-            listener.didResetSearch();
-        }
-    }
-    public SearchField(String placeholderText) {
+
+
+    
+    public SearchField(final String placeholderText) {
         super(15);
         addFocusListener(new PlaceholderText(placeholderText));
         initBorder();
@@ -95,10 +86,26 @@ public class SearchField extends JTextField {
         	
             this.putClientProperty("JTextField.variant", "search");
             this.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+            	@SuppressWarnings("unused")
+				public void actionPerformed(final ActionEvent e) {
 					cancel();
 				}
             });
+        }
+    }
+    
+    
+    public final void addISearchFieldListener(final ISearchFieldListener listener) {
+        this.listeners.add(listener);
+    }
+    public final void removeISearchFieldListener(final ISearchFieldListener listener) {
+        this.listeners.remove(listener);
+    }
+    
+    
+    private void notifiyListenersDidResetSearch() {
+        for (ISearchFieldListener listener : this.listeners) {
+            listener.didResetSearch();
         }
     }
     
@@ -106,7 +113,7 @@ public class SearchField extends JTextField {
         this("Search");
     }
 
-    public void addDefaultSearchFieldListener(final IDefaultSearchFieldListener listener) {
+    public final void addDefaultSearchFieldListener(final IDefaultSearchFieldListener listener) {
     	final DefaultSearchFieldListener searchListener = new DefaultSearchFieldListener(this, listener);
     	this.addKeyListener(searchListener);
     	this.addISearchFieldListener(searchListener);
@@ -115,7 +122,7 @@ public class SearchField extends JTextField {
     /**
      * @return null if nothing entered or is showing placeholder text; string otherwise if something was entered
      */
-    public String getProperText() {
+    public final String getProperText() {
     	if(this.getText().length() == 0 || this.isShowingPlaceholderText()) {
     		return null;
     	}
@@ -129,16 +136,17 @@ public class SearchField extends JTextField {
         addMouseMotionListener(mouseInputListener);
     }
     
-    public boolean isShowingPlaceholderText() {
+    public final boolean isShowingPlaceholderText() {
     	return this.showingPlaceholderText;
     }
     
     private void initKeyListener() {
         addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
+            @Override
+			public void keyReleased(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     cancel();
-                } else if (sendsNotificationForEachKeystroke) {
+                } else if (SearchField.this.sendsNotificationForEachKeystroke) {
                     maybeNotify();
                 }
             }
@@ -153,13 +161,13 @@ public class SearchField extends JTextField {
     }
     
     private void maybeNotify() {
-        if (showingPlaceholderText) {
+        if (this.showingPlaceholderText) {
             return;
         }
         postActionEvent();
     }
     
-    public void setSendsNotificationForEachKeystroke(boolean eachKeystroke) {
+    public final void setSendsNotificationForEachKeystroke(final boolean eachKeystroke) {
         this.sendsNotificationForEachKeystroke = eachKeystroke;
     }
     
@@ -169,13 +177,15 @@ public class SearchField extends JTextField {
     /**
      * Draws the cancel button as a gray circle with a white cross inside.
      */
-    private static class CancelBorder extends EmptyBorder {
+    private static final class CancelBorder extends EmptyBorder {
         private static final long serialVersionUID = -2767979848421481905L;
         private static final Color GRAY = new Color(0.7f, 0.7f, 0.7f);
         CancelBorder() {
             super(0, 0, 0, 15);
         }
-        public void paintBorder(Component c, Graphics oldGraphics, int x, int y, int width, int height) {
+        @Override
+        public void paintBorder(final Component c, final Graphics oldGraphics,
+        		final int x, final int y, final int width, final int height) {
             SearchField field = (SearchField) c;
             if (field.showingPlaceholderText || field.getText().length() == 0) {
                 return;
@@ -200,8 +210,8 @@ public class SearchField extends JTextField {
      * Handles a click on the cancel button by clearing the text and notifying
      * any ActionListeners.
      */
-    private class CancelListener extends MouseInputAdapter {
-        private boolean isOverButton(MouseEvent e) {
+    private final class CancelListener extends MouseInputAdapter {
+        private boolean isOverButton(final MouseEvent e) {
             // If the button is down, we might be outside the component
             // without having had mouseExited invoked.
             if (contains(e.getPoint()) == false) {
@@ -212,31 +222,38 @@ public class SearchField extends JTextField {
             Rectangle innerArea = SwingUtilities.calculateInnerArea(SearchField.this, null);
             return (innerArea.contains(e.getPoint()) == false);
         }
-        public void mouseDragged(MouseEvent e) {
+        @Override
+        public void mouseDragged(final MouseEvent e) {
             arm(e);
         }
-        public void mouseEntered(MouseEvent e) {
+        @Override
+        public void mouseEntered(final MouseEvent e) {
             arm(e);
         }
-        public void mouseExited(MouseEvent e) {
+        @Override
+        @SuppressWarnings("unused")
+        public void mouseExited(final MouseEvent e) {
             disarm();
         }
-        public void mousePressed(MouseEvent e) {
+        @Override
+        public void mousePressed(final MouseEvent e) {
             arm(e);
         }
-        public void mouseReleased(MouseEvent e) {
-        	LOG.debug("Mouse released; armed="+armed);
-            if (armed) {
+        @Override
+        @SuppressWarnings("unused")
+        public void mouseReleased(final MouseEvent e) {
+        	LOG.debug("Mouse released; armed=" + SearchField.this.armed);
+            if(SearchField.this.armed) {
                 cancel();
             }
             disarm();
         }
-        private void arm(MouseEvent e) {
-            armed = (isOverButton(e) && SwingUtilities.isLeftMouseButton(e));
+        private void arm(final MouseEvent e) {
+        	SearchField.this.armed = (isOverButton(e) && SwingUtilities.isLeftMouseButton(e));
             repaint();
         }
         private void disarm() {
-            armed = false;
+        	SearchField.this.armed = false;
             repaint();
         }
     }
@@ -248,25 +265,31 @@ public class SearchField extends JTextField {
      * we get the focus back.
      */
     private class PlaceholderText implements FocusListener {
+    	
         private String placeholderText;
         private String previousText = "";
         private Color previousColor;
-        PlaceholderText(String placeholderText) {
+        
+        PlaceholderText(final String placeholderText) {
             this.placeholderText = placeholderText;
             focusLost(null);
         }
-        public void focusGained(FocusEvent e) {
-            setForeground(previousColor);
-            setText(previousText);
-            showingPlaceholderText = false;
+        
+        @SuppressWarnings("unused")
+        public void focusGained(final FocusEvent e) {
+            setForeground(this.previousColor);
+            setText(this.previousText);
+            SearchField.this.showingPlaceholderText = false;
         }
-        public void focusLost(FocusEvent e) {
-            previousText = getText();
-            previousColor = getForeground();
-            if (previousText.length() == 0) {
-                showingPlaceholderText = true;
+        
+        @SuppressWarnings("unused")
+        public void focusLost(final FocusEvent e) {
+        	this.previousText = getText();
+        	this.previousColor = getForeground();
+            if (this.previousText.length() == 0) {
+            	SearchField.this.showingPlaceholderText = true;
                 setForeground(Color.GRAY);
-                setText(placeholderText);
+                setText(this.placeholderText);
             }
         }
     }

@@ -4,6 +4,9 @@ import java.awt.Color;
 
 import javax.swing.table.TableColumnModel;
 
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public interface ITableFillEmptyRowsReceiver {
 	
 	Color getColorRowBackgroundEven();

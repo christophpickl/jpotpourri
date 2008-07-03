@@ -1,6 +1,8 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
-
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public class Log4jGuiHandlerDefinition {
 
 	private final String appenderName;
@@ -9,8 +11,8 @@ public class Log4jGuiHandlerDefinition {
 	
 	public Log4jGuiHandlerDefinition(final String appenderName,
 			final boolean systemLafEnabled, final Log4jGuiTableDefinition tableDefinition) {
-		De.bug("new Log4jGuiHandlerDefinition(appenderName="+appenderName+";systemLafEnabled="+systemLafEnabled+"); thread=" +
-				Thread.currentThread().getName());
+		De.bug("new Log4jGuiHandlerDefinition(appenderName=" + appenderName + ";systemLafEnabled=" + systemLafEnabled +
+				"); thread=" + Thread.currentThread().getName());
 		if(appenderName == null) {
 			throw new NullPointerException("appenderName");
 		}
@@ -24,13 +26,13 @@ public class Log4jGuiHandlerDefinition {
 		this.tableDefinition = tableDefinition;
 
 	}
-	public String getAppenderName() {
+	public final String getAppenderName() {
 		return this.appenderName;
 	}
-	public Log4jGuiTableDefinition getTableDefinition() {
+	public final Log4jGuiTableDefinition getTableDefinition() {
 		return this.tableDefinition;
 	}
-	public boolean isSystemLafEnabled() {
+	public final boolean isSystemLafEnabled() {
 		return this.systemLafEnabled;
 	}
 }

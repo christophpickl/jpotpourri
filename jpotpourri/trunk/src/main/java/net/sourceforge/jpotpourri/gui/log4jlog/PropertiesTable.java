@@ -2,6 +2,9 @@ package net.sourceforge.jpotpourri.gui.log4jlog;
 
 import java.awt.Color;
 
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 class PropertiesTable {
 
 	private String tableRows;
@@ -31,7 +34,8 @@ class PropertiesTable {
 		final Color newRowFgColor = safeParseColor("fontColor", this.colorRowForeground);
 		final Color newSelectedRowFgColor = safeParseColor("selectedFontColor", this.colorSelectedRowForeground);
 		final Color newSelectedRowBgColor = safeParseColor("selectedBackgroundColor", this.colorSelectedRowBackground);
-//		final Color newSelectedNofocusRowBgColor = safeParseColor("colorSelectedNofocusRowBackground", this.colorSelectedNofocusRowBackground);
+//		final Color newSelectedNofocusRowBgColor = safeParseColor("colorSelectedNofocusRowBackground", 
+//													this.colorSelectedNofocusRowBackground);
 		
 		
 		
@@ -47,18 +51,22 @@ class PropertiesTable {
 				);
 	}
 	
-	private static Color safeParseColor(String attributeName, String attributeValue) {
+	private static Color safeParseColor(final String attributeName, final String attributeValue) {
 		Color color = null;
 		if(attributeValue != null) {
 			color = parseColorString(attributeValue);
 			if(color == null) {
-				Err.or("Invalid "+attributeName+" attribute value [" + attributeValue + "]!");
+				Err.or("Invalid " + attributeName + " attribute value [" + attributeValue + "]!");
 			}
 		}
 		return color;
 	}
 
-	private static Integer parseNumberString(String numberString, int lowerInclusive, int upperInclusive) {
+	private static Integer parseNumberString(
+			final String numberString,
+			final int lowerInclusive,
+			final int upperInclusive
+			) {
 		assert(numberString != null);
 		final int i;
 		try {
@@ -73,7 +81,7 @@ class PropertiesTable {
 		return new Integer(i);
 	}
 
-	private static Color parseColorString(String colorString) {
+	private static Color parseColorString(final String colorString) {
 		assert(colorString != null);
 		if(colorString.indexOf(",") == -1) {
 			return null;
@@ -99,47 +107,54 @@ class PropertiesTable {
 	}
 	
 	
+	
+	
 	public String getColorRowBackgroundEven() {
 		return this.colorRowBackgroundEven;
 	}
-	public void setColorRowBackgroundEven(String colorEven) {
-		this.colorRowBackgroundEven = colorEven;
+	
+	public void setColorRowBackgroundEven(final String colorRowBackgroundEven) {
+		this.colorRowBackgroundEven = colorRowBackgroundEven;
 	}
+	
 	public String getColorRowBackgroundOdd() {
 		return this.colorRowBackgroundOdd;
 	}
-	public void setColorRowBackgroundOdd(String colorOdd) {
-		this.colorRowBackgroundOdd = colorOdd;
+	
+	public void setColorRowBackgroundOdd(final String colorRowBackgroundOdd) {
+		this.colorRowBackgroundOdd = colorRowBackgroundOdd;
 	}
+	
 	public String getTableRows() {
 		return this.tableRows;
 	}
-	public void setTableRows(String rows) {
-		this.tableRows = rows;
+	
+	public void setTableRows(final String tableRows) {
+		this.tableRows = tableRows;
 	}
 
 	public String getColorRowForeground() {
-		return colorRowForeground;
+		return this.colorRowForeground;
 	}
 
-	public void setColorRowForeground(String fontColor) {
-		this.colorRowForeground = fontColor;
+	public void setColorRowForeground(final String colorRowForeground) {
+		this.colorRowForeground = colorRowForeground;
 	}
 
 	public String getColorSelectedRowForeground() {
-		return colorSelectedRowForeground;
+		return this.colorSelectedRowForeground;
 	}
 
-	public void setColorSelectedRowForeground(String selectedFontColor) {
-		this.colorSelectedRowForeground = selectedFontColor;
+	public void setColorSelectedRowForeground(final String colorSelectedRowForeground) {
+		this.colorSelectedRowForeground = colorSelectedRowForeground;
 	}
 
 	public String getColorSelectedRowBackground() {
-		return colorSelectedRowBackground;
+		return this.colorSelectedRowBackground;
 	}
 
-	public void setColorSelectedRowBackground(String selectedBackgroundColor) {
-		this.colorSelectedRowBackground = selectedBackgroundColor;
+	public void setColorSelectedRowBackground(final String colorSelectedRowBackground) {
+		this.colorSelectedRowBackground = colorSelectedRowBackground;
 	}
 
 //	public String getColorSelectedNofocusRowBackground() {

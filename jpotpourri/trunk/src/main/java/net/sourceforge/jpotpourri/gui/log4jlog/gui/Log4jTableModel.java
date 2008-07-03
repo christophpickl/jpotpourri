@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui.log4jlog.gui.table;
+package net.sourceforge.jpotpourri.gui.log4jlog.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,10 @@ import net.sourceforge.jpotpourri.gui.log4jlog.De;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jEvent;
 import net.sourceforge.jpotpourri.gui.log4jlog.TableFilter;
 
-
-public class Log4jTableModel extends AbstractTableModel {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+final class Log4jTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -4864887345823485298L;
 
@@ -44,7 +46,7 @@ public class Log4jTableModel extends AbstractTableModel {
 		this.fireTableDataChanged();
 	}
 	
-	public void doFilter(TableFilter filter) {
+	public void doFilter(final TableFilter filter) {
 		De.bug("Log4jTableModel --- doFilter");
 		this.data.doFilter(filter);
 		this.fireTableDataChanged();
@@ -53,6 +55,7 @@ public class Log4jTableModel extends AbstractTableModel {
 	// ----------------- table model optional
 	
 	@Override
+	@SuppressWarnings("unused")
 	public boolean isCellEditable(final int rowIndex, final int columnIndex) {
 		return false;
 	}
@@ -73,7 +76,7 @@ public class Log4jTableModel extends AbstractTableModel {
 		return this.data.getSize();
 	}
 
-	public Object getValueAt(int rowIndex, int columnIndex) {
+	public Object getValueAt(final int rowIndex, final int columnIndex) {
 		final Log4jEvent event = this.data.get(rowIndex);
 		return TABLE_COLUMNS.get(columnIndex).getTableModelValue(event);
 		

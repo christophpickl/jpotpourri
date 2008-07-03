@@ -7,6 +7,9 @@ import java.util.Set;
 import org.apache.log4j.Level;
 
 // stays public!
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public final class AllLogLevels {
 
 	private AllLogLevels() {

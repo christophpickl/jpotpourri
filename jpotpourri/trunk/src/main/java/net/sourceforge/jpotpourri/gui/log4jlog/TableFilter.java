@@ -4,6 +4,9 @@ import net.sourceforge.jpotpourri.fprog.predsfuncs.IUnaryPredicate;
 
 import org.apache.log4j.Level;
 
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public class TableFilter implements IUnaryPredicate<Log4jEvent> {
 	
 	private final Level level;
@@ -15,12 +18,12 @@ public class TableFilter implements IUnaryPredicate<Log4jEvent> {
 	 * @param level log4j loglevel
 	 * @param searchString can be null
 	 */
-	public TableFilter(Level level, String searchString) {
+	public TableFilter(final Level level, final String searchString) {
 		this.level = level;
 		this.searchString = searchString;
 	}
 	
-	public static TableFilter newBySearchString(TableFilter thatFilter, String searchString) {
+	public static TableFilter newBySearchString(final TableFilter thatFilter, final String searchString) {
 		if(thatFilter == null) {
 			throw new NullPointerException("thatFilter");
 		}
@@ -28,16 +31,16 @@ public class TableFilter implements IUnaryPredicate<Log4jEvent> {
 	}
 	
 	// increase performance
-	public boolean isFilterOff() {
+	public final boolean isFilterOff() {
 		return this.level == Level.ALL && this.searchString == null;
 	}
 	
 	// none will be come through filter (Level == Level.OFF)
-	public boolean isFilterAll() {
+	public final boolean isFilterAll() {
 		return this.level == Level.OFF;
 	}
 	
-	public boolean execute(final Log4jEvent event) {
+	public final boolean execute(final Log4jEvent event) {
 		boolean levelOkay = event.getLevel().isGreaterOrEqual(this.level);
 		
 		// TODO maybe split searchString by " ", to enable multiple search terms
