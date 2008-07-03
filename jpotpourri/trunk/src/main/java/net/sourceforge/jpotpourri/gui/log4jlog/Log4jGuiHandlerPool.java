@@ -12,7 +12,8 @@ import javax.swing.UIManager;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-final class Log4jGuiHandlerPool {
+public final class Log4jGuiHandlerPool { // stays public
+	
 
 //    private static final Logger LOG = Logger.getLogger(Log4jGuiHandlerPool.class);
     
@@ -57,10 +58,8 @@ final class Log4jGuiHandlerPool {
 		final String appenderName = handlerDefinition.getAppenderName();
 		assert(this.isLog4jGuiHandlerRegistered(appenderName) == false);
 
-		final String debugProperty = System.getProperty("jpotpourri.JpotGuiAppender.DEBUG");
-		final boolean debugEnabled = debugProperty != null && debugProperty.length() > 0;
 		
-		if(debugEnabled && handlerDefinition.isSystemLafEnabled()) {
+		if(handlerDefinition.isSystemLafEnabled()) {
 			try {
 	        	De.bug("setting system laf.");
 	            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -68,13 +67,17 @@ final class Log4jGuiHandlerPool {
 	            Err.or("Could not set system laf: " + ex.getMessage());
 	        }
 		}
+		
+		
 		final Log4jGuiHandler result = new Log4jGuiHandler(handlerDefinition);
 		De.bug("Log4jGuiHandlerPool --- inserting gui handler for appender [" + appenderName + "]: " + result + " " +
 				"(size=" + this.instances.size() + ";thread=" + Thread.currentThread().getName() + ")");
 		this.instances.put(appenderName, result);
-		
 		De.bug("Log4jGuiHandlerPool --- pool size after insert: " + this.instances.size() + "");
 
+		
+		final String debugProperty = System.getProperty("jpotpourri.JpotGuiAppender.DEBUG");
+		final boolean debugEnabled = debugProperty != null && debugProperty.length() > 0;
 		if(debugEnabled) {
 			final DebugFrame debugFrame = new DebugFrame(result);
 			result.setDebugFrame(debugFrame);
