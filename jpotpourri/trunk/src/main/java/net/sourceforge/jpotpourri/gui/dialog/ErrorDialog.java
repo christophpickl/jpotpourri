@@ -263,7 +263,7 @@ public final class ErrorDialog extends JDialog {
 
 		JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		
-		JButton btnReport = new JButton("Send Report...");
+		// JButton btnReport = new JButton("Send Report...");
 //		southPanel.add(btnReport); // TODO implement Send Report...
 		
 		JButton btnClose = new JButton("Close");
