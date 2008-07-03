@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui.log4jlog.gui.table;
+package net.sourceforge.jpotpourri.gui.log4jlog.gui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.jpotpourri.gui.log4jlog.De;
@@ -21,8 +20,10 @@ import net.sourceforge.jpotpourri.gui.table.TableEmptyRowsPainter;
 
 import org.jdesktop.swingx.JXTable;
 
-
-public class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableBodyContextListener {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableBodyContextListener {
 
 	private static final long serialVersionUID = -5142437725186427922L;
 
@@ -39,25 +40,9 @@ public class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, 
 
     private static final String CMD_EXCEPTION_DETAILS = "CMD_EXCEPTION_DETAILS";
 	
-    private static class DummyModel extends AbstractTableModel {
-
-		public int getColumnCount() {
-			return 1;
-		}
-
-		public int getRowCount() {
-			return 2;
-		}
-
-		public Object getValueAt(int arg0, int arg1) {
-			return "" + arg0;
-		}
-    	
-    }
     
 	public Log4jTable(final Log4jTableModel tableModel, final Log4jGuiTableDefinition tableDefinition) {
 		super(tableModel);
-//		this.setModel(new DummyModel());
 		// this.addHighlighter() ... no, we are painting alternating rows at our own
 		De.bug("Creating new Log4jTable with defintion: " + tableDefinition);
 		
@@ -90,29 +75,30 @@ public class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, 
         
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
-        final JMenuItem exceptionDetailsMultiple = TableBodyContext.newJMenuItem(itemsMultiple, "Exception Details", CMD_EXCEPTION_DETAILS); // optional icon
+        final JMenuItem exceptionDetailsMultiple =
+        	TableBodyContext.newJMenuItem(itemsMultiple, "Exception Details", CMD_EXCEPTION_DETAILS); // optional icon
         exceptionDetailsMultiple.setEnabled(false);
         new TableBodyContext(this, itemsSingle, itemsMultiple, this);
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public final void paint(final Graphics g) {
 		super.paint(g);
 		this.emptyRowsPainter.delegatePaint(g);
 	}
 
-	public Color getColorRowBackgroundEven() {
+	public final Color getColorRowBackgroundEven() {
 		return this.colorRowBackgroundEven;
 	}
 
-	public Color getColorRowBackgroundOdd() {
+	public final Color getColorRowBackgroundOdd() {
 		return this.colorRowBackgroundOdd;
 	}
 	
 
 
 	@Override
-	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+	public final Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
 		final Component c = super.prepareRenderer(renderer, row, column);
 
 		final Color bgColor;
@@ -135,22 +121,23 @@ public class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, 
 	}
 
     
-	public void contextMenuClicked(JMenuItem item, int tableRowSelected) {
+	public final void contextMenuClicked(final JMenuItem item, final int tableRowSelected) {
 		final String cmd = item.getActionCommand();
 		if(cmd.equals(CMD_EXCEPTION_DETAILS)) {
-			JOptionPane.showMessageDialog(this, "Work in progress...", "Exception Details", JOptionPane.WARNING_MESSAGE); // FIXME exception details
+			JOptionPane.showMessageDialog(this, "Work in progress...", "Exception Details",
+					JOptionPane.WARNING_MESSAGE); // FIXME exception details
 		} else {
-			throw new IllegalArgumentException("actionCommand="+cmd);
+			throw new IllegalArgumentException("actionCommand=" + cmd);
 		}
 	}
 
 
-	public void contextMenuClickedMultiple(JMenuItem item, int[] tableRowsSelected) {
+	public final void contextMenuClickedMultiple(final JMenuItem item, final int[] tableRowsSelected) {
 		final String cmd = item.getActionCommand();
 		if(cmd.equals(CMD_EXCEPTION_DETAILS)) {
 			assert(false); // may not happen
 		} else {
-			throw new IllegalArgumentException("actionCommand="+cmd);
+			throw new IllegalArgumentException("actionCommand=" + cmd);
 		}
 	}
 

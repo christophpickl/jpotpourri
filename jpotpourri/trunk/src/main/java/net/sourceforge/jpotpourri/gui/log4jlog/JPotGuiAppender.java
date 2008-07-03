@@ -3,10 +3,12 @@ package net.sourceforge.jpotpourri.gui.log4jlog;
 import java.util.Date;
 
 import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.spi.LoggingEvent;
 
-public class JPotGuiAppender extends AppenderSkeleton {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+public final class JPotGuiAppender extends AppenderSkeleton {
 
 	private final PropertiesTable tableProps = new PropertiesTable();
 
@@ -66,8 +68,12 @@ public class JPotGuiAppender extends AppenderSkeleton {
 		return false;
 	}
 	
-// does (maybe) work with log4j 1.3 enable table configuration setting -> got: log4j:WARN Failed to set property [tableConfiguration] to value "net.sourceforge.jpotpourri.gui.widget.log4jlog.TableConfiguration".
-// if using only xml-configuration, one could use UnrecognizedXmlStuff interface for this purpose (works fine; but not for *.properties files!)
+// does (maybe) work with log4j 1.3 enable table configuration setting -> got:
+//    log4j:WARN Failed to set property [tableConfiguration] to value
+//    "net.sourceforge.jpotpourri.gui.widget.log4jlog.TableConfiguration".
+// if using only xml-configuration, one could use UnrecognizedXmlStuff interface for this purpose
+//    (works fine; but not for *.properties files!)
+
 //	public TableConfiguration getTableConfiguration() {
 //		De.bug("Adapter.getTableConfiguration(" + this.tableConfiguration + ")");
 //		return this.tableConfiguration;
@@ -84,7 +90,7 @@ public class JPotGuiAppender extends AppenderSkeleton {
 		return this.handlerProps.isSystemLafEnabled();
 	}
 
-	public void setSystemLafEnabled(boolean systemLafEnabled) {
+	public void setSystemLafEnabled(final boolean systemLafEnabled) {
 		this.handlerProps.setSystemLafEnabled(systemLafEnabled);
 	}
 	
@@ -95,31 +101,31 @@ public class JPotGuiAppender extends AppenderSkeleton {
 	public String getColorRowBackgroundEven() {
 		return this.tableProps.getColorRowBackgroundEven();
 	}
-	public void setColorRowBackgroundEven(String colorEven) {
+	public void setColorRowBackgroundEven(final String colorEven) {
 		this.tableProps.setColorRowBackgroundEven(colorEven);
 	}
 	public String getColorRowBackgroundOdd() {
 		return this.tableProps.getColorRowBackgroundOdd();
 	}
-	public void setColorRowBackgroundOdd(String colorOdd) {
+	public void setColorRowBackgroundOdd(final String colorOdd) {
 		this.tableProps.setColorRowBackgroundOdd(colorOdd);
 	}
 	public String getTableRows() {
 		return this.tableProps.getTableRows();
 	}
-	public void setTableRows(String rows) {
+	public void setTableRows(final String rows) {
 		this.tableProps.setTableRows(rows);
 	}
 
 
-	public void setColorRowForeground(String fontColor) {
+	public void setColorRowForeground(final String fontColor) {
 		this.tableProps.setColorRowForeground(fontColor);
 	}
-	public void setColorSelectedRowForeground(String selectedFontColor) {
+	public void setColorSelectedRowForeground(final String selectedFontColor) {
 		this.tableProps.setColorSelectedRowForeground(selectedFontColor);
 	}
 
-	public void setColorSelectedRowBackground(String selectedBackgroundColor) {
+	public void setColorSelectedRowBackground(final String selectedBackgroundColor) {
 		this.tableProps.setColorSelectedRowBackground(selectedBackgroundColor);
 	}
 	

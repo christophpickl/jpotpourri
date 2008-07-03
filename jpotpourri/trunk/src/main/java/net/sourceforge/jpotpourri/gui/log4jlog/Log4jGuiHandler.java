@@ -5,8 +5,11 @@ import javax.swing.JFrame;
 
 import net.sourceforge.jpotpourri.gui.log4jlog.gui.Log4jLogPanel;
 
-// actually most important class for developer/client
-public class Log4jGuiHandler {
+/**
+ * actually most important class for developer/client
+ * @author christoph_pickl@users.sourceforge.net
+ */
+public final class Log4jGuiHandler {
 
 	private final Log4jLogPanel panel;
 	
@@ -14,7 +17,7 @@ public class Log4jGuiHandler {
 
 //	private final Log4jGuiHandlerDefinition handlerDefinition;
 
-	Log4jGuiHandler(Log4jGuiHandlerDefinition handlerDefinition) {
+	Log4jGuiHandler(final Log4jGuiHandlerDefinition handlerDefinition) {
 		De.bug("new Log4jGuiHandler(handlerDefinition=" + handlerDefinition + "); thread=" +
 				Thread.currentThread().getName());
 //		this.handlerDefinition = handlerDefinition;
@@ -36,7 +39,7 @@ public class Log4jGuiHandler {
 	
 	private JFrame debugFrame;
 	
-	void setDebugFrame(JFrame debugFrame) {
+	void setDebugFrame(final JFrame debugFrame) {
 		final String debugProperty = System.getProperty("jpotpourri.JpotGuiAppender.DEBUG");
 		assert(debugProperty != null && debugProperty.length() > 0);
 		this.debugFrame = debugFrame;

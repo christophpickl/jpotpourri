@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui.log4jlog.gui.table;
+package net.sourceforge.jpotpourri.gui.log4jlog.gui;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +8,10 @@ import net.sourceforge.jpotpourri.gui.log4jlog.De;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jEvent;
 import net.sourceforge.jpotpourri.gui.log4jlog.TableFilter;
 
-class ModelCoreData {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+final class ModelCoreData {
 
 	private List<Log4jEvent> allEvents = new LinkedList<Log4jEvent>();
 	private List<Log4jEvent> filteredEvents = new LinkedList<Log4jEvent>();
@@ -33,7 +36,7 @@ class ModelCoreData {
 		}
 	}
 	
-	public synchronized Log4jEvent get(int index) {
+	public synchronized Log4jEvent get(final int index) {
 		return this.list().get(index);
 	}
 	

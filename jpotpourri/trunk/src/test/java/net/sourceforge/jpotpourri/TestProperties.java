@@ -1,6 +1,5 @@
 package net.sourceforge.jpotpourri;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;

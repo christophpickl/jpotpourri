@@ -1,8 +1,15 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
-public class De {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+public final class De {
 
-	public static void bug(String msg) {
+	private De() {
+		// no instantiation
+	}
+	
+	public static void bug(final String msg) {
 //		System.out.println("DEBUG: " + msg);
 	}
 }

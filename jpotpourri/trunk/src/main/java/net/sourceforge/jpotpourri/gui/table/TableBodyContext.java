@@ -38,7 +38,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
  * @author christoph_pickl@users.sourceforge.net
  */
 public class TableBodyContext extends MouseAdapter implements ActionListener, KeyListener {
@@ -54,8 +53,11 @@ public class TableBodyContext extends MouseAdapter implements ActionListener, Ke
     private boolean isKeyDown = false;
     private boolean wasPopupShownSingle = false;
     
-    public TableBodyContext(JTable table, List<JMenuItem> popupItemsSingle, List<JMenuItem> popupItemsMultiple,
-    		ITableBodyContextListener listener) {
+    public TableBodyContext(
+    		final JTable table,
+    		final List<JMenuItem> popupItemsSingle,
+    		final List<JMenuItem> popupItemsMultiple,
+    		final ITableBodyContextListener listener) {
         this.table = table;
         this.listener = listener;
         this.table.addMouseListener(this);
@@ -84,33 +86,41 @@ public class TableBodyContext extends MouseAdapter implements ActionListener, Ke
         }
     }
 
-    public static JMenuItem newJMenuItem(List<JMenuItem> items, String label, String actionCommand) {
+    public static JMenuItem newJMenuItem(
+    		final List<JMenuItem> items,
+    		final String label,
+    		final String actionCommand
+    		) {
         return newJMenuItem(items, label, actionCommand, null);
     }
     
     /**
      * utility method
      */
-    public static JMenuItem newJMenuItem(List<JMenuItem> items, String label, String actionCommand, Icon icon) {
+    public static JMenuItem newJMenuItem(
+    		final List<JMenuItem> items,
+    		final String label,
+    		final String actionCommand,
+    		final Icon icon
+    		) {
         JMenuItem item = (icon != null) ? new JMenuItem(label, icon) : new JMenuItem(label);
         item.setActionCommand(actionCommand);
         items.add(item);
         return item;
     }
     
-    public static void newJMenuSeparator(List<JMenuItem> items) {
+    public static void newJMenuSeparator(final List<JMenuItem> items) {
         items.add(null);
     }
     
     @Override
-    public void mousePressed(MouseEvent event) {
-        LOG.debug("mousePressed(); button()="+event.getButton()+"; isPopupTrigger="+event.isPopupTrigger());
+    public final void mousePressed(final MouseEvent event) {
+        LOG.debug("mousePressed(); button()=" + event.getButton() + "; isPopupTrigger=" + event.isPopupTrigger());
         
 //        final boolean isRightButton = event.isPopupTrigger(); // !!! does not work on windows (but on osx)
 //        System.out.println("isPopupTrigger="+event.isPopupTrigger()); // event.consume();
         
         final boolean isRightButton = event.getButton() == MouseEvent.BUTTON3;
-//        System.out.println("getButton = " + event.getButton() + "; b1 = " + MouseEvent.BUTTON1 + "; b2 = " + MouseEvent.BUTTON2 + "; b3 = " + MouseEvent.BUTTON3 + "; ");
         	
         if(isRightButton) {
 //            System.out.println("event.isPopupTrigger() =>" + event.isPopupTrigger());
@@ -127,15 +137,16 @@ public class TableBodyContext extends MouseAdapter implements ActionListener, Ke
             if(selectedRows == 1) {
                 this.wasPopupShownSingle = true;
                 popup = this.popupSingle;
-            } else if(selectedRows > 1){
+            } else if(selectedRows > 1) {
                 this.wasPopupShownSingle = false;
                 popup = this.popupMultiple;
             } else {
-                LOG.debug("selected rows: " + selectedRows +"; ignore right click");
+                LOG.debug("selected rows: " + selectedRows + "; ignore right click");
                 return;
             }
             
-            final Point pointRightClick = SwingUtilities.convertPoint(event.getComponent(), event.getPoint(), table);
+            final Point pointRightClick =
+            	SwingUtilities.convertPoint(event.getComponent(), event.getPoint(), this.table);
             this.tableRowSelected = this.table.rowAtPoint(pointRightClick);
             this.table.requestFocus();
             
@@ -143,32 +154,35 @@ public class TableBodyContext extends MouseAdapter implements ActionListener, Ke
         }
     }
     
-    public void actionPerformed(final ActionEvent event) {
+    public final void actionPerformed(final ActionEvent event) {
 		JMenuItem item = (JMenuItem) event.getSource();
-        LOG.debug("actionPerformed(cmd="+item.getActionCommand()+"; row="+tableRowSelected+"; selection=" + (wasPopupShownSingle?"single":"multiple")+")");
+        LOG.debug("actionPerformed(cmd=" + item.getActionCommand() + "; row=" + this.tableRowSelected + "; " +
+        		"selection=" + (this.wasPopupShownSingle ? "single" : "multiple") + ")");
         
         if(event.getModifiers() == ActionEvent.META_MASK) {
             LOG.debug("Ignoring performed action because modifier indicates that right button was clicked.");
             return;
         }
         
-        if(wasPopupShownSingle == true) {
-            listener.contextMenuClicked(item, tableRowSelected);
+        if(this.wasPopupShownSingle == true) {
+        	this.listener.contextMenuClicked(item, this.tableRowSelected);
         } else {
-            listener.contextMenuClickedMultiple(item, table.getSelectedRows());
+        	this.listener.contextMenuClickedMultiple(item, this.table.getSelectedRows());
         }
     }
     
-
-    public void keyPressed(KeyEvent event) {
+    @SuppressWarnings("unused")
+    public final void keyPressed(final KeyEvent event) {
         this.isKeyDown = true;
     }
 
-    public void keyReleased(KeyEvent event) {
+    @SuppressWarnings("unused")
+    public final void keyReleased(final KeyEvent event) {
         this.isKeyDown = false;
     }
 
-    public void keyTyped(KeyEvent event) {
+    @SuppressWarnings("unused")
+    public final void keyTyped(final KeyEvent event) {
         // nothing to do
     }
 

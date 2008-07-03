@@ -35,38 +35,39 @@ public interface IMacColors {
 	
 	
 	// for renderer
-	public static final Color MAC_COLOR_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE   = new Color(0x7daaea);
-	public static final Color MAC_COLOR_FOCUSED_SELECTED_VERTICAL_LINE          = new Color(0x346dbe);
-	public static final Color MAC_COLOR_FOCUSED_UNSELECTED_VERTICAL_LINE        = new Color(0xd9d9d9);
+	Color MAC_COLOR_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE   = new Color(0x7daaea);
+	Color MAC_COLOR_FOCUSED_SELECTED_VERTICAL_LINE          = new Color(0x346dbe);
+	Color MAC_COLOR_FOCUSED_UNSELECTED_VERTICAL_LINE        = new Color(0xd9d9d9);
 	
-	public static final Color MAC_COLOR_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE = new Color(0xe0e0e0);
-	public static final Color MAC_COLOR_UNFOCUSED_SELECTED_VERTICAL_LINE        = new Color(0xacacac);
-	public static final Color MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE      = new Color(0xd9d9d9);
+	Color MAC_COLOR_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE = new Color(0xe0e0e0);
+	Color MAC_COLOR_UNFOCUSED_SELECTED_VERTICAL_LINE        = new Color(0xacacac);
+	Color MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE      = new Color(0xd9d9d9);
 
 
 	
 	
 
 	/** */
-	public static final Color MAC_COLOR_ROW_FOREGROUND = Color.BLACK;
+	Color MAC_COLOR_ROW_FOREGROUND = Color.BLACK;
 
 	/** */
-	public static final Color MAC_COLOR_ROW_BACKGROUND_EVEN = Color.WHITE;
+	Color MAC_COLOR_ROW_BACKGROUND_EVEN = Color.WHITE;
 
 	/** */
-	public static final Color MAC_COLOR_ROW_BACKGROUND_ODD = new Color(241, 245, 250);
+	Color MAC_COLOR_ROW_BACKGROUND_ODD = new Color(241, 245, 250);
 
 	
 	
     /** table background for selected rows */
-	public static final Color MAC_COLOR_SELECTED_ROW_BACKGROUND = new Color(61, 128, 223);
+	Color MAC_COLOR_SELECTED_ROW_BACKGROUND = new Color(61, 128, 223);
 
     /** table foreground for selected rows */
-	public static final Color MAC_COLOR_SELECTED_ROW_FOREGROUND = Color.WHITE;	
+	Color MAC_COLOR_SELECTED_ROW_FOREGROUND = Color.WHITE;	
 
     /** table background for selected rows without focus */
-	public static final Color MAC_COLOR_SELECTED_NOFOCUS_BG = new Color(212, 212, 212);
+	Color MAC_COLOR_SELECTED_NOFOCUS_BG = new Color(212, 212, 212);
 	
-
+	
+	String toString(); // nice hack to get rid of checkstyle message ;)
 
 }

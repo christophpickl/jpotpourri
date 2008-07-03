@@ -14,19 +14,19 @@ class PropertiesHandler {
 	}
 
 	public Log4jGuiHandlerDefinition toDefinition(final Log4jGuiTableDefinition tableDefinition) {
-		return new Log4jGuiHandlerDefinition(this.appenderName, systemLafEnabled, tableDefinition);
+		return new Log4jGuiHandlerDefinition(this.appenderName, this.systemLafEnabled, tableDefinition);
 	}
 
 	
-	public void setAppenderName(String appenderName) {
+	public void setAppenderName(final String appenderName) {
 		this.appenderName = appenderName;
 	}
 	
 	public boolean isSystemLafEnabled() {
-		return systemLafEnabled;
+		return this.systemLafEnabled;
 	}
 
-	public void setSystemLafEnabled(boolean systemLafEnabled) {
+	public void setSystemLafEnabled(final boolean systemLafEnabled) {
 		this.systemLafEnabled = systemLafEnabled;
 	}
 }

@@ -3,7 +3,10 @@ package net.sourceforge.jpotpourri.gui.inputfield.search;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class DefaultSearchFieldListener implements KeyListener, ISearchFieldListener {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+public final class DefaultSearchFieldListener implements KeyListener, ISearchFieldListener {
 
 	private final SearchField searchField;
 	private final IDefaultSearchFieldListener listener;
@@ -11,19 +14,22 @@ public class DefaultSearchFieldListener implements KeyListener, ISearchFieldList
     private boolean keyTyped = false;
     
 	
-	public DefaultSearchFieldListener(SearchField searchField, IDefaultSearchFieldListener listener) {
+	public DefaultSearchFieldListener(final SearchField searchField, final IDefaultSearchFieldListener listener) {
 		this.searchField = searchField;
 		this.listener = listener;
 	}
 
-    public void keyPressed(KeyEvent event) {
+	@SuppressWarnings("unused")
+    public void keyPressed(final KeyEvent event) {
         this.keyTyped = false;
     }
-    public void keyTyped(KeyEvent event) {
+	
+	@SuppressWarnings("unused")
+    public void keyTyped(final KeyEvent event) {
         this.keyTyped = true;
     }
 
-    public void keyReleased(KeyEvent event) {
+    public void keyReleased(final KeyEvent event) {
 
         if(event.getKeyCode() == KeyEvent.VK_ESCAPE) {
             // this.inpText.setText(""); will be done implicit by SearchField component

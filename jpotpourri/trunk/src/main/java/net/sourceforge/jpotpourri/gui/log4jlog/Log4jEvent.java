@@ -5,6 +5,9 @@ import java.util.Date;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public final class Log4jEvent {
 
 	private final LoggingEvent loggingEvent;

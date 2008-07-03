@@ -12,12 +12,13 @@ import net.sourceforge.jpotpourri.gui.inputfield.search.IDefaultSearchFieldListe
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jEvent;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jGuiHandlerDefinition;
 import net.sourceforge.jpotpourri.gui.log4jlog.TableFilter;
-import net.sourceforge.jpotpourri.gui.log4jlog.gui.table.Log4jTable;
-import net.sourceforge.jpotpourri.gui.log4jlog.gui.table.Log4jTableModel;
 
 import org.apache.log4j.Level;
 
-public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener {
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
+public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener {
 
 	private static final long serialVersionUID = -2803278698478385285L;
 
@@ -33,7 +34,7 @@ public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener
 	
 	
 	
-	public Log4jLogPanel(Log4jGuiHandlerDefinition handlerDefinition) {
+	public Log4jLogPanel(final Log4jGuiHandlerDefinition handlerDefinition) {
 		this.table = new Log4jTable(this.tableModel, handlerDefinition.getTableDefinition());
 		
 		// init gui
@@ -81,7 +82,8 @@ public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener
 		final JPanel panel = new JPanel(new BorderLayout());
 
 		this.logLevelFilterBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@SuppressWarnings("unused")
+			public void actionPerformed(final ActionEvent e) {
 				doLogLevelFilterBoxChanged();
 			}
 		});
