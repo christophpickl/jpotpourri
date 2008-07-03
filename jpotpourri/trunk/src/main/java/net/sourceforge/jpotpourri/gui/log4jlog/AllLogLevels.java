@@ -16,7 +16,7 @@ public final class AllLogLevels {
 	public static final Set<Level> LEVELS;
 	static {
 		 final Set<Level> tmp = new LinkedHashSet<Level>();
-		 tmp.add(Level.OFF);
+		 tmp.add(Level.ALL);
 		 tmp.add(Level.TRACE);
 		 tmp.add(Level.DEBUG);
 		 tmp.add(Level.TRACE);
@@ -24,7 +24,7 @@ public final class AllLogLevels {
 		 tmp.add(Level.WARN);
 		 tmp.add(Level.ERROR);
 		 tmp.add(Level.FATAL);
-		 tmp.add(Level.ALL);
+		 tmp.add(Level.OFF);
 		 LEVELS = Collections.unmodifiableSet(tmp);
 	}
 }

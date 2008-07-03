@@ -1,7 +1,13 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 final class Log4jGuiHandlerPool {
 
@@ -43,16 +49,52 @@ final class Log4jGuiHandlerPool {
 	Log4jGuiHandler createLog4jGuiHandler(final Log4jGuiHandlerDefinition handlerDefinition) {
 		final String appenderName = handlerDefinition.getAppenderName();
 		assert(this.isLog4jGuiHandlerRegistered(appenderName) == false);
+
+		final String debugProperty = System.getProperty("jpotpourri.JpotGuiAppender.DEBUG");
+		final boolean debugEnabled = debugProperty != null && debugProperty.length() > 0;
 		
+		if(debugEnabled && handlerDefinition.isSystemLafEnabled()) {
+			try {
+	        	De.bug("setting system laf.");
+	            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	        } catch (Exception ex) {
+	            Err.or("Could not set system laf: " + ex.getMessage());
+	        }
+		}
 		final Log4jGuiHandler result = new Log4jGuiHandler(handlerDefinition);
-		De.bug("Log4jGuiHandlerPool --- inserting gui handler for appender ["+appenderName+"]: " + result + " (size="+this.instances.size()+")");
+		De.bug("Log4jGuiHandlerPool --- inserting gui handler for appender ["+appenderName+"]: " + result + " (size="+this.instances.size()+";thread="+Thread.currentThread().getName()+")");
 		this.instances.put(appenderName, result);
 		
-		De.bug("Log4jGuiHandlerPool --- after inserting is size="+this.instances.size()+"");
+		De.bug("Log4jGuiHandlerPool --- pool size after insert: "+this.instances.size()+"");
 
+		if(debugEnabled) {
+			final DebugFrame debugFrame = new DebugFrame(result);
+			result.setDebugFrame(debugFrame);
+			debugFrame.setVisible(true);
+		}
+		
 		return result;
 	}
 
+	private static class DebugFrame extends JFrame {
+		private static final long serialVersionUID = 4800350316457263714L;
+
+		public DebugFrame(final Log4jGuiHandler handler) {
+			this.setTitle("JPotGuiAppender - " + handler.getAppenderName());
+			this.setResizable(true);
+			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			final JPanel panel = new JPanel(new BorderLayout());
+			panel.add(handler.getJComponent(), BorderLayout.CENTER);
+			
+			this.getContentPane().add(panel);
+			final Dimension dim = new Dimension(400, 200);
+			this.setMinimumSize(dim);
+			this.setSize(dim);
+			this.setPreferredSize(dim);
+			this.setMaximumSize(dim);
+			this.setLocationRelativeTo(null);
+		}
+	}
 	
 	
 	

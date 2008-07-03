@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.sourceforge.jpotpourri.gui.inputfield.search.DefaultSearchFieldListener;
 import net.sourceforge.jpotpourri.gui.inputfield.search.IDefaultSearchFieldListener;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jEvent;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jGuiHandlerDefinition;
@@ -16,24 +15,28 @@ import net.sourceforge.jpotpourri.gui.log4jlog.TableFilter;
 import net.sourceforge.jpotpourri.gui.log4jlog.gui.table.Log4jTable;
 import net.sourceforge.jpotpourri.gui.log4jlog.gui.table.Log4jTableModel;
 
+import org.apache.log4j.Level;
+
 public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener {
 
 	private static final long serialVersionUID = -2803278698478385285L;
 
 	
-	private final LogLevelFilterBox logLevelFilterBox = new LogLevelFilterBox();
+	private final LogLevelFilterBox logLevelFilterBox = new LogLevelFilterBox(Level.ERROR);
 	private final LogSearchField searchField = new LogSearchField();
 	
 	private final Log4jTable table;
 	private final Log4jTableModel tableModel = new Log4jTableModel();
+
 	
+	private TableFilter tableFilter;
 	
 	
 	
 	public Log4jLogPanel(Log4jGuiHandlerDefinition handlerDefinition) {
-		this.table = new Log4jTable(handlerDefinition.getTableDefinition());
-		this.table.setModel(this.tableModel);
+		this.table = new Log4jTable(this.tableModel, handlerDefinition.getTableDefinition());
 		
+		// init gui
 		final JScrollPane scrollPane = new JScrollPane(this.table);
 		this.setLayout(new BorderLayout());
 		this.add(this.newFilterPanel(), BorderLayout.NORTH);
@@ -47,7 +50,14 @@ public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener
 
 
 	public void doResetSearch() {
-		this.tableModel.doFilter(TableFilter.FILTER_NONE);
+		final TableFilter properFilter;
+		if(this.tableFilter == null) {
+			properFilter = TableFilter.FILTER_NONE;
+		} else {
+			this.tableFilter = TableFilter.newBySearchString(this.tableFilter, null);
+			properFilter = this.tableFilter;
+		}
+		this.tableModel.doFilter(properFilter);
 	}
 
 	public void doSearch(final String s) {
@@ -55,9 +65,11 @@ public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener
 		if(s == null || p == null) {
 			assert(s == null && p == null);
 		} else {
-			assert(s != null && p != null && s.equals(p)); // TODO asserts
+			assert(s.equals(p)); // TODO asserts
 		}
-		this.tableModel.doFilter(new TableFilter(this.logLevelFilterBox.getSelectedLevel(), s));
+		
+		this.tableFilter = new TableFilter(this.logLevelFilterBox.getSelectedLevel(), s);
+		this.tableModel.doFilter(this.tableFilter);
 	}
 	
 	
@@ -66,30 +78,32 @@ public class Log4jLogPanel extends JPanel implements IDefaultSearchFieldListener
 	
 	
 	private JPanel newFilterPanel() {
-		final JPanel panel = new JPanel();
+		final JPanel panel = new JPanel(new BorderLayout());
 
 		this.logLevelFilterBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doLogLevelFilterBoxChanged();
 			}
-			
 		});
+		this.doLogLevelFilterBoxChanged(); // apply initial filter
 		
-		panel.add(new JLabel("Log Level"));
-		panel.add(this.logLevelFilterBox);
+		final JPanel panelWest = new JPanel();
+		panelWest.add(new JLabel("Log Level"));
+		panelWest.add(this.logLevelFilterBox);
+		panel.add(panelWest, BorderLayout.WEST);
 
         this.searchField.addDefaultSearchFieldListener(this);
         
-		panel.add(searchField);
+        final JPanel searchFieldPanel = new JPanel();
+        searchFieldPanel.add(this.searchField);
+		panel.add(searchFieldPanel, BorderLayout.EAST);
 		
 		return panel;
 	}
 	
-	
-	
 	private void doLogLevelFilterBoxChanged() {
-		final TableFilter filter = new TableFilter(this.logLevelFilterBox.getSelectedLevel(), this.searchField.getProperText());
-		this.tableModel.doFilter(filter);
+		this.tableFilter = new TableFilter(this.logLevelFilterBox.getSelectedLevel(), this.searchField.getProperText());
+		this.tableModel.doFilter(this.tableFilter);
 	}
 	
 }
