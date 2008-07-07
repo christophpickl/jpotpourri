@@ -44,8 +44,11 @@ public abstract class AbstractGenClass implements IJavaCode {
 
 	private AbstractGenConstructor constructor;
 
+	private String staticInitializer = null;
+
 	private boolean generateManClass = false;
 
+	
 	// keywords (static, final, abstract)
 	/**
 	 * @param superClass can be null
@@ -109,56 +112,6 @@ public abstract class AbstractGenClass implements IJavaCode {
 		this.constructor = constructor;
 	}
 
-	public final String toCode() {
-		final StringBuilder sb = new StringBuilder();
-		
-		sb.append("package ").append(this.packageName).append(";\n");
-		sb.append("\n");
-		
-		for (String importStatement : this.imports) {
-			sb.append("import ").append(importStatement).append(";\n");
-		}
-		sb.append("\n");
-
-		sb.append("/**\n");
-		sb.append(" * GENERATED CLASS (" + FULL_DATE_FORMAT.format(new Date()) + ")\n");
-		sb.append(" *\n");
-		sb.append(" * @author christoph.pickl@bmi.gv.at\n");
-		sb.append(" */\n");
-		
-		sb.append(this.visibility.toCode());
-		sb.append("class ");
-		
-		for (GenClassModifier modifier : this.classModifiers) {
-			sb.append(modifier.toCode());
-		}
-		
-		sb.append(this.className);
-		if(this.superClass != null) {
-			sb.append(" extends ").append(this.superClass);
-		}
-		sb.append(" {\n");
-
-		if(this.fields.isEmpty() == false) {
-			sb.append("\n");
-		}
-		for (GenField field : this.fields) {
-			sb.append(field.toCode());
-		}
-		
-		sb.append("\n");
-		
-		sb.append(this.constructor.toCode());
-		
-		for (AbstractGenMethod method : this.methods) {
-			sb.append(method.toCode());
-		}
-		
-		sb.append("}");
-		
-		return sb.toString();
-	}
-
 	public final AbstractGenConstructor getConstructor() {
 		return this.constructor;
 	}
@@ -177,6 +130,72 @@ public abstract class AbstractGenClass implements IJavaCode {
 
 	public final String getPackageName() {
 		return this.packageName;
+	}
+	
+	public final void setStaticInitialer(final String staticInitializer) {
+		this.staticInitializer = staticInitializer;
+	}
+
+	public final String toCode() {
+		final StringBuilder sb = new StringBuilder();
+		
+		sb.append("package ").append(this.packageName).append(";\n");
+		sb.append("\n");
+		
+		for (String importStatement : this.imports) {
+			sb.append("import ").append(importStatement).append(";\n");
+		}
+		sb.append("\n");
+
+		sb.append("/**\n");
+		sb.append(" * GENERATED CLASS (" + FULL_DATE_FORMAT.format(new Date()) + ")\n");
+		sb.append(" *\n");
+		// TODO enable individual author javadoc sb.append(" * @author christoph.pickl@at\n");
+		sb.append(" */\n");
+		
+		sb.append(this.visibility.toCode());
+		
+		for (GenClassModifier modifier : this.classModifiers) {
+			sb.append(modifier.toCode());
+		}
+		
+		sb.append("class ");
+		
+		sb.append(this.className);
+		if(this.superClass != null) {
+			sb.append(" extends ").append(this.superClass);
+		}
+		sb.append(" {\n");
+
+		if(this.fields.isEmpty() == false) {
+			sb.append("\n");
+		}
+		for (GenField field : this.fields) {
+			sb.append(field.toCode());
+		}
+
+		sb.append("\n");
+		
+
+		if(this.staticInitializer != null) {
+			sb.append("\tstatic {\n");
+			sb.append(CodeUtil.autoIndentCode(this.staticInitializer, 2));
+			sb.append("\n");
+			sb.append("\t}\n");
+		}
+
+		sb.append("\n");
+		
+		sb.append(this.constructor.toCode());
+		
+		for (AbstractGenMethod method : this.methods) {
+			sb.append(method.toCode());
+		}
+
+		sb.append("}");
+		sb.append("\n");
+		
+		return sb.toString();
 	}
 	
 }

@@ -11,9 +11,19 @@ import net.sourceforge.jpotpourri.codegen.modifier.GenMethodModifier;
  */
 public abstract class AbstractGenMethod extends AbstractGenPseudoMethod {
 
-	public AbstractGenMethod(final GenVisibility visibility, final String methodName,
-			final String returnType, final List<GenArgument> arguments, final GenMethodModifier... modifiers) {
+	public AbstractGenMethod(
+			final GenVisibility visibility,
+			final String methodName,
+			final String returnType,
+			final List<GenArgument> arguments,
+			final GenMethodModifier... modifiers
+			) {
 		super(visibility, methodName, returnType, arguments, modifiers);
 		// nothing else to do
 	}
+
+	protected final String getReturnType() {
+		return this.getUnsafeReturnType();
+	}
+	
 }

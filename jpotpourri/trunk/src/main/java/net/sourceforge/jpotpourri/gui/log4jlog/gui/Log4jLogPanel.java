@@ -97,9 +97,11 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 		this.doLogLevelFilterBoxChanged(); // apply initial filter
 		
 		final JButton btnClear = new JButton("Clear");
-		btnClear.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-			doClearLog();
-		}});
+		btnClear.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
+			public void actionPerformed(final ActionEvent e) {
+				doClearLog();
+		} });
 		
 		final JPanel panelWest = new JPanel();
 		panelWest.add(btnClear);

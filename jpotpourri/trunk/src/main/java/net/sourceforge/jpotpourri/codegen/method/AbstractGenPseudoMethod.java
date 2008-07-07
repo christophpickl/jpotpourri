@@ -1,10 +1,12 @@
 package net.sourceforge.jpotpourri.codegen.method;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import net.sourceforge.jpotpourri.codegen.CodeUtil;
 import net.sourceforge.jpotpourri.codegen.GenArgument;
 import net.sourceforge.jpotpourri.codegen.GenVisibility;
+import net.sourceforge.jpotpourri.codegen.IAnnotationable;
 import net.sourceforge.jpotpourri.codegen.IJavaCode;
 import net.sourceforge.jpotpourri.codegen.modifier.GenMethodModifier;
 
@@ -13,12 +15,13 @@ import net.sourceforge.jpotpourri.codegen.modifier.GenMethodModifier;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-abstract class AbstractGenPseudoMethod implements IJavaCode {
+abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 
 	// method&constructor common
 	private final boolean isForMethod; // and not for constructor
 	private final GenVisibility visibility;
 	private final List<GenArgument> arguments;
+	private final List<String> annotations = new LinkedList<String>();
 
 	
 	// method specific
@@ -76,6 +79,9 @@ abstract class AbstractGenPseudoMethod implements IJavaCode {
 	 */
 	protected abstract String getBody();
 
+	final String getUnsafeReturnType() {
+		return this.returnType;
+	}
 	
 	public final String toCode() {
 		if(this.isForMethod == false && this instanceof NullGenConstructor) {
@@ -83,6 +89,10 @@ abstract class AbstractGenPseudoMethod implements IJavaCode {
 		}
 		
 		final StringBuilder sb = new StringBuilder();
+		
+		for(String annotation : this.annotations) {
+			sb.append("\t@").append(annotation).append("\n");
+		}
 		
 		sb.append("\t").append(this.visibility.toCode());
 		
@@ -123,6 +133,9 @@ abstract class AbstractGenPseudoMethod implements IJavaCode {
 		return sb.toString();
 	}
 	
+	public final void addAnnotation(final String textAfterAt) {
+		this.annotations.add(textAfterAt);
+	}
 	
 	final GenVisibility getVisibility() {
 		return this.visibility;

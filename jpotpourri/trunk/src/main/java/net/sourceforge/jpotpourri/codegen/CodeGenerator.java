@@ -78,7 +78,6 @@ class CodeGenerator implements ICodeGenerator {
 	
 	private static void writeCodeToFile(final String code, final File file) throws CodeGeneratorException {
 		LOG.debug("Writing code to file: " + file.getAbsolutePath());
-		assert(file.isFile());
 		assert(file.exists() == false);
 		
 		BufferedWriter writer = null;
