@@ -1,5 +1,6 @@
 package net.sourceforge.jpotpourri.codegen.method;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.jpotpourri.codegen.AbstractGenClass;
@@ -14,6 +15,11 @@ public abstract class AbstractGenConstructor extends AbstractGenPseudoMethod {
 	public AbstractGenConstructor(final GenVisibility visibility, final String className,
 			final List<GenArgument> arguments) {
 		super(visibility, className, arguments);
+	}
+
+	public AbstractGenConstructor(final GenVisibility visibility, final String className,
+			final GenArgument... arguments) {
+		this(visibility, className, Arrays.asList(arguments));
 	}
 	
 	public static AbstractGenConstructor newManConstructor(final AbstractGenClass genClass, final String manClassName) {
