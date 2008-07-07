@@ -1,7 +1,11 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,6 +27,13 @@ public final class Dummy {
     }
     
 	public static void main(final String[] args) throws Exception {
+		final boolean showJpotGuiYourself = true;
+		
+		if(showJpotGuiYourself == false) {
+			System.setProperty(JPotGuiAppender.SYSPROPERT_SHOW_DEBUG_GUI, "true");
+			// -Djpotpourri.JpotGuiAppender.DEBUG=1
+		}
+		
 		PropertyConfigurator.configure(JPotGuiAppender.class.getResource("/dummylog4j.properties"));
 		
 		System.out.println("writing error-hack-log \"MAIN: INIT LOG ERROR\"");
@@ -31,12 +42,25 @@ public final class Dummy {
 		
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//		System.out.println("MAIN: getting JPOT appender!");
-//		Log4jGuiHandler handler = Log4jGuiHandlerPool.getInstance().getLog4jGuiHandler("jpot");
 		
 		final JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new JTextField("asdf", 10), BorderLayout.NORTH);
-//		panel.add(handler.getJComponent(), BorderLayout.CENTER);
+		
+		JButton btn = new JButton("Create ERROR log");
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LOG.error("Created by user at " + new Date());
+			}
+		});
+		panel.add(btn, BorderLayout.NORTH);
+
+		if(showJpotGuiYourself == true)  {
+			System.out.println("MAIN: getting JPOT appender!");
+			Log4jGuiHandler handler = Log4jGuiHandlerPool.getInstance().getLog4jGuiHandler("jpot");
+//			handler.getTableConfiguration().setColorXyz(Color.RED);
+//			handler.setUiVisible(false);
+//			handler.registerUiAction(Log4jUiAction.CLEAR_PRESSED, xyz);
+			panel.add(handler.getJComponent(), BorderLayout.CENTER);
+		}
 		f.getContentPane().add(panel);
 		f.pack();
 		f.setVisible(true);

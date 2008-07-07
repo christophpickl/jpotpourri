@@ -29,7 +29,7 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 
 	private final TableEmptyRowsPainter emptyRowsPainter;
 	
-	private final Color colorRowBackgroundEven;
+	private Color colorRowBackgroundEven;
 	private final Color colorRowBackgroundOdd;
 	
 
@@ -141,8 +141,4 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 		}
 	}
 
-
-
-
-	
 }
