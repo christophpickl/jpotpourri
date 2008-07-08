@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui.util;
+package net.sourceforge.jpotpourri.gui;
 
 import java.awt.event.KeyEvent;
 
