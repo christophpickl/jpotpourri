@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui.widget;
+package net.sourceforge.jpotpourri.gui.widget.button;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

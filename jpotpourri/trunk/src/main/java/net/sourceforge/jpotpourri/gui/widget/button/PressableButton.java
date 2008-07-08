@@ -1,4 +1,4 @@
-package net.sourceforge.jpotpourri.gui.widget;
+package net.sourceforge.jpotpourri.gui.widget.button;
 
 import javax.swing.Icon;
 import javax.swing.JButton;

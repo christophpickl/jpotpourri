@@ -25,9 +25,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.gui.GlobalKey;
+import net.sourceforge.jpotpourri.gui.IGlobalKeyListener;
 import net.sourceforge.jpotpourri.gui.dialog.ErrorDialog;
-import net.sourceforge.jpotpourri.gui.util.GlobalKey;
-import net.sourceforge.jpotpourri.gui.util.IGlobalKeyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

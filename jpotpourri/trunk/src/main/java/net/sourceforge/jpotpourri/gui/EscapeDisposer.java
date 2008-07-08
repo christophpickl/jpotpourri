@@ -7,8 +7,6 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 
-import net.sourceforge.jpotpourri.gui.util.GlobalKey;
-import net.sourceforge.jpotpourri.gui.util.IGlobalKeyListener;
 import net.sourceforge.jpotpourri.util.GuiUtil;
 
 import org.apache.commons.logging.Log;

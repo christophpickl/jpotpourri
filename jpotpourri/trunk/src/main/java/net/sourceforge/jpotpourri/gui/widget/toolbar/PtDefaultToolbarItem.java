@@ -1,0 +1,43 @@
+package net.sourceforge.jpotpourri.gui.widget.toolbar;
+
+import javax.swing.ImageIcon;
+
+public class PtDefaultToolbarItem implements IPtToolbarItem {
+
+	private final String label;
+	private final ImageIcon imageIcon;
+	private final String actionCommand;
+	private final String toString;
+	
+	public PtDefaultToolbarItem(String label, ImageIcon imageIcon, String actionCommand) {
+		this.label = label;
+		this.imageIcon = imageIcon;
+		this.actionCommand = actionCommand;
+		this.toString = "PtDefaultToolbarItem[" +
+				"label=" + this.label + ";" +
+				"imageIcon=" + this.imageIcon + ";" +
+				"actionCommand=" + this.actionCommand + ";" +
+				"]";
+	}
+
+	@Override
+	public String toString() {
+		return this.toString;
+	}
+
+	/** IPtToolbarItem */
+	public String getActionCommand() {
+		return this.actionCommand;
+	}
+
+	/** IPtToolbarItem */
+	public ImageIcon getImageIcon() {
+		return this.imageIcon;
+	}
+
+	/** IPtToolbarItem */
+	public String getTooltipText() {
+		return this.label;
+	}
+	
+}

@@ -9,7 +9,7 @@ public class DurationUtil {
 	private static final double SIXTY = 60.0;
 	
 	
-	protected DurationUtil() {
+	protected DurationUtil() { // FIXME make all util classes final again, and set constructor private
         // no instantiation
     }
 
