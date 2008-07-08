@@ -15,6 +15,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
 class Toolbar implements IPtToolbar {
 
 	private final Map<String, IPtToolbarItem> toolbarItems;
@@ -41,7 +45,8 @@ class Toolbar implements IPtToolbar {
 			}
 			final IPtToolbarItem previousStored = tmp.put(item.getActionCommand(), item);
 			if(previousStored != null) {
-				throw new IllegalArgumentException("Duplicate IPtToolbarItem.actionCommand ["+item.getActionCommand()+"]!");
+				throw new IllegalArgumentException(
+						"Duplicate IPtToolbarItem.actionCommand [" + item.getActionCommand() + "]!");
 			}
 		}
 		this.toolbarItems = Collections.unmodifiableMap(tmp);
@@ -49,8 +54,10 @@ class Toolbar implements IPtToolbar {
 
 		
 		final boolean newContinuousLayout = true;
-		this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newContinuousLayout, this.toolbarPanel, contentPanel);
-        this.splitPane.setBorder(null);
+		this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newContinuousLayout,
+				this.toolbarPanel, contentPanel);
+        
+		this.splitPane.setBorder(null);
 		this.splitPane.setDividerLocation(-1);
 		// default: right component gets free space, this.splitPane.setResizeWeight(0)
 		this.splitPane.setDividerSize(2);
@@ -68,7 +75,7 @@ class Toolbar implements IPtToolbar {
 		final IPtToolbarItem item = this.toolbarItems.get(actionCommand);
 		assert(item != null);
 		
-		for(final IPtToolbarListener listener : this.toolbarListeners) {
+		for (final IPtToolbarListener listener : this.toolbarListeners) {
 			listener.doToolbarClicked(item);
 		}
 	}

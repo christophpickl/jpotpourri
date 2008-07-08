@@ -90,7 +90,7 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 		
 		final StringBuilder sb = new StringBuilder();
 		
-		for(String annotation : this.annotations) {
+		for (String annotation : this.annotations) {
 			sb.append("\t@").append(annotation).append("\n");
 		}
 		

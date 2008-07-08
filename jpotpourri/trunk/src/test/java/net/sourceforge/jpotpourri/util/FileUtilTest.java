@@ -97,7 +97,7 @@ public class FileUtilTest extends AbstractUtilTestCase {
 		try {
 			FileUtil.deleteDirectoryRecursive(dir2DeleteParent);
 			fail("Should have thrown exception");
-		} catch(IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			// should fail, because directory is already delete
 			assertTrue(true);
 		}

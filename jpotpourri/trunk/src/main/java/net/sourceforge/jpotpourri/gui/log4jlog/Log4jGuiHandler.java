@@ -1,7 +1,5 @@
 package net.sourceforge.jpotpourri.gui.log4jlog;
 
-import java.awt.Color;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 

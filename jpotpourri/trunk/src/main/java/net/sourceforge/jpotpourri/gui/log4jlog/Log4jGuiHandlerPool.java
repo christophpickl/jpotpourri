@@ -55,7 +55,7 @@ public final class Log4jGuiHandlerPool { // stays public
 	}
 	Log4jGuiHandler createLog4jGuiHandler(final Log4jGuiHandlerDefinition handlerDefinition) {
 		final String appenderName = handlerDefinition.getAppenderName();
-		assert(this.isLog4jGuiHandlerRegistered(appenderName) == false);
+		assert (this.isLog4jGuiHandlerRegistered(appenderName) == false);
 
 		
 		if(handlerDefinition.isSystemLafEnabled()) {

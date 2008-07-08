@@ -18,16 +18,18 @@ import javax.swing.JTextField;
 
 /**
  * 
- * @author http://javabyexample.wisdomplug.com/java-concepts/34-core-java/59-tips-and-tricks-for-jtree-jlist-and-jcombobox-part-i.html
+ * @author http://javabyexample.wisdomplug.com/java-concepts/34-core-java/
+ * 				59-tips-and-tricks-for-jtree-jlist-and-jcombobox-part-i.html
  *
  */
-public class FlexiComboTest extends JApplet
+public class FlexiComboTest extends JApplet {
 
-{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6448487530620744983L;
 
-	public void init()
-
-	{
+	public void init() {
 
 		JPanel control = new JPanel();
 
@@ -57,9 +59,7 @@ public class FlexiComboTest extends JApplet
 
 		tips.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(final ActionEvent e) {
 
 				box.setShowTips(tips.isSelected());
 
@@ -75,9 +75,7 @@ public class FlexiComboTest extends JApplet
 
 		scroll.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(final ActionEvent e) {
 
 				box.setShowHSCroller(scroll.isSelected());
 
@@ -105,25 +103,17 @@ public class FlexiComboTest extends JApplet
 
 		button.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(final ActionEvent e) {
 
 				String val = text.getText();
 
-				try
-
-				{
+				try {
 
 					int i = Integer.parseInt(val);
 
 					box.setPopupWidth(i);
 
-				}
-
-				catch (NumberFormatException ne)
-
-				{
+				} catch (NumberFormatException ne) {
 
 					JOptionPane.showMessageDialog(FlexiComboTest.this, "'"
 							+ val + "' is not a valid number", "Error",
@@ -177,9 +167,7 @@ public class FlexiComboTest extends JApplet
 
 	}
 
-	public static void main(String[] args)
-
-	{
+	public static void main(final String[] args) {
 
 		JFrame frame = new JFrame("Flexi Combo");
 

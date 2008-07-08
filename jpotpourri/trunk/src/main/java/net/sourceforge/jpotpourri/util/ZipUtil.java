@@ -50,7 +50,7 @@ public final class ZipUtil {
 
             zipin = new ZipInputStream(new FileInputStream(file));
             ZipEntry nextZipEntry = zipin.getNextEntry();
-            while(nextZipEntry != null) {
+            while (nextZipEntry != null) {
                 LOG.debug("Unzipping entry '" + nextZipEntry.getName() + "'.");
 
                 if(nextZipEntry.isDirectory()) {
@@ -80,7 +80,7 @@ public final class ZipUtil {
 
                     byte[] buffer = new byte[BUFFER_SIZE];
                     int readBytes = input.read(buffer, 0, buffer.length);
-                    while(readBytes > 0) {
+                    while (readBytes > 0) {
                         output.write(buffer, 0, readBytes);
                         readBytes = input.read(buffer, 0, buffer.length);
                     }
@@ -90,7 +90,7 @@ public final class ZipUtil {
                 
                 nextZipEntry = zipin.getNextEntry();
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new ZipUtilException("Could not unzip file '" + file.getAbsolutePath() + "'!", e);
         } finally {
         	CloseUtil.close(zipin);
@@ -113,7 +113,7 @@ public final class ZipUtil {
             zipout.finish();
             finishedSuccessfully = true;
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new ZipUtilException("Could not zip directory '" + sourceDirectory.getAbsolutePath() + "'!", e);
         } finally {
         	CloseUtil.close(zipout);
@@ -147,7 +147,7 @@ public final class ZipUtil {
                 zipout.putNextEntry(entry);
 
                 int count = fileInput.read(buffer, 0, BUFFER_SIZE);
-                while(count != -1) {
+                while (count != -1) {
                   zipout.write(buffer, 0, count);
                   count = fileInput.read(buffer, 0, BUFFER_SIZE);
                 }

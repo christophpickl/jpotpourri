@@ -2,6 +2,10 @@ package net.sourceforge.jpotpourri.codegen.method;
 
 import net.sourceforge.jpotpourri.codegen.GenVisibility;
 
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public class PublicEmptyGenConstructor extends AbstractGenConstructor {
 
 	public PublicEmptyGenConstructor(final String className) {

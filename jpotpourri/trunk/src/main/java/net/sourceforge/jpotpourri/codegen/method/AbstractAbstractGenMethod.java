@@ -6,6 +6,10 @@ import net.sourceforge.jpotpourri.codegen.GenArgument;
 import net.sourceforge.jpotpourri.codegen.GenVisibility;
 import net.sourceforge.jpotpourri.codegen.modifier.GenMethodModifier;
 
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public abstract class AbstractAbstractGenMethod extends AbstractGenMethod {
 
 	public AbstractAbstractGenMethod(
