@@ -121,13 +121,23 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 			sb.append(arg.toCode());
 		}
 		
-		sb.append(") {"); // TODO add possible exceptions for GenMethod
-
+		sb.append(")");
+		
+		if(this instanceof AbstractAbstractGenMethod) {
+			
+			sb.append(";");
+			
+		} else {
+			
+			sb.append(" {"); // TODO add possible exceptions for GenMethod
+	
+			sb.append("\n");
+			
+			sb.append(CodeUtil.autoIndentCode(this.getBody(), 2));
+			
+			sb.append("\t}");
+		}
 		sb.append("\n");
-		
-		sb.append(CodeUtil.autoIndentCode(this.getBody(), 2));
-		
-		sb.append("\t}\n");
 		sb.append("\n");
 		
 		return sb.toString();
