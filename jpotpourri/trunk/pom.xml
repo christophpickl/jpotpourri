@@ -56,12 +56,12 @@
 
 	<distributionManagement>
 		<!-- #mvn site-deploy -->
-		<!--
+		
 		<site>
 			<id>website</id>
 			<url>scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/</url>
     	</site>
-    	-->
+    	
     
 		<repository>
 			<id>jpotpourri.sourceforge-repo</id>
@@ -90,13 +90,11 @@
             <url>http://repository.codehaus.org/</url>
         </repository>
         
-        <!--
         <repository>
-            <id>jpotpourri.sourceforge</id>
+            <id>jpotpourri.sourceforge-repo</id>
             <url>http://jpotpourri.sourceforge.net/maven2</url>
         </repository>
-        -->
-		
+        
 	</repositories>
 
 
