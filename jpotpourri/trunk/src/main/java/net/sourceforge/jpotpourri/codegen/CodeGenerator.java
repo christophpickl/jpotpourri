@@ -48,7 +48,7 @@ class CodeGenerator implements ICodeGenerator {
 		if(isManClass == false) { // only do for genClasses
 			checkFileAndDirectory(targetFile);
 		} else {
-			assert(targetFile.getParentFile().exists() == true);
+			assert(targetFile.getParentFile().exists() == true) : "Not existing: " + targetFile.getParent();
 		}
 		
 		if(isManClass == false || (isManClass == true && targetFile.exists() == false)) {
