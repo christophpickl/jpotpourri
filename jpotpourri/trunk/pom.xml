@@ -1,3 +1,9 @@
+<!--
+
+#mvn site-deploy
+
+#mvn deploy
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -55,7 +61,6 @@
 	<!-- =================================================================== -->
 
 	<distributionManagement>
-		<!-- #mvn site-deploy -->
 		
 		<site>
 			<id>website</id>
@@ -124,7 +129,7 @@
 					</execution>
 				</executions>
 			</plugin>
-            <!--  temporarily no javadoc generation !!!!!!!!!!!!!
+            <!--  temporarily no javadoc generation !!!!!!!!!!!!! -->
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
@@ -139,7 +144,7 @@
 					</execution>
 				</executions>
 			</plugin>
-             -->
+            <!-- -->
              
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -193,7 +198,7 @@
 				<artifactId>cobertura-maven-plugin</artifactId>
 			</plugin>
 
-            <!-- temporarily outcommented !!!!!!!!!!!!!!!!!
+            <!-- temporarily outcommented !!!!!!!!!!!!!!!!! -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -202,7 +207,7 @@
 					<maxmemory>512</maxmemory>
 				</configuration>
 			</plugin>
-            -->
+           <!-- -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
@@ -243,7 +248,7 @@
 		    	<version>1.0-SNAPSHOT</version>
 		    </plugin>
 		    -->
-			<!-- what for?
+			<!-- what for?  (adding natures to project)
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
