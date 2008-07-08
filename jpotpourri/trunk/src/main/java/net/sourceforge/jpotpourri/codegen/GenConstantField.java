@@ -10,9 +10,6 @@ public final class GenConstantField extends GenField {
 	private GenConstantField(final GenVisibility visibility, final String fieldType, final String fieldName,
 			final String initValue, final GenFieldModifier... modifiers) {
 		super(visibility, fieldType, fieldName, initValue, modifiers);
-		if(initValue == null) {
-			throw new NullPointerException("initValue");
-		}
 	}
 	
 	public static GenConstantField newPublicConstant(final String fieldType, final String fieldName, 

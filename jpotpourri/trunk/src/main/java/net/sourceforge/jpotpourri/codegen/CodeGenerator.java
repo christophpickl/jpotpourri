@@ -36,8 +36,8 @@ class CodeGenerator implements ICodeGenerator {
 		
 		this.processClass(genClass, false);
 		
-		if(genClass.isGenerateManClass() == true) {
-			this.processClass(AbstractGenClass.newManClass(genClass), true);
+		if(genClass.isGenerateManClassSet() == true) {
+			this.processClass(AbstractGenClass.newManClass(genClass, genClass.getManClassDefinition()), true);
 		}
 		LOG.info("Finished generating code.");
 	}

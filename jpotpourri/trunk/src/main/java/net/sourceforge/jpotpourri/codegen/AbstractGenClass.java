@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.jpotpourri.codegen.method.AbstractGenConstructor;
@@ -17,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class AbstractGenClass implements IJavaCode {
+public abstract class AbstractGenClass implements IJavaCode, IAnnotationable {
 
 	private static final Log LOG = LogFactory.getLog(AbstractGenClass.class);
 	
@@ -46,7 +48,9 @@ public abstract class AbstractGenClass implements IJavaCode {
 
 	private String staticInitializer = null;
 
-	private boolean generateManClass = false;
+	private ManClassDefinition manClassDefinition = null;
+	
+	private final List<String> annotations = new LinkedList<String>();
 
 	
 	// keywords (static, final, abstract)
@@ -73,19 +77,30 @@ public abstract class AbstractGenClass implements IJavaCode {
 		this.classModifiers = modifiers;
 	}
 	
-	public static AbstractGenClass newManClass(final AbstractGenClass genClass) {
-		assert(genClass.isGenerateManClass() == true);
+	static AbstractGenClass newManClass(final AbstractGenClass genClass, final ManClassDefinition manDef) {
+		assert(genClass.isGenerateManClassSet() == true);
 		assert(genClass.className.endsWith(CLASSNAME_GEN_SUFFIX));
 		
 		final String genName = genClass.className;
 		// convert from "FoobarGen" to "FoobarMan"
 		final String manClassName = genName.substring(0, genName.length() - CLASSNAME_GEN_SUFFIX.length()) +
-									CLASSNAME_MAN_SUFFIX;
+				CLASSNAME_MAN_SUFFIX;
 		
-		final AbstractGenClass manClass = new AbstractGenClass(GenVisibility.PUBLIC, manClassName,
-				genClass.packageName, genClass.className) {
+		final String packageName = manDef.getPackageName() != null ?
+				manDef.getPackageName() :
+				genClass.packageName;
+		
+		final AbstractGenClass manClass = new AbstractGenClass(
+				GenVisibility.PUBLIC,
+				manClassName,
+				packageName,
+				genClass.className) {
 			// nothing to do
 		};
+		if(packageName.equals(genClass.packageName) == false) {
+			manClass.addImport(genClass.packageName + "." + genClass.className);
+		}
+		
 		manClass.setConstructor(AbstractGenConstructor.newManConstructor(genClass, manClassName));
 		return manClass;
 	}
@@ -116,12 +131,16 @@ public abstract class AbstractGenClass implements IJavaCode {
 		return this.constructor;
 	}
 
-	public final boolean isGenerateManClass() {
-		return this.generateManClass;
+	public final boolean isGenerateManClassSet() {
+		return this.manClassDefinition != null;
 	}
 	
-	public final void setGenerateManClass(final boolean generateManClass) {
-		this.generateManClass = generateManClass;
+	final ManClassDefinition getManClassDefinition() {
+		return this.manClassDefinition;
+	}
+	
+	public final void setManClassDefinition(final ManClassDefinition manClassDefinition) {
+		this.manClassDefinition = manClassDefinition;
 	}
 	
 	public final String getClassName() {
@@ -132,8 +151,12 @@ public abstract class AbstractGenClass implements IJavaCode {
 		return this.packageName;
 	}
 	
-	public final void setStaticInitialer(final String staticInitializer) {
+	public final void setStaticInitializer(final String staticInitializer) {
 		this.staticInitializer = staticInitializer;
+	}
+	
+	public final void addAnnotation(final String textAfterAt) {
+		this.annotations.add(textAfterAt);
 	}
 
 	public final String toCode() {
@@ -150,7 +173,9 @@ public abstract class AbstractGenClass implements IJavaCode {
 		sb.append("/**\n");
 		sb.append(" * GENERATED CLASS (" + FULL_DATE_FORMAT.format(new Date()) + ")\n");
 		sb.append(" *\n");
-		// TODO enable individual author javadoc sb.append(" * @author christoph.pickl@at\n");
+		for(final String annotation : this.annotations) {
+			sb.append(" * @").append(annotation).append("\n");
+		}
 		sb.append(" */\n");
 		
 		sb.append(this.visibility.toCode());
