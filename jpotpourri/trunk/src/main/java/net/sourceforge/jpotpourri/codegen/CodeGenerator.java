@@ -84,7 +84,7 @@ class CodeGenerator implements ICodeGenerator {
 		try {
 			writer = new BufferedWriter(new FileWriter(file));
 			writer.write(code);
-		} catch(IOException e) {
+		} catch (IOException e) {
 			throw new CodeGeneratorException("Could not write code to file [" + file.getAbsolutePath() + "]!", e);
 		} finally {
 			CloseUtil.close(writer);

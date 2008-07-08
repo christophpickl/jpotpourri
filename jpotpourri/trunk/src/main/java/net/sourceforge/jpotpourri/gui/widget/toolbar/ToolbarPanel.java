@@ -15,7 +15,10 @@ import javax.swing.JPanel;
 import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.jpotpourri.util.ImageUtil;
 import net.sourceforge.jpotpourri.util.ImageUtil.ImageInfo;
-
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
 class ToolbarPanel extends JPanel {
 
 	private static final long serialVersionUID = -1252497144319795776L;
@@ -37,7 +40,7 @@ class ToolbarPanel extends JPanel {
 	}
 
 	@Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 		System.out.println(this.getSize());
     }
@@ -54,7 +57,11 @@ class ToolbarPanel extends JPanel {
 		
 		return panel;
 	}
-	
+
+	/**
+	 * 
+	 * @author christoph_pickl@users.sourceforge.net
+	 */
 	private static class ResizableImageButton extends JButton {
 		private static final long serialVersionUID = 5311413134892569631L;
 
@@ -74,12 +81,14 @@ class ToolbarPanel extends JPanel {
 
 		// TODO das richtet sich daweil nicht aus... muss man erst haendisch schreiben!
 		@Override
-	    public void paintComponent(Graphics g) {
+	    public void paintComponent(final Graphics g) {
 			final ImageInfo info = ImageUtil.getResizedImage(this.icon.getImage(), this,
 					this.parent.getSize().width, this.parent.getSize().height);
 			g.drawImage(info.getImage(), 0, 0, null);
 			
-			final Dimension newSize = new Dimension(info.getWidthHeight().getWidth(), info.getWidthHeight().getHeight());
+			final Dimension newSize = new Dimension(
+					info.getWidthHeight().getWidth(), info.getWidthHeight().getHeight()
+				);
 //			this.setPreferredSize(newSize);
 			this.setSize(newSize);
 	    }

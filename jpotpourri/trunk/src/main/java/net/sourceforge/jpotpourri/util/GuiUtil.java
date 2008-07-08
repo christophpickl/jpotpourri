@@ -156,7 +156,7 @@ public class GuiUtil {
     	
     	if(withCause == true) {
     		Throwable cause = e.getCause();
-    		while(cause != null) {
+    		while (cause != null) {
     			sb.append("Caused by:");
     			sb.append(convertSingleException(cause));
     			cause = cause.getCause();

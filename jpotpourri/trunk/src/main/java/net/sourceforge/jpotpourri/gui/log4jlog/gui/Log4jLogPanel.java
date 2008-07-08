@@ -66,9 +66,9 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 	public void doSearch(final String s) {
 		final String p = this.searchField.getProperText();
 		if(s == null || p == null) {
-			assert(s == null && p == null);
+			assert (s == null && p == null);
 		} else {
-			assert(s.equals(p)); // TODO asserts
+			assert (s.equals(p)); // TODO asserts
 		}
 		
 		this.tableFilter = new TableFilter(this.logLevelFilterBox.getSelectedLevel(), s);

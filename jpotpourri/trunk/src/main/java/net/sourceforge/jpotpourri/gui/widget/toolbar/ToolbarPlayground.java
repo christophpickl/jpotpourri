@@ -10,12 +10,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
+public final class ToolbarPlayground {
 
-public class ToolbarPlayground {
+	private ToolbarPlayground() {
+		// no instantiation
+	}
 
 
-
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				initGui();
@@ -35,7 +41,7 @@ public class ToolbarPlayground {
 		final IPtToolbar tb = PtToolbarFactory.newPtToolbar(p, items);
 		
 		tb.addIPtToolbarListener(new IPtToolbarListener() {
-			public void doToolbarClicked(IPtToolbarItem item) {
+			public void doToolbarClicked(final IPtToolbarItem item) {
 				System.out.println("toolbar clicked: " + item);
 			}
 		});
@@ -45,7 +51,7 @@ public class ToolbarPlayground {
 		f.setVisible(true);
 	}
 	
-	private static ImageIcon loadImageIcon(String imagePath) {
+	private static ImageIcon loadImageIcon(final String imagePath) {
 		System.out.println(imagePath);
 		return new ImageIcon(Toolkit.getDefaultToolkit().getImage(ToolbarPlayground.class.getResource(imagePath)));
 	}

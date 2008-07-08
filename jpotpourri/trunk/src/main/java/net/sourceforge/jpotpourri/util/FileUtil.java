@@ -93,10 +93,10 @@ public class FileUtil {
             output = new FileOutputStream(targetFile);
             
             byte[] bytes = new byte[1024];
-            while(input.read(bytes) >= 0) {
+            while (input.read(bytes) >= 0) {
                 output.write(bytes);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new FileUtilException("Could not copy file from '" + sourceFile.getAbsolutePath() + "' to " +
             		"'" + targetFile.getAbsolutePath() + "'!", e);
         } finally {
@@ -272,7 +272,7 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
             input = FileUtil.class.getResourceAsStream(jarFile);
             reader = new BufferedReader(new InputStreamReader(input));
             String line = reader.readLine();
-            while(line != null) {
+            while (line != null) {
                 sb.append(line).append("\n");
                 line = reader.readLine();
             }
@@ -346,7 +346,7 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 		try {
 			reader = new BufferedReader(new FileReader(absoluteAbsolutePath));
 			String line = reader.readLine();
-			while(line != null) {
+			while (line != null) {
 				sb.append(line).append("\n");
 				line = reader.readLine();
 			}

@@ -78,8 +78,8 @@ public abstract class AbstractGenClass implements IJavaCode, IAnnotationable {
 	}
 	
 	static AbstractGenClass newManClass(final AbstractGenClass genClass, final ManClassDefinition manDef) {
-		assert(genClass.isGenerateManClassSet() == true);
-		assert(genClass.className.endsWith(CLASSNAME_GEN_SUFFIX));
+		assert (genClass.isGenerateManClassSet() == true);
+		assert (genClass.className.endsWith(CLASSNAME_GEN_SUFFIX));
 		
 		final String genName = genClass.className;
 		// convert from "FoobarGen" to "FoobarMan"
@@ -173,7 +173,7 @@ public abstract class AbstractGenClass implements IJavaCode, IAnnotationable {
 		sb.append("/**\n");
 		sb.append(" * GENERATED CLASS (" + FULL_DATE_FORMAT.format(new Date()) + ")\n");
 		sb.append(" *\n");
-		for(final String annotation : this.annotations) {
+		for (final String annotation : this.annotations) {
 			sb.append(" * @").append(annotation).append("\n");
 		}
 		sb.append(" */\n");

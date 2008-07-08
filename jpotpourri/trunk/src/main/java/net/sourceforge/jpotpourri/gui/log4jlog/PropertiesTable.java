@@ -71,7 +71,7 @@ class PropertiesTable {
 		final int i;
 		try {
 			i = Integer.parseInt(numberString.trim());
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			return null;
 		}
 		if(i < lowerInclusive || i > upperInclusive) {
@@ -99,7 +99,7 @@ class PropertiesTable {
 					return null;
 				}
 				rgb[i] = anyRgb;
-			} catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return null;
 			}
 		}

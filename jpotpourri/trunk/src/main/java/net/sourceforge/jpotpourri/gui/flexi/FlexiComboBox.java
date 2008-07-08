@@ -1,6 +1,5 @@
 package net.sourceforge.jpotpourri.gui.flexi;
 
-
 import java.awt.Dimension;
 import java.util.Vector;
 
@@ -12,10 +11,6 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
-
-
-
-
 /**
  * 
  * Flexi Combo box class porvides options for showing Horizontal Scrollbar, View
@@ -24,24 +19,19 @@ import javax.swing.plaf.basic.ComboPopup;
  * 
  * 
  * 
- * @author Vimal; http://javabyexample.wisdomplug.com/java-concepts/34-core-java/59-tips-and-tricks-for-jtree-jlist-and-jcombobox-part-i.html
+ * @author Vimal;
+ * http://javabyexample.wisdomplug.com/java-concepts/34-core-java/
+ *      59-tips-and-tricks-for-jtree-jlist-and-jcombobox-part-i.html
  * 
  * 
  * 
  */
-
-public class FlexiComboBox extends JComboBox
-
-{
-
-
+public class FlexiComboBox extends JComboBox {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6636780961012342920L;
-
-
 
 	/**
 	 * 
@@ -51,8 +41,6 @@ public class FlexiComboBox extends JComboBox
 
 	private boolean showTips = false;
 
-
-
 	/**
 	 * 
 	 * Set the popup Width
@@ -60,8 +48,6 @@ public class FlexiComboBox extends JComboBox
 	 */
 
 	private int popupWidth = 0;
-
-
 
 	/**
 	 * 
@@ -71,8 +57,6 @@ public class FlexiComboBox extends JComboBox
 
 	private boolean layingOut = false;
 
-
-
 	/**
 	 * 
 	 * Display the horizontal scrollbar
@@ -81,25 +65,19 @@ public class FlexiComboBox extends JComboBox
 
 	private boolean showHSCroller = false;
 
-
-
 	/**
 	 * 
 	 * Default Constructor Creates a default flexi Combobox
 	 * 
 	 */
 
-	public FlexiComboBox()
-
-	{
+	public FlexiComboBox() {
 
 		super();
 
 		setUI(new FlexiComboUI());
 
 	}
-
-
 
 	/**
 	 * 
@@ -113,9 +91,7 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public FlexiComboBox(ComboBoxModel model)
-
-	{
+	public FlexiComboBox(final ComboBoxModel model) {
 
 		super(model);
 
@@ -123,9 +99,25 @@ public class FlexiComboBox extends JComboBox
 
 	}
 
+	/**
+	 * 
+	 * Creates a Flexi Combobox with the given items
+	 * 
+	 * 
+	 * 
+	 * @param items
+	 * 
+	 * the Items to be added to the Combo Box
+	 * 
+	 */
 
+	public FlexiComboBox(final Object[] items) {
 
+		super(items);
 
+		setUI(new FlexiComboUI());
+
+	}
 
 	/**
 	 * 
@@ -139,67 +131,28 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public FlexiComboBox(Object[] items)
-
-	{
+	public FlexiComboBox(final Vector<?> items) {
 
 		super(items);
 
 		setUI(new FlexiComboUI());
 
 	}
-
-
-
-	/**
-	 * 
-	 * Creates a Flexi Combobox with the given items
-	 * 
-	 * 
-	 * 
-	 * @param items
-	 * 
-	 * the Items to be added to the Combo Box
-	 * 
-	 */
-
-	public FlexiComboBox(Vector<?> items)
-
-	{
-
-		super(items);
-
-		setUI(new FlexiComboUI());
-
-	}
-
-
-
-
-
-
 
 	/**
 	 * 
 	 * Overriden to handle the popup Size
 	 * 
 	 */
+	public void doLayout() {
 
-	public void doLayout()
-
-	{
-
-		try
-
-		{
+		try {
 
 			layingOut = true;
 
 			super.doLayout();
 
-		} finally
-
-		{
+		} finally {
 
 			layingOut = false;
 
@@ -207,29 +160,21 @@ public class FlexiComboBox extends JComboBox
 
 	}
 
-
-
 	/**
 	 * 
 	 * Overriden to handle the popup Size
 	 * 
 	 */
 
-	public Dimension getSize()
-
-	{
+	public Dimension getSize() {
 
 		Dimension dim = super.getSize();
-
-		if (!layingOut && popupWidth != 0)
-
+		if (!layingOut && popupWidth != 0) {
 			dim.width = popupWidth;
-
+		}
 		return dim;
 
 	}
-
-
 
 	/**
 	 * 
@@ -237,15 +182,11 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public boolean isShowTips()
-
-	{
+	public boolean isShowTips() {
 
 		return showTips;
 
 	}
-
-
 
 	/**
 	 * 
@@ -255,31 +196,23 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public void setShowTips(boolean showTips)
-
-	{
+	public void setShowTips(final boolean showTips) {
 
 		this.showTips = showTips;
 
-		if(showTips)
+		if (showTips) {
 
-		{
+			ViewTooltips
+					.register(((FlexiComboUI) getUI()).getPopup().getList());
 
-			ViewTooltips.register(((FlexiComboUI)getUI()).getPopup().getList());
+		} else {
 
-		}
-
-		else
-
-		{
-
-			ViewTooltips.unregister(((FlexiComboUI)getUI()).getPopup().getList());
+			ViewTooltips.unregister(((FlexiComboUI) getUI()).getPopup()
+					.getList());
 
 		}
 
 	}
-
-
 
 	/**
 	 * 
@@ -287,15 +220,11 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public int getPopupWidth()
-
-	{
+	public int getPopupWidth() {
 
 		return popupWidth;
 
 	}
-
-
 
 	/**
 	 * 
@@ -305,15 +234,11 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public void setPopupWidth(int popupWidth)
-
-	{
+	public void setPopupWidth(final int popupWidth) {
 
 		this.popupWidth = popupWidth;
 
 	}
-
-
 
 	/**
 	 * 
@@ -321,15 +246,11 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public boolean isShowHSCroller()
-
-	{
+	public boolean isShowHSCroller() {
 
 		return showHSCroller;
 
 	}
-
-
 
 	/**
 	 * 
@@ -339,31 +260,25 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	public void setShowHSCroller(boolean showHSCroller)
-
-	{
+	public void setShowHSCroller(final boolean showHSCroller) {
 
 		this.showHSCroller = showHSCroller;
 
-		if(showHSCroller)
+		if (showHSCroller) {
 
-		{
+			((FlexiComboUI) getUI()).getPopup().getScrollPane()
+					.setHorizontalScrollBarPolicy(
+							JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-			((FlexiComboUI)getUI()).getPopup().getScrollPane().setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		} else {
 
-		}
-
-		else
-
-		{
-
-			((FlexiComboUI)getUI()).getPopup().getScrollPane().setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			((FlexiComboUI) getUI()).getPopup().getScrollPane()
+					.setHorizontalScrollBarPolicy(
+							JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		}
 
 	}
-
-
 
 	/**
 	 * 
@@ -375,91 +290,63 @@ public class FlexiComboBox extends JComboBox
 	 * 
 	 */
 
-	private class FlexiComboUI extends BasicComboBoxUI
+	private class FlexiComboUI extends BasicComboBoxUI {
 
-	{
-
-		protected ComboPopup createPopup()
-
-		{
+		protected ComboPopup createPopup() {
 
 			return new FlexiComboPopup(comboBox);
 
 		}
 
-		public FlexiComboPopup getPopup()
+		public FlexiComboPopup getPopup() {
 
-		{
-
-			return (FlexiComboPopup)popup;
+			return (FlexiComboPopup) popup;
 
 		}
 
 	}
 
+	/**
+	 * 
+	 * @author christoph_pickl@users.sourceforge.net
+	 */
+	private class FlexiComboPopup extends BasicComboPopup {
 
+		private static final long serialVersionUID = 4890905534316787190L;
 
-	private class FlexiComboPopup extends BasicComboPopup
+//		private Dimension size = null;
 
-	{
-
-
-
-		private Dimension size = null;
-
-
-
-		public FlexiComboPopup(JComboBox combo)
-
-		{
+		public FlexiComboPopup(final JComboBox combo) {
 
 			super(combo);
 
-			if(showTips)
-
-			{
+			if (showTips) {
 
 				ViewTooltips.register(list);
 
-			}
-
-			else
-
-			{
+			} else {
 
 				ViewTooltips.unregister(list);
 
 			}
 
-
-
 		}
 
-
-
-		public JScrollPane createScroller()
-
-		{
+		public JScrollPane createScroller() {
 
 			JScrollPane scroller = null;
 
+			if (showHSCroller) {
 
-
-			if(showHSCroller)
-
-			{
-
-				scroller = new JScrollPane(list,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				scroller = new JScrollPane(list,
+						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 
 						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-			}
+			} else {
 
-			else
-
-			{
-
-				scroller = new JScrollPane(list,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				scroller = new JScrollPane(list,
+						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 
 						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -469,39 +356,18 @@ public class FlexiComboBox extends JComboBox
 
 		}
 
-
-
-		public JScrollPane getScrollPane()
-
-		{
+		public JScrollPane getScrollPane() {
 
 			return scroller;
 
 		}
 
-
-
-
-
-
-
-		public JList getList()
-
-		{
+		public JList getList() {
 
 			return list;
 
 		}
 
-
-
 	}
 
-
-
-
-
-
-
 }
-

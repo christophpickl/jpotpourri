@@ -1,7 +1,10 @@
 package net.sourceforge.jpotpourri.gui.widget.toolbar;
 
 import javax.swing.ImageIcon;
-
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public class PtDefaultToolbarItem implements IPtToolbarItem {
 
 	private final String label;
@@ -9,7 +12,7 @@ public class PtDefaultToolbarItem implements IPtToolbarItem {
 	private final String actionCommand;
 	private final String toString;
 	
-	public PtDefaultToolbarItem(String label, ImageIcon imageIcon, String actionCommand) {
+	public PtDefaultToolbarItem(final String label, final ImageIcon imageIcon, final String actionCommand) {
 		this.label = label;
 		this.imageIcon = imageIcon;
 		this.actionCommand = actionCommand;

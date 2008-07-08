@@ -37,7 +37,7 @@ public final class CloseUtilTest extends AbstractUtilTestCase {
 			
 			invokeCloseMethod(clazz, new Closeable[] { new ThrowingTestCloseable() });
 			assertTrue(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
