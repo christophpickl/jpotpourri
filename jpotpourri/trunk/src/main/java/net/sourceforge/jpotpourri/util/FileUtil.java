@@ -355,6 +355,20 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 		}
 		return sb.toString();
 	}
+	
+	public static void deleteFileSilently(final File file) {
+		if(file.exists() == false) {
+			return;
+		}
+		try {
+			if(file.delete() == false) {
+				LOG.error("Could not delete file [" + file.getAbsolutePath() + "]!");
+			}
+		} catch(Exception e) {
+			LOG.error("Could not delete file [" + file.getAbsolutePath() + "]!", e);
+		}
+	}
+	
     
     public static void main(final String[] args) {
 //        System.out.println(extractLastFolderName("/folder3/folder2/folder1"));
