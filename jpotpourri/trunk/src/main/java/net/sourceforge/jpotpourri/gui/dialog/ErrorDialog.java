@@ -185,7 +185,6 @@ public final class ErrorDialog extends JDialog {
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
-			@SuppressWarnings("unused")
 			public void windowClosing(final WindowEvent e) {
 				doClose();
 			}
@@ -231,7 +230,6 @@ public final class ErrorDialog extends JDialog {
 		
 		final JButton btnCopyClipboard = new JButton("Copy to Clipboard");
 		btnCopyClipboard.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent e) {
 				doCopyClipboard();
 		} });
@@ -273,13 +271,11 @@ public final class ErrorDialog extends JDialog {
 			southPanel.add(this.btnDetails);
 		}
 		btnClose.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent event) {
 				doClose();
 		} });
 			
 		this.btnDetails.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent event) {
 				doDetails();
 		} });
@@ -301,7 +297,6 @@ public final class ErrorDialog extends JDialog {
 		StringSelection stringSelection = new StringSelection(this.stackTraceText.getText());
 	    Clipboard systemClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	    systemClipboard.setContents(stringSelection, new ClipboardOwner() {
-	    	@SuppressWarnings("unused")
 			public void lostOwnership(final Clipboard clipboard, final Transferable content) {
 				// can be ignored
 			}

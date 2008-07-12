@@ -13,7 +13,7 @@ public class TimeUtil {
      * @author aTunes team
      * @return eg: "0:13:02"
      */
-//	@SuppressWarnings("boxing")
+	@SuppressWarnings("boxing")
 	public static String microSecondsToString(final long micros) {
 		long seconds = micros / 1000000;
 		

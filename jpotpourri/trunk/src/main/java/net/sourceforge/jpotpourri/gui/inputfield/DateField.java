@@ -149,7 +149,6 @@ public class DateField extends JTextField {
         JFrame f = new JFrame();
         f.addWindowListener(new WindowAdapter() {
           @Override
-          @SuppressWarnings("unused")
 		public void windowClosing(final WindowEvent e) {
             System.exit(0);
         } });

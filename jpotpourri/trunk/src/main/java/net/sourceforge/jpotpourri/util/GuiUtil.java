@@ -70,12 +70,10 @@ public class GuiUtil {
     public static void enableHandCursor(final Component component) {
         component.addMouseListener(new MouseAdapter() {
             @Override
-            @SuppressWarnings("unused")
 			public void mouseEntered(final MouseEvent event) {
                 component.setCursor(GuiUtil.HAND_CURSOR);
             }
             @Override
-            @SuppressWarnings("unused")
 			public void mouseExited(final MouseEvent event) {
                 component.setCursor(GuiUtil.DEFAULT_CURSOR);
             }
@@ -136,7 +134,6 @@ public class GuiUtil {
     	contentPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(key.getKeyStroke(), key.getActionCommand());
 		contentPanel.getActionMap().put(key.getActionCommand(), new AbstractAction() {
 			private static final long serialVersionUID = -266823267636545239L;
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent event) {
 				listener.doKeyPressed(key);
 		    }
