@@ -21,7 +21,6 @@ public class HighlightedImagePanelUI extends TiledImagePanelUI {
 	private boolean active = true;
 	
 	
-	@SuppressWarnings("unused")
     public static HighlightedImagePanelUI createUI(final JComponent component) {
         return new HighlightedImagePanelUI();
     }

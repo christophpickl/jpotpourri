@@ -19,17 +19,16 @@ import javax.swing.plaf.basic.BasicPanelUI;
  */
 public abstract class TiledImagePanelUI extends BasicPanelUI implements PropertyChangeListener {
 	
-    private static Image image;
+    private static Image image; // TODO why static?
 
     public TiledImagePanelUI() {
-        /* nothing to do */
+        // nothing to do
     }
 
-    public TiledImagePanelUI(final Image aImage) {
-        image = aImage;
+    public TiledImagePanelUI(final Image image) {
+    	TiledImagePanelUI.image = image;
     }
 
-    @SuppressWarnings("unused")
     public static ComponentUI createUI(final JComponent component) {
         return new DefaultTiledImagePanelUI();
     }
@@ -38,9 +37,9 @@ public abstract class TiledImagePanelUI extends BasicPanelUI implements Property
 	public final void installUI(final JComponent c) {
         super.installUI(c);
 
-        if (image == null) {
+        if (TiledImagePanelUI.image == null) {
             if (c instanceof TiledImagePanel) {
-                image = ((TiledImagePanel) c).getImage();
+            	TiledImagePanelUI.image = ((TiledImagePanel) c).getImage();
                 c.addPropertyChangeListener("image", this);
             } else {
                 throw new RuntimeException("TiledImagePanelUI must be used with a TiledImagePanel or " +
@@ -63,7 +62,7 @@ public abstract class TiledImagePanelUI extends BasicPanelUI implements Property
     protected abstract void overriddenPaint(final Graphics g, final JComponent c);
     
     protected final void actualPaint(final Graphics g, final JComponent c) {
-    	if (image == null) {
+    	if (TiledImagePanelUI.image == null) {
             return;
         }
         Dimension vSize = c.getSize();
@@ -72,7 +71,7 @@ public abstract class TiledImagePanelUI extends BasicPanelUI implements Property
 
         for (int x = 0; x < vSize.width; x += 200) {
             for (int y = 0; y < vSize.height; y += 200) {
-                g2d.drawImage(image, x, y, null);
+                g2d.drawImage(TiledImagePanelUI.image, x, y, null);
             }
         }
     }
@@ -92,7 +91,7 @@ public abstract class TiledImagePanelUI extends BasicPanelUI implements Property
 
     public final void propertyChange(final PropertyChangeEvent evt) {
         if ("image".equals(evt.getPropertyName())) {
-            image = (Image) evt.getNewValue();
+        	TiledImagePanelUI.image = (Image) evt.getNewValue();
         }
     }
     
@@ -102,7 +101,6 @@ public abstract class TiledImagePanelUI extends BasicPanelUI implements Property
      */
     public static class DefaultTiledImagePanelUI extends TiledImagePanelUI {
 		@Override
-		@SuppressWarnings("unused")
 		protected final void overriddenPaint(final Graphics g, final JComponent c) {
 			// nothing to do
 		}

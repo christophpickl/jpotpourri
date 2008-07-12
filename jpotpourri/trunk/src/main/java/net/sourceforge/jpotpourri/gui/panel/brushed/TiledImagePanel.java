@@ -87,12 +87,10 @@ public abstract class TiledImagePanel extends JPanel {
 			return false;
 		}
 		@Override
-		@SuppressWarnings("unused")
 		protected final void overriddenSetImage(final Image image) {
 			// nothing to do
 		}
 		@Override
-		@SuppressWarnings("unused")
 		protected final boolean overridesSetImage(final Image image) {
 			return false;
 		}

@@ -19,12 +19,10 @@ public final class DefaultSearchFieldListener implements KeyListener, ISearchFie
 		this.listener = listener;
 	}
 
-	@SuppressWarnings("unused")
     public void keyPressed(final KeyEvent event) {
         this.keyTyped = false;
     }
 	
-	@SuppressWarnings("unused")
     public void keyTyped(final KeyEvent event) {
         this.keyTyped = true;
     }
