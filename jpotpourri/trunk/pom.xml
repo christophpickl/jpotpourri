@@ -63,7 +63,7 @@
 	<distributionManagement>
 		
 		<site>
-			<id>website</id>
+			<id>omov.sourceforge-repo</id>
 			<url>scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/</url>
     	</site>
     	
@@ -146,6 +146,7 @@
 			</plugin>
             <!-- -->
              
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
@@ -162,7 +163,7 @@
                     </additionalBuildcommands>
                 </configuration>
             </plugin>
-             
+            -->
 		</plugins>
 	</build>
 
@@ -236,10 +237,12 @@
 				<artifactId>maven-jxr-plugin</artifactId>
 			</plugin>
 
+			<!-- has found 8k bugs, therefore crashed because out of mem
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 			</plugin>
+			-->
 
 			<!-- Note: 'site' needs to be called twice to generate the linkcheck report
 		    <plugin>

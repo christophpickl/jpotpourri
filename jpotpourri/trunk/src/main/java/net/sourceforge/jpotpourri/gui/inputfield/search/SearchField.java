@@ -53,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * to clear the currently-entered text.
  * 
  * @author Elliott Hughes
- * copyright: {@link http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html}
+ * copyright: http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
 public class SearchField extends JTextField {
 	
@@ -86,7 +86,6 @@ public class SearchField extends JTextField {
         	
             this.putClientProperty("JTextField.variant", "search");
             this.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
-            	@SuppressWarnings("unused")
 				public void actionPerformed(final ActionEvent e) {
 					cancel();
 				}
@@ -231,7 +230,6 @@ public class SearchField extends JTextField {
             arm(e);
         }
         @Override
-        @SuppressWarnings("unused")
         public void mouseExited(final MouseEvent e) {
             disarm();
         }
@@ -240,7 +238,6 @@ public class SearchField extends JTextField {
             arm(e);
         }
         @Override
-        @SuppressWarnings("unused")
         public void mouseReleased(final MouseEvent e) {
         	LOG.debug("Mouse released; armed=" + SearchField.this.armed);
             if(SearchField.this.armed) {
@@ -275,14 +272,12 @@ public class SearchField extends JTextField {
             focusLost(null);
         }
         
-        @SuppressWarnings("unused")
         public void focusGained(final FocusEvent e) {
             setForeground(this.previousColor);
             setText(this.previousText);
             SearchField.this.showingPlaceholderText = false;
         }
         
-        @SuppressWarnings("unused")
         public void focusLost(final FocusEvent e) {
         	this.previousText = getText();
         	this.previousColor = getForeground();

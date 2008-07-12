@@ -20,6 +20,7 @@ public class FpTest extends TestCase {
 //		fail("Not yet implemented");
 //	}
 
+	@SuppressWarnings("boxing")
 	public final void testReduce() {
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(3);

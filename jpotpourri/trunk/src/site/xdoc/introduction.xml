@@ -2,58 +2,57 @@
 <document>
 	<properties>
 		<title>Overview</title>
-    <author email="christoph_pickl@users.sourceforge.net">Christoph Pickl</author>
-</properties>
-<body>
-<section name="Overview">
-
-<!--
-<subsection name="Class diagram">
-<img src="../img/classdiagramnew.png"/>
-</subsection>
--->
-
-<subsection name="Modules">
-<ul>
-	<li>Util</li>
-	<li>Gui</li>
-	<li>CodeGen</li>
-</ul>
-</subsection>
-
-<subsection name="Some Xml Data">
-<pre><![CDATA[
-   <profiles>
-     <profile>
-       <id>env-test</id>
-       <activation>
-         <property>
-           <name>env</name>
-           <value>test</value>
-         </property>
-       </activation>
-       <properties>
-         <appProperties>test.properties</appProperties>
-       </properties>
-     </profile>
-     <profile>
-       <id>env-production</id>
-       <activation>
-         <property>
-           <name>env</name>
-           <value>production</value>
-         </property>
-       </activation>
-       <properties>
-         <appProperties>app.properties</appProperties>
-       </properties>
-     </profile>
-   </profiles>
-        ]]>
-      </pre>
-</subsection>
-
-</section>
-
-</body>
+		<author email="christoph_pickl@users.sourceforge.net">Christoph Pickl</author>
+	</properties>
+	<body>
+		<section name="Introduction">
+			<p>
+				The following page gives a little intro to the jpot library. It
+				contains listings, tables and some api doc of most issues covered by jpot.
+			</p>
+			<p>
+				TODO what does jpot actually provide? what is it good for? -> see FAQ
+			</p>
+			<!--
+				<subsection name="Class diagram"> <img
+				src="../img/classdiagramnew.png"/> </subsection>
+			-->
+			<subsection name="Modules">
+				<ul>
+					<li>
+						<b>Code Generation</b>
+						<br />
+						It does this...
+					</li>
+					<li>
+						<b>Functional Programming</b>
+						<br />
+						It does this...
+					</li>
+					<li>
+						<b>GUI Widgets, Enhancements and other</b>
+						<br />
+						It does this...
+					</li>
+					<li>
+						<b>Miscellaneous Utilities</b>
+						<br />
+						It does this...
+					</li>
+				</ul>
+			</subsection>
+			<subsection name="Code Generation">
+				<p> bla</p>
+			</subsection>
+			<subsection name="Functional Programming">
+				<p> bla</p>
+			</subsection>
+			<subsection name="GUI Stuff">
+				<p> bla</p>
+			</subsection>
+			<subsection name="XXX">
+				<p> bla</p>
+			</subsection>
+		</section>
+	</body>
 </document>
