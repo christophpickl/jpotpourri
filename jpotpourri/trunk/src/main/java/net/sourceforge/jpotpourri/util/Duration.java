@@ -37,6 +37,7 @@ public final class Duration {
     
     public static Duration newByTotal(final int totalMinutes) {
         final int minutes = totalMinutes % 60;
+        // TODO findbugs said: int value cast to double and then passed to Math.ceil
         final int hours = (int) Math.ceil(totalMinutes / 60);
         return new Duration(minutes, hours);
     }

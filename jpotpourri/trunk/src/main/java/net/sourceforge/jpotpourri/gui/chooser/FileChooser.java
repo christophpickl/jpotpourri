@@ -23,7 +23,7 @@ public class FileChooser extends AbstractFileDirectoryChooser {
     
     private static final long serialVersionUID = 4870536517103469362L;
 
-    private final FileFilter fileFilter;
+    private final transient FileFilter fileFilter;
     
     
     /** simplest constructor. */

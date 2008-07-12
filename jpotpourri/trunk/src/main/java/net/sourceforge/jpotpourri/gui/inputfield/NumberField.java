@@ -27,7 +27,6 @@ public class NumberField extends JTextField {
         JFrame f = new JFrame();
         f.addWindowListener(new WindowAdapter() {
           @Override
-          @SuppressWarnings("unused")
 		public void windowClosing(final WindowEvent e) {
             System.exit(0);
         } });
@@ -82,7 +81,6 @@ public class NumberField extends JTextField {
 
         this.addFocusListener(new FocusAdapter() {
         	@Override
-			@SuppressWarnings("unused")
             public void focusGained(final FocusEvent e) {
                 doFocusGained();
             }

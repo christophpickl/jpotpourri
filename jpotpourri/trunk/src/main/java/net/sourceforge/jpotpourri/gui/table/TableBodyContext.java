@@ -171,17 +171,14 @@ public class TableBodyContext extends MouseAdapter implements ActionListener, Ke
         }
     }
     
-    @SuppressWarnings("unused")
     public final void keyPressed(final KeyEvent event) {
         this.isKeyDown = true;
     }
 
-    @SuppressWarnings("unused")
     public final void keyReleased(final KeyEvent event) {
         this.isKeyDown = false;
     }
 
-    @SuppressWarnings("unused")
     public final void keyTyped(final KeyEvent event) {
         // nothing to do
     }

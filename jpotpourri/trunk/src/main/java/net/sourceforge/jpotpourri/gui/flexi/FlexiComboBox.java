@@ -7,6 +7,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
@@ -144,6 +145,7 @@ public class FlexiComboBox extends JComboBox {
 	 * Overriden to handle the popup Size
 	 * 
 	 */
+	@Override
 	public void doLayout() {
 
 		try {
@@ -166,6 +168,7 @@ public class FlexiComboBox extends JComboBox {
 	 * 
 	 */
 
+	@Override
 	public Dimension getSize() {
 
 		Dimension dim = super.getSize();
@@ -268,13 +271,13 @@ public class FlexiComboBox extends JComboBox {
 
 			((FlexiComboUI) getUI()).getPopup().getScrollPane()
 					.setHorizontalScrollBarPolicy(
-							JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		} else {
 
 			((FlexiComboUI) getUI()).getPopup().getScrollPane()
 					.setHorizontalScrollBarPolicy(
-							JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		}
 
@@ -292,6 +295,7 @@ public class FlexiComboBox extends JComboBox {
 
 	private class FlexiComboUI extends BasicComboBoxUI {
 
+		@Override
 		protected ComboPopup createPopup() {
 
 			return new FlexiComboPopup(comboBox);
@@ -332,27 +336,28 @@ public class FlexiComboBox extends JComboBox {
 
 		}
 
+		@Override
 		public JScrollPane createScroller() {
 
-			JScrollPane scroller = null;
+			JScrollPane newScroller = null;
 
 			if (showHSCroller) {
 
-				scroller = new JScrollPane(list,
-						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				newScroller = new JScrollPane(list,
+						ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 
-						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 			} else {
 
-				scroller = new JScrollPane(list,
-						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				newScroller = new JScrollPane(list,
+						ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 
-						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 			}
 
-			return scroller;
+			return newScroller;
 
 		}
 
@@ -362,6 +367,7 @@ public class FlexiComboBox extends JComboBox {
 
 		}
 
+		@Override
 		public JList getList() {
 
 			return list;

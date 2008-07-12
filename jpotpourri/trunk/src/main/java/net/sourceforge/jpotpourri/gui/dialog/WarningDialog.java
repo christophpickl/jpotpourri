@@ -137,7 +137,6 @@ public final class WarningDialog extends JDialog {
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
-			@SuppressWarnings("unused")
 			public void windowClosing(final WindowEvent event) {
 				doClose();
 			}
@@ -177,7 +176,6 @@ public final class WarningDialog extends JDialog {
 		JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.add(this.btnClose);
 		this.btnClose.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent event) {
 			doClose();
 		} });

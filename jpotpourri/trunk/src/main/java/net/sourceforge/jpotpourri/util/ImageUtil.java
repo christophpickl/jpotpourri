@@ -88,6 +88,7 @@ public final class ImageUtil {
 			this.widthHeight = widthHeight;
 		}
 		
+		@Override
 		public String toString() {
 			return "ImageInfo[image=...;widthHeight="+widthHeight+"]";
 		}

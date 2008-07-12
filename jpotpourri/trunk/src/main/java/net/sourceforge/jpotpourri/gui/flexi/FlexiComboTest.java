@@ -29,6 +29,7 @@ public class FlexiComboTest extends JApplet {
 	 */
 	private static final long serialVersionUID = 6448487530620744983L;
 
+	@Override
 	public void init() {
 
 		JPanel control = new JPanel();

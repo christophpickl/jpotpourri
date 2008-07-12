@@ -201,10 +201,12 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 		hide();
 	}
 
+	@Override
 	public void mouseEntered(final MouseEvent e) {
 		hide();
 	}
 
+	@Override
 	public void mouseExited(final MouseEvent e) {
 		hide();
 	}
@@ -247,9 +249,11 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 		ren.getListCellRendererComponent(list,
 		list.getModel().getElementAt(listRow),
 		listRow, false, false).getPreferredSize();
+		
+		// if(bds != null)
 		bds.width = rendererSize.width;
 
-		if (bds == null || !bds.contains(p)) {
+		if (bds.contains(p) == false) {
 			hide();
 			return;
 		}
@@ -484,10 +488,8 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 	 * should be hidden.
 	 */
 	private void setHideComponent(final JComponent comp, final JScrollPane parent) {
-		if (hider != null) {
-			if (hider.isListeningTo(comp)) {
-				return;
-			}
+		if (hider != null && hider.isListeningTo(comp)) {
+			return;
 		}
 		
 		if (hider != null) {
@@ -623,6 +625,7 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 			setImg(nue);
 		}
 
+		@Override
 		public Rectangle getBounds() {
 			Dimension dd = getPreferredSize();
 			return new Rectangle(0, 0, dd.width, dd.height);
@@ -633,6 +636,7 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 			d = null;
 		}
 
+		@Override
 		public Dimension getPreferredSize() {
 			if (d == null) {
 				d = new Dimension(img.getWidth(), img.getHeight());
@@ -640,10 +644,12 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 			return d;
 		}
 
+		@Override
 		public Dimension getSize() {
 			return getPreferredSize();
 		}
 
+		@Override
 		public void paint(final Graphics g) {
 			g.setColor(bg);
 			g.fillRect(0, 0, d.width, d.height);
@@ -660,18 +666,22 @@ public final class ViewTooltips extends MouseAdapter implements MouseMotionListe
 			}
 		}
 
+		@Override
 		public void firePropertyChange(final String s, final Object a, final Object b) {
 			// nothing to do
 		}
 
+		@Override
 		public void invalidate() {
 			// nothing to do
 		}
 
+		@Override
 		public void validate() {
 			// nothing to do
 		}
 
+		@Override
 		public void revalidate() {
 			// nothing to do
 		}

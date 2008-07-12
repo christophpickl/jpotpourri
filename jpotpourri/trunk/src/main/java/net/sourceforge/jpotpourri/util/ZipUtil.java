@@ -118,12 +118,10 @@ public final class ZipUtil {
         } finally {
         	CloseUtil.close(zipout);
 
-            if(finishedSuccessfully == false) {
-                if(targetZipFile.exists()) {
-                    if(targetZipFile.delete() == false) {
-                        LOG.warn("Could not delete zip file '" + targetZipFile.getAbsolutePath() + "'!");
-                    }
-                }
+            if(finishedSuccessfully == false &&
+        		targetZipFile.exists() &&
+        		targetZipFile.delete() == false) {
+                LOG.warn("Could not delete zip file '" + targetZipFile.getAbsolutePath() + "'!");
             }
         }
     }
