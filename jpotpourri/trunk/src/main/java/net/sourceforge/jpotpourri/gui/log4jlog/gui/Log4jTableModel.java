@@ -19,6 +19,8 @@ final class Log4jTableModel extends AbstractTableModel {
 	private final ModelCoreData data = new ModelCoreData();
 
 	
+	public static final int COLUMN_INDEX_LOG_LEVEL = 1;
+	
 	private static final List<LogTableColumn> TABLE_COLUMNS = new ArrayList<LogTableColumn>(2);
 	static {
 		TABLE_COLUMNS.add(LogTableColumn.DATE);
@@ -29,7 +31,6 @@ final class Log4jTableModel extends AbstractTableModel {
 		TABLE_COLUMNS.add(LogTableColumn.MESSAGE);
 		TABLE_COLUMNS.add(LogTableColumn.THREAD);
 		TABLE_COLUMNS.add(LogTableColumn.EXCEPTION);
-		
 	}
 
 	

@@ -3,6 +3,7 @@ package net.sourceforge.jpotpourri.gui.log4jlog;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -27,15 +28,22 @@ public final class Dummy {
     	// nothing to do
     }
     
+    private static void initDummyLog4jProperties() {
+    	final String log4jprop = "/dummylog4j.properties";
+    	final URL url = JPotGuiAppender.class.getResource(log4jprop);
+    	if(url == null) {
+    		throw new NullPointerException("Could not find file [" + log4jprop + "]!");
+    	}
+    	PropertyConfigurator.configure(url);
+    }
+    
 	public static void main(final String[] args) throws Exception {
-		
+		initDummyLog4jProperties();
 		
 		if(SHOW_JPOT_GUI_YOURSELF == false) {
 			System.setProperty(JPotGuiAppender.SYSPROPERT_SHOW_DEBUG_GUI, "true");
 			// -Djpotpourri.JpotGuiAppender.DEBUG=1
 		}
-		
-		PropertyConfigurator.configure(JPotGuiAppender.class.getResource("/dummylog4j.properties"));
 		
 		System.out.println("writing error-hack-log \"MAIN: INIT LOG ERROR\"");
 		LOG.error("MAIN: INIT LOG ERROR"); // FIXME hack
