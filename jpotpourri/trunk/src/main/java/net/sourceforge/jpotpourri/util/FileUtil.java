@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.Set;
@@ -367,6 +369,39 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 		} catch(Exception e) {
 			LOG.error("Could not delete file [" + file.getAbsolutePath() + "]!", e);
 		}
+	}
+
+	
+	public static String getFileContentFromClasspath(final Class<?> clazz, final String fileName) throws IOException {
+		final StringBuilder sb = new StringBuilder();
+		
+		final URL url = clazz.getResource(fileName);
+		if(url == null) {
+			throw new IOException("Could not find file [" + fileName + "]!");
+		}
+		
+		final BufferedReader reader;
+		try {
+			reader = new BufferedReader(
+		            new InputStreamReader(new FileInputStream(new File(url.toURI())), "UTF8"));
+		} catch (URISyntaxException e) {
+			throw new IOException("Malformed URI syntax by URL [" + url + "]!", e);
+		}
+		try {
+			String line = reader.readLine();
+			if(line != null) {
+				sb.append(line);
+			}
+			line = reader.readLine();
+			while(line != null) {
+				sb.append("\n").append(line);
+				line = reader.readLine();
+			}
+		} finally {
+			CloseUtil.close(reader);
+		}
+		
+		return sb.toString();
 	}
 	
     
