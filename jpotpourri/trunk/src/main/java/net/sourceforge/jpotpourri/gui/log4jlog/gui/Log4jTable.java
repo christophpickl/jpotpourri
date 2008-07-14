@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JMenuItem;
@@ -18,6 +19,7 @@ import net.sourceforge.jpotpourri.gui.table.ITableFillEmptyRowsReceiver;
 import net.sourceforge.jpotpourri.gui.table.TableBodyContext;
 import net.sourceforge.jpotpourri.gui.table.TableEmptyRowsPainter;
 
+import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 
 /**
@@ -60,6 +62,14 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 		this.colorRowForeground = tableDefinition.getColorRowForeground();
 		this.colorSelectedRowForeground = tableDefinition.getColorSelectedRowForeground();
 		this.colorSelectedRowBackground = tableDefinition.getColorSelectedRowBackground();
+		
+		this.getColumnExt(Log4jTableModel.COLUMN_INDEX_LOG_LEVEL).setComparator(new Comparator<String>() {
+			public int compare(final String o1, final String o2) {
+				final Level l1 = Level.toLevel(o1);
+				final Level l2 = Level.toLevel(o2);
+				return l1.toInt() - l2.toInt();
+			}
+	    });
 		
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         this.setColumnSelectionAllowed(false);
