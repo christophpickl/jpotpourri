@@ -69,4 +69,27 @@ public class StringUtil {
 		
 		return objStringBuilder.toString();
 	}
+	
+
+
+	/** 
+	 * @param in a string, eg: "SOME_LONG"
+	 * @return capitalized string, eg: "SomeLong"
+	 */
+	public static String toCamelCaseByUnderscore(final String in) {
+		String out = in.substring(0, 1) + in.substring(1).toLowerCase();
+		
+		int index = out.indexOf("_");
+		while(index >= 0) {
+			final String pre = out.substring(0, index);
+			
+			String post = out.substring(index + 1);
+			post = post.substring(0, 1).toUpperCase() + post.substring(1);
+			out = pre + post;
+			
+			index = out.indexOf("_");
+		}
+		
+		return out;
+	}
 }
