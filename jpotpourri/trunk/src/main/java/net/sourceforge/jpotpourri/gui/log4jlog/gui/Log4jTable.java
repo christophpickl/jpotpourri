@@ -27,18 +27,22 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 
 	private static final long serialVersionUID = -5142437725186427922L;
 
+	private static final Color COLOR_BG_ROW_WARN = Color.YELLOW;
+	private static final Color COLOR_BG_ROW_ERROR = Color.ORANGE;
+	private static final Color COLOR_BG_ROW_FATAL = Color.RED;
+
+    private static final String CMD_EXCEPTION_DETAILS = "CMD_EXCEPTION_DETAILS";
+    
+	
 	private final TableEmptyRowsPainter emptyRowsPainter;
 	
 	private Color colorRowBackgroundEven;
 	private final Color colorRowBackgroundOdd;
-	
 
 	private final Color colorRowForeground;
 	private final Color colorSelectedRowForeground;
 	private final Color colorSelectedRowBackground;
 
-
-    private static final String CMD_EXCEPTION_DETAILS = "CMD_EXCEPTION_DETAILS";
 	
     
 	public Log4jTable(final Log4jTableModel tableModel, final Log4jGuiTableDefinition tableDefinition) {
@@ -98,20 +102,36 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 
 
 	@Override
-	public final Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
-		final Component c = super.prepareRenderer(renderer, row, column);
+	public final Component prepareRenderer(
+			final TableCellRenderer renderer,
+			final int modelRowIndex,
+			final int modelColumnIndex) {
+		final Component c = super.prepareRenderer(renderer, modelRowIndex, modelColumnIndex);
 
 		final Color bgColor;
 		final Color fgColor;
 //        boolean focused = hasFocus();
-        boolean selected = isCellSelected(row, column);
+        boolean selected = isCellSelected(modelRowIndex, modelColumnIndex);
         
         if(selected) {
         	bgColor = this.colorSelectedRowBackground;
         	fgColor = this.colorSelectedRowForeground;
         } else {
-        	final boolean isEven = row % 2 == 0;
-        	bgColor = isEven ? this.colorRowBackgroundEven : this.colorRowBackgroundOdd;
+        	final boolean isEven = modelRowIndex % 2 == 0;
+        	
+        	final int viewRow = this.convertRowIndexToModel(modelRowIndex);
+        	String s = (String) this.getModel().getValueAt(viewRow, Log4jTableModel.COLUMN_INDEX_LOG_LEVEL);
+        	if("WARN".equals(s)) {
+        		bgColor = COLOR_BG_ROW_WARN;
+        	} else if("ERROR".equals(s)) {
+        		bgColor = COLOR_BG_ROW_ERROR;
+        	} else if("FATAL".equals(s)) {
+        		bgColor = COLOR_BG_ROW_FATAL;
+        	} else {
+        		bgColor = isEven ? this.colorRowBackgroundEven : this.colorRowBackgroundOdd;
+        	}
+        	
+        	
         	fgColor = this.colorRowForeground;
         }
         c.setBackground(bgColor);
