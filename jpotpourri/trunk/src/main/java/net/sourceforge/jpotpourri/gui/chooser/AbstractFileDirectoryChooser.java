@@ -1,5 +1,6 @@
 package net.sourceforge.jpotpourri.gui.chooser;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -92,16 +93,19 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
 
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.gridy = 0;
+        c.weighty = 1.0;
 
         final int buttonTextGap = 6;
 
         c.fill = (btnPosition == ButtonPosition.LEFT) ? GridBagConstraints.NONE : GridBagConstraints.HORIZONTAL;        
         c.insets = new Insets(0, 0, 0, (btnPosition == ButtonPosition.LEFT) ? buttonTextGap : 0); // adjust right margin
+        c.weightx = 0.0;
         c.gridx = 0;
         this.add((btnPosition == ButtonPosition.LEFT) ? this.button : this.directoryPath, c);
 
         c.fill = (btnPosition == ButtonPosition.LEFT) ? GridBagConstraints.HORIZONTAL : GridBagConstraints.NONE;
         c.insets = new Insets(0, (btnPosition == ButtonPosition.LEFT) ? 0 : buttonTextGap, 0, 0); // adjust left margin
+        c.weightx = 1.0;
         c.gridx++;
         this.add((btnPosition == ButtonPosition.LEFT) ? this.directoryPath : this.button, c);
         
@@ -198,5 +202,11 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
         this.button.setEnabled(enabled);
     }
 
+    public final void setFixedButtonSize(final Dimension dimension) {
+    	this.button.setMaximumSize(dimension);
+    	this.button.setPreferredSize(dimension);
+    	this.button.setSize(dimension);
+    	this.button.setMinimumSize(dimension);
+    }
     
 }
