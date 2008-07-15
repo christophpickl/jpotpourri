@@ -1,11 +1,14 @@
 package net.sourceforge.jpotpourri.gui.log4jlog.gui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.jpotpourri.gui.log4jlog.De;
+import net.sourceforge.jpotpourri.gui.log4jlog.IDisplayedLogMessages;
 import net.sourceforge.jpotpourri.gui.log4jlog.Log4jEvent;
 import net.sourceforge.jpotpourri.gui.log4jlog.TableFilter;
 
@@ -18,8 +21,7 @@ final class Log4jTableModel extends AbstractTableModel {
 
 	private final ModelCoreData data = new ModelCoreData();
 
-	
-	public static final int COLUMN_INDEX_LOG_LEVEL = 1;
+	private final Set<IDisplayedLogMessages> listeners = new HashSet<IDisplayedLogMessages>();
 	
 	private static final List<LogTableColumn> TABLE_COLUMNS = new ArrayList<LogTableColumn>(2);
 	static {
@@ -39,24 +41,45 @@ final class Log4jTableModel extends AbstractTableModel {
 		// nothing to do
 	}
 
+	private void broadcastDisplayedLogMessagesChanged(final int displayedMessages, final int totalMessages) {
+		for (IDisplayedLogMessages listener : this.listeners) {
+			listener.displayedLogMessagesChanged(displayedMessages, totalMessages);
+		}
+	}
+	
 	// ----------------- custom
 
 	public void addLoggingEvent(final Log4jEvent event) {
-		De.bug("Log4jTableModel --- addLoggignEvent(" + event + ")");
+		De.bug("Log4jTableModel --- addLoggingEvent(" + event + ")");
 		this.data.addLoggingEvent(event);
+		this.broadcastDisplayedLogMessagesChanged(this.data.getSize(), this.data.getAllEventsSize());
 		this.fireTableDataChanged();
 	}
 	
 	public void doFilter(final TableFilter filter) {
 		De.bug("Log4jTableModel --- doFilter(" + filter + ")");
 		this.data.doFilter(filter);
+		this.broadcastDisplayedLogMessagesChanged(this.data.getSize(), this.data.getAllEventsSize());
 		this.fireTableDataChanged();
 	}
 	
 	public void doClearData() {
 		De.bug("Log4jTableModel --- doClearData()");
 		this.data.doClear();
+		this.broadcastDisplayedLogMessagesChanged(0, 0);
 		this.fireTableDataChanged();
+	}
+	
+	public static String getColumnIdentifier(final LogTableColumn column) {
+		return column.getColumnLabel();
+	}
+	
+	public void addDisplayedLogMessages(final IDisplayedLogMessages listener) {
+		this.listeners.add(listener);
+	}
+	
+	public boolean removeDisplayedLogMessages(final IDisplayedLogMessages listener) {
+		return this.listeners.remove(listener);
 	}
 	
 	// ----------------- table model optional

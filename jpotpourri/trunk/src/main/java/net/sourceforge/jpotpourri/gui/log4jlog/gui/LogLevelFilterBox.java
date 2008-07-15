@@ -14,8 +14,9 @@ final class LogLevelFilterBox extends JComboBox {
 	private static final long serialVersionUID = 4527119967934749051L;
 
 	public LogLevelFilterBox() {
-		this(Level.ALL);
+		this(Level.ALL); // default value
 	}
+	
 	public LogLevelFilterBox(final Level initLevel) {
 		super(AllLogLevels.LEVELS_WITHOUT_ALL_AND_OFF.toArray());
 		this.setSelectedItem(initLevel);

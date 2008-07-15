@@ -25,12 +25,12 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 	private static final long serialVersionUID = -2803278698478385285L;
 
 	
-	private final LogLevelFilterBox logLevelFilterBox = new LogLevelFilterBox(Level.ALL);
+	private final LogLevelFilterBox logLevelFilterBox = new LogLevelFilterBox(Level.INFO); // default value
 	private final LogSearchField searchField = new LogSearchField();
 	
 	private final Log4jTable table;
 	private final Log4jTableModel tableModel = new Log4jTableModel();
-
+	private final DisplayedLogMessagesPanel displayedLogMsgs = new DisplayedLogMessagesPanel();
 	
 	private TableFilter tableFilter;
 	
@@ -38,6 +38,7 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 	
 	public Log4jLogPanel(final Log4jGuiHandlerDefinition handlerDefinition) {
 		this.table = new Log4jTable(this.tableModel, handlerDefinition.getTableDefinition());
+		this.tableModel.addDisplayedLogMessages(this.displayedLogMsgs);
 		
 		// init gui
 		final JScrollPane scrollPane = new JScrollPane(this.table);
@@ -112,6 +113,7 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
         this.searchField.addDefaultSearchFieldListener(this);
         
         final JPanel searchFieldPanel = new JPanel();
+        searchFieldPanel.add(this.displayedLogMsgs.getComponent());
         searchFieldPanel.add(this.searchField);
 		panel.add(searchFieldPanel, BorderLayout.EAST);
 		

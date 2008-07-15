@@ -10,6 +10,6 @@ public final class De {
 	}
 	
 	public static void bug(final String msg) {
-		System.out.println("DEBUG: " + msg);
+//		System.out.println("DEBUG: " + msg);
 	}
 }
