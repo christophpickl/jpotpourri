@@ -29,19 +29,23 @@ final class ModelCoreData {
 	
 	
 	public synchronized void addLoggingEvent(final Log4jEvent event) {
-		this.allEvents.add(event);
+		this.allEvents.add(0, event);
 		
 		if(this.isFilter() && this.filter.execute(event)) {
-			this.filteredEvents.add(event);
+			this.filteredEvents.add(0, event);
 		}
 	}
 	
 	public synchronized Log4jEvent get(final int index) {
 		return this.list().get(index);
 	}
-	
+
 	public synchronized int getSize() {
 		return this.list().size();
+	}
+
+	public synchronized int getAllEventsSize() {
+		return this.allEvents.size();
 	}
 	
 	public synchronized void doClear() {

@@ -63,13 +63,28 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 		this.colorSelectedRowForeground = tableDefinition.getColorSelectedRowForeground();
 		this.colorSelectedRowBackground = tableDefinition.getColorSelectedRowBackground();
 		
-		this.getColumnExt(Log4jTableModel.COLUMN_INDEX_LOG_LEVEL).setComparator(new Comparator<String>() {
+		// set log level comparator
+		this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.LEVEL)).
+			setComparator(new Comparator<String>() {
 			public int compare(final String o1, final String o2) {
 				final Level l1 = Level.toLevel(o1);
 				final Level l2 = Level.toLevel(o2);
 				return l1.toInt() - l2.toInt();
 			}
 	    });
+
+        // adjust column width
+        this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.LEVEL)).setMaxWidth(44);
+        this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.LEVEL)).setMinWidth(44);
+        this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.DATE)).setMaxWidth(130);
+        this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.DATE)).setMinWidth(130);
+//        this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.CLASS)).setPreferredWidth(80);
+//        this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.THREAD)).setPreferredWidth(60);
+        
+		// hide some columns
+		this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.METHOD)).setVisible(false);
+		this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.THREAD)).setVisible(false);
+		this.getColumnExt(Log4jTableModel.getColumnIdentifier(LogTableColumn.EXCEPTION)).setVisible(false);
 		
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         this.setColumnSelectionAllowed(false);
@@ -77,11 +92,14 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
         
         this.setColumnControlVisible(true);
         this.setShowGrid(false);
+
         this.packAll();
         
         this.emptyRowsPainter = new TableEmptyRowsPainter(this);
         this.initContextMenu();
 	}
+	// TODO enable double click on table ->
+	//      pop summary dialog (content in table could be too big, especially message part)
 	
 	private void initContextMenu() {
 		final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
@@ -130,7 +148,8 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
         	final boolean isEven = modelRowIndex % 2 == 0;
         	
         	final int viewRow = this.convertRowIndexToModel(modelRowIndex);
-        	String s = (String) this.getModel().getValueAt(viewRow, Log4jTableModel.COLUMN_INDEX_LOG_LEVEL);
+        	final int viewCol = 1; // FIXME table hack
+        	String s = (String) this.getModel().getValueAt(viewRow, viewCol);
         	if("WARN".equals(s)) {
         		bgColor = COLOR_BG_ROW_WARN;
         	} else if("ERROR".equals(s)) {
