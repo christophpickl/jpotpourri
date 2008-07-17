@@ -5,6 +5,9 @@ import javax.swing.JLabel;
 
 import net.sourceforge.jpotpourri.gui.log4jlog.IDisplayedLogMessages;
 
+/**
+ * @author christoph_pickl@users.sourceforge.net
+ */
 class DisplayedLogMessagesPanel implements IDisplayedLogMessages {
 
 	private final JLabel label = new JLabel("-/-");
@@ -16,8 +19,8 @@ class DisplayedLogMessagesPanel implements IDisplayedLogMessages {
 
 
 	public void displayedLogMessagesChanged(
-			int displayedMessages,
-			int totalMessages) {
+			final int displayedMessages,
+			final int totalMessages) {
 		// TODO Auto-generated method stub
 		this.label.setText(displayedMessages + "/" + totalMessages);
 	}

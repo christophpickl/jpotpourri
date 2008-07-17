@@ -426,6 +426,7 @@ try {
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(uri)), "UTF8"));
 		} catch (URISyntaxException e) {
 			throw new IOException("Malformed URI syntax by URL [" + url + "]!", e);
+			//throw new IOException("Malformed URI syntax by URL [" + url + "]!"); // FIXME rethrow URISyntaxException
 		}
 		try {
 			String line = reader.readLine();

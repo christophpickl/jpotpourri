@@ -19,7 +19,7 @@ final class Log4jTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -4864887345823485298L;
 
-	private final ModelCoreData data = new ModelCoreData();
+	private final transient ModelCoreData data = new ModelCoreData();
 
 	private final Set<IDisplayedLogMessages> listeners = new HashSet<IDisplayedLogMessages>();
 	
@@ -85,7 +85,6 @@ final class Log4jTableModel extends AbstractTableModel {
 	// ----------------- table model optional
 	
 	@Override
-	@SuppressWarnings("unused")
 	public boolean isCellEditable(final int rowIndex, final int columnIndex) {
 		return false;
 	}

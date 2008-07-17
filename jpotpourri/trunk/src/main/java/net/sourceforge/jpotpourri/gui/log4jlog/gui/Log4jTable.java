@@ -29,14 +29,14 @@ class Log4jTable extends JXTable implements ITableFillEmptyRowsReceiver, ITableB
 
 	private static final long serialVersionUID = -5142437725186427922L;
 
+	private final transient TableEmptyRowsPainter emptyRowsPainter;
+
 	private static final Color COLOR_BG_ROW_WARN = Color.YELLOW;
 	private static final Color COLOR_BG_ROW_ERROR = Color.ORANGE;
 	private static final Color COLOR_BG_ROW_FATAL = Color.RED;
 
     private static final String CMD_EXCEPTION_DETAILS = "CMD_EXCEPTION_DETAILS";
     
-	
-	private final TableEmptyRowsPainter emptyRowsPainter;
 	
 	private Color colorRowBackgroundEven;
 	private final Color colorRowBackgroundOdd;

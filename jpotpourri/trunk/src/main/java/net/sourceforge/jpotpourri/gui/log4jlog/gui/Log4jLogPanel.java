@@ -90,7 +90,6 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 		this.logLevelFilterBox.setPreferredSize(dim);
 		
 		this.logLevelFilterBox.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent e) {
 				doLogLevelFilterBoxChanged();
 			}
@@ -99,7 +98,6 @@ public final class Log4jLogPanel extends JPanel implements IDefaultSearchFieldLi
 		
 		final JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(final ActionEvent e) {
 				doClearLog();
 		} });
