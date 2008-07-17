@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,12 +13,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.Set;
+
+import net.sourceforge.jpotpourri.JPotException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -412,22 +416,33 @@ try {
 	/**
 	 * this method is not capable of loading sources from a jar!
 	 */
-	public static String getFileContentFromClasspath(final Class<?> clazz, final String fileName) throws IOException {
+	public static String getFileContentFromClasspath(final Class<?> clazz, final String fileName) throws JPotException {
 		final StringBuilder sb = new StringBuilder();
 		final URL url = clazz.getResource(fileName);
+		
 		if(url == null) {
-			throw new IOException("Could not find file [" + fileName + "]!");
+			throw new JPotException("Could not find file [" + fileName + "] by resource " +
+									"for class [" + clazz.getName() + "]!");
 		}
 		
+		final String encoding = "UTF8";
 		final BufferedReader reader;
+		
+		// create reader instance
 		try {
 			final URI uri = url.toURI();
 			LOG.trace("Loading file from classpath by URI [" + uri + "].");
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(uri)), "UTF8"));
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(uri)), encoding));
 		} catch (URISyntaxException e) {
-			throw new IOException("Malformed URI syntax by URL [" + url + "]!", e);
-			//throw new IOException("Malformed URI syntax by URL [" + url + "]!"); // FIXME rethrow URISyntaxException
+			throw new JPotException("Malformed URI syntax by URL [" + url + "]!", e);
+			//throw new IOException("Malformed URI syntax by URL [" + url + "]!", e); // only available since JDK6
+		} catch (UnsupportedEncodingException e) {
+			throw new JPotException("Encoding [" + encoding + "] is not supported!", e);
+		} catch (FileNotFoundException e) {
+			throw new JPotException("Could not find file [" + fileName + "]!", e);
 		}
+		
+		// read file contents by line
 		try {
 			String line = reader.readLine();
 			if(line != null) {
@@ -438,9 +453,12 @@ try {
 				sb.append("\n").append(line);
 				line = reader.readLine();
 			}
+		} catch(IOException e) {
+			throw new JPotException("IO error while reading file [" + fileName + "]!", e);
 		} finally {
 			CloseUtil.close(reader);
 		}
+		
 		return sb.toString();
 	}
 	
