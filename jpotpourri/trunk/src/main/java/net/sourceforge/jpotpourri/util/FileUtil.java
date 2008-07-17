@@ -2,6 +2,7 @@ package net.sourceforge.jpotpourri.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
@@ -371,10 +373,47 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 		}
 	}
 
+	/*
+try {
+	FileInputStream fis = new FileInputStream(args[0]);
+	byte[] contents = new byte[fis.available()];
+	fis.read(contents, 0, contents.length);
+	String asString = new String(contents, "ISO8859_1");
+	byte[] newBytes = asString.getBytes("UTF8");
+	FileOutputStream fos = new FileOutputStream(args[1]);
+	fos.write(newBytes);
+	fos.close();
+	} catch(Exception e) {
+	e.printStackTrace();
+	}
+}
+	 */
+
+	public static String getFileContentFromJar(final Class<?> clazz, final String fileName) throws IOException {
+//		final InputStream input = clazz.getClassLoader().getResourceAsStream(fileName);
+		final InputStream input = clazz.getResourceAsStream(fileName);
+		
+		if(input == null) {
+			throw new IOException("Could not find resource [" + fileName + "]!");
+		}
+		
+		final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+		try {
+			int byteRead;
+			while((byteRead = input.read()) != -1) {
+				byteStream.write(byteRead);
+			}
+		} finally {
+			CloseUtil.close(input, byteStream);
+		}
+		return byteStream.toString("UTF-8");
+	}
 	
+	/**
+	 * this method is not capable of loading sources from a jar!
+	 */
 	public static String getFileContentFromClasspath(final Class<?> clazz, final String fileName) throws IOException {
 		final StringBuilder sb = new StringBuilder();
-		
 		final URL url = clazz.getResource(fileName);
 		if(url == null) {
 			throw new IOException("Could not find file [" + fileName + "]!");
@@ -382,8 +421,9 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 		
 		final BufferedReader reader;
 		try {
-			reader = new BufferedReader(
-		            new InputStreamReader(new FileInputStream(new File(url.toURI())), "UTF8"));
+			final URI uri = url.toURI();
+			LOG.trace("Loading file from classpath by URI [" + uri + "].");
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(uri)), "UTF8"));
 		} catch (URISyntaxException e) {
 			throw new IOException("Malformed URI syntax by URL [" + url + "]!", e);
 		}
@@ -400,7 +440,6 @@ net.sourceforge.omov.core.BusinessException: Could not delete file
 		} finally {
 			CloseUtil.close(reader);
 		}
-		
 		return sb.toString();
 	}
 	
