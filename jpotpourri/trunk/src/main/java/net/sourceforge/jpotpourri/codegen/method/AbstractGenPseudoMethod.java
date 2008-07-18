@@ -3,31 +3,31 @@ package net.sourceforge.jpotpourri.codegen.method;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.codegen.CodeUtil;
-import net.sourceforge.jpotpourri.codegen.GenArgument;
-import net.sourceforge.jpotpourri.codegen.GenVisibility;
-import net.sourceforge.jpotpourri.codegen.IAnnotationable;
-import net.sourceforge.jpotpourri.codegen.IJavaCode;
-import net.sourceforge.jpotpourri.codegen.modifier.GenMethodModifier;
+import net.sourceforge.jpotpourri.codegen.PtCodeUtil;
+import net.sourceforge.jpotpourri.codegen.PtGenArgument;
+import net.sourceforge.jpotpourri.codegen.PtGenVisibility;
+import net.sourceforge.jpotpourri.codegen.IPtAnnotationable;
+import net.sourceforge.jpotpourri.codegen.IPtJavaCode;
+import net.sourceforge.jpotpourri.codegen.modifier.PtGenMethodModifier;
 
 /**
  * Used by real method generator AND constructor, as it is a "pseduo" method.
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
+abstract class AbstractGenPseudoMethod implements IPtJavaCode, IPtAnnotationable {
 
 	// method&constructor common
 	private final boolean isForMethod; // and not for constructor
-	private final GenVisibility visibility;
-	private final List<GenArgument> arguments;
+	private final PtGenVisibility visibility;
+	private final List<PtGenArgument> arguments;
 	private final List<String> annotations = new LinkedList<String>();
 
 	
 	// method specific
 	private final String methodName;
 	private final String returnType;
-	private final GenMethodModifier[] modifiers;
+	private final PtGenMethodModifier[] modifiers;
 	
 	
 	// constructor specific
@@ -38,8 +38,8 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 	
 	
 	/** Constructor for method class. */
-	AbstractGenPseudoMethod(final GenVisibility visibility, final String methodName,
-			final String returnType, final List<GenArgument> arguments, final GenMethodModifier... modifiers) {
+	AbstractGenPseudoMethod(final PtGenVisibility visibility, final String methodName,
+			final String returnType, final List<PtGenArgument> arguments, final PtGenMethodModifier... modifiers) {
 		if(visibility == null) {
 			throw new NullPointerException("visibility");
 		}
@@ -55,8 +55,8 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 	}
 
 	/** Constructor for constructor class. */
-	AbstractGenPseudoMethod(final GenVisibility visibility, final String className,
-			final List<GenArgument> arguments) {
+	AbstractGenPseudoMethod(final PtGenVisibility visibility, final String className,
+			final List<PtGenArgument> arguments) {
 		if(visibility == null) {
 			throw new NullPointerException("visibility");
 		}
@@ -84,7 +84,7 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 	}
 	
 	public final String toCode() {
-		if(this.isForMethod == false && this instanceof NullGenConstructor) {
+		if(this.isForMethod == false && this instanceof PtNullGenConstructor) {
 			return "";
 		}
 		
@@ -97,7 +97,7 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 		sb.append("\t").append(this.visibility.toCode());
 		
 		if(this.isForMethod) {
-			for (GenMethodModifier modifier : this.modifiers) {
+			for (PtGenMethodModifier modifier : this.modifiers) {
 				sb.append(modifier.toCode());
 			}
 			
@@ -112,7 +112,7 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 		
 		sb.append("(");
 		boolean first = true;
-		for (GenArgument arg : this.arguments) {
+		for (PtGenArgument arg : this.arguments) {
 			if(first) {
 				first = false;
 			} else {
@@ -123,7 +123,7 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 		
 		sb.append(")");
 		
-		if(this instanceof AbstractAbstractGenMethod) {
+		if(this instanceof PtAbstractAbstractGenMethod) {
 			
 			sb.append(";");
 			
@@ -133,7 +133,7 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 	
 			sb.append("\n");
 			
-			sb.append(CodeUtil.autoIndentCode(this.getBody(), 2));
+			sb.append(PtCodeUtil.autoIndentCode(this.getBody(), 2));
 			
 			sb.append("\t}");
 		}
@@ -147,11 +147,11 @@ abstract class AbstractGenPseudoMethod implements IJavaCode, IAnnotationable {
 		this.annotations.add(textAfterAt);
 	}
 	
-	final GenVisibility getVisibility() {
+	final PtGenVisibility getVisibility() {
 		return this.visibility;
 	}
 	
-	final List<GenArgument> getArguments() {
+	final List<PtGenArgument> getArguments() {
 		return this.arguments;
 	}
 }

@@ -1,11 +1,11 @@
 package net.sourceforge.jpotpourri.codegen.modifier;
 
-import net.sourceforge.jpotpourri.codegen.IJavaCode;
+import net.sourceforge.jpotpourri.codegen.IPtJavaCode;
 
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-abstract class AbstractGenModifier implements IJavaCode {
+abstract class AbstractGenModifier implements IPtJavaCode {
 
 	private final String code;
 	
