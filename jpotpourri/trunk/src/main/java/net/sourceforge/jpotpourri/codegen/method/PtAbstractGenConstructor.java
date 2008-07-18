@@ -22,7 +22,10 @@ public abstract class PtAbstractGenConstructor extends AbstractGenPseudoMethod {
 		this(visibility, className, Arrays.asList(arguments));
 	}
 	
-	public static PtAbstractGenConstructor newManConstructor(final PtAbstractGenClass genClass, final String manClassName) {
+	public static PtAbstractGenConstructor newManConstructor(
+			final PtAbstractGenClass genClass,
+			final String manClassName
+			) {
 		final PtAbstractGenConstructor gen = genClass.getConstructor();
 		
 		return new PtAbstractGenConstructor(gen.getVisibility(), manClassName, gen.getArguments()) {

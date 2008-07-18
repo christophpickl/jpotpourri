@@ -42,7 +42,10 @@ class CodeGenerator implements IPtCodeGenerator {
 		LOG.info("Finished generating code.");
 	}
 	
-	private void processClass(final PtAbstractGenClass clazz, final boolean isManClass) throws PtCodeGeneratorException {
+	private void processClass(
+			final PtAbstractGenClass clazz,
+			final boolean isManClass
+			) throws PtCodeGeneratorException {
 		final File targetFile = this.getTargetFile(clazz.getPackageName(), clazz.getClassName());
 		
 		if(isManClass == false) { // only do for genClasses

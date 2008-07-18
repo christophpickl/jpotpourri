@@ -10,12 +10,12 @@ import junit.framework.TestCase;
  */
 public final class PtMiscCodeTest extends TestCase {
 
-	public void testGenArgumentEmpty() throws Exception {
+	public void testGenArgumentEmpty() {
 		final List<PtGenArgument> actual = PtGenArgument.newList();
 		assertEquals(0, actual.size());
 	}
 
-	public void testGenArgument() throws Exception {
+	public void testGenArgument() {
 		final List<PtGenArgument> expected = new ArrayList<PtGenArgument>(2);
 		expected.add(new PtGenArgument("String", "foo"));
 		expected.add(new PtGenArgument("int", "i"));
