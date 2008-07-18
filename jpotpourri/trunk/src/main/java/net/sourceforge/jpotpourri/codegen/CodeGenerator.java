@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-class CodeGenerator implements ICodeGenerator {
+class CodeGenerator implements IPtCodeGenerator {
 
 	private static final Log LOG = LogFactory.getLog(CodeGenerator.class);
 
@@ -26,7 +26,7 @@ class CodeGenerator implements ICodeGenerator {
 		this.sourceFolder = sourceFolder;
 	}
 	
-	public void process(final AbstractGenClass genClass) throws CodeGeneratorException {
+	public void process(final PtAbstractGenClass genClass) throws PtCodeGeneratorException {
 		if(DEBUG == true) {
 			System.out.println("==========================");
 			System.out.println(genClass.toCode());
@@ -37,12 +37,12 @@ class CodeGenerator implements ICodeGenerator {
 		this.processClass(genClass, false);
 		
 		if(genClass.isGenerateManClassSet() == true) {
-			this.processClass(AbstractGenClass.newManClass(genClass, genClass.getManClassDefinition()), true);
+			this.processClass(PtAbstractGenClass.newManClass(genClass, genClass.getManClassDefinition()), true);
 		}
 		LOG.info("Finished generating code.");
 	}
 	
-	private void processClass(final AbstractGenClass clazz, final boolean isManClass) throws CodeGeneratorException {
+	private void processClass(final PtAbstractGenClass clazz, final boolean isManClass) throws PtCodeGeneratorException {
 		final File targetFile = this.getTargetFile(clazz.getPackageName(), clazz.getClassName());
 		
 		if(isManClass == false) { // only do for genClasses
@@ -57,11 +57,11 @@ class CodeGenerator implements ICodeGenerator {
 		}
 	}
 	
-	private static void checkFileAndDirectory(final File targetFile) throws CodeGeneratorException {
+	private static void checkFileAndDirectory(final File targetFile) throws PtCodeGeneratorException {
 		if(targetFile.exists() == true) {
 			LOG.info("Deleting existing genFile at [" + targetFile.getAbsolutePath() + "].");
 			if(targetFile.delete() == false) {
-				throw new CodeGeneratorException("Could not delete target file at " +
+				throw new PtCodeGeneratorException("Could not delete target file at " +
 						"[" + targetFile.getAbsolutePath() + "]!");
 			}
 		}
@@ -70,13 +70,13 @@ class CodeGenerator implements ICodeGenerator {
 		if(targetDirectory.exists() == false) {
 			LOG.info("Creating target directory: " + targetDirectory.getAbsolutePath());
 			if(targetDirectory.mkdirs() == false) {
-				throw new CodeGeneratorException("Could not create directories for " +
+				throw new PtCodeGeneratorException("Could not create directories for " +
 						"[" + targetDirectory.getAbsolutePath() + "]!");
 			}
 		}
 	}
 	
-	private static void writeCodeToFile(final String code, final File file) throws CodeGeneratorException {
+	private static void writeCodeToFile(final String code, final File file) throws PtCodeGeneratorException {
 		LOG.debug("Writing code to file: " + file.getAbsolutePath());
 		assert(file.exists() == false);
 		
@@ -85,9 +85,9 @@ class CodeGenerator implements ICodeGenerator {
 			writer = new BufferedWriter(new FileWriter(file));
 			writer.write(code);
 		} catch (IOException e) {
-			throw new CodeGeneratorException("Could not write code to file [" + file.getAbsolutePath() + "]!", e);
+			throw new PtCodeGeneratorException("Could not write code to file [" + file.getAbsolutePath() + "]!", e);
 		} finally {
-			CloseUtil.close(writer);
+			PtCloseUtil.close(writer);
 		}
 	}
 	
