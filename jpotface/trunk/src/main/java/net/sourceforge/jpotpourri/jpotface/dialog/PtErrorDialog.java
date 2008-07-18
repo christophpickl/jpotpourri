@@ -297,7 +297,7 @@ public final class PtErrorDialog extends JDialog {
 		StringSelection stringSelection = new StringSelection(this.stackTraceText.getText());
 	    Clipboard systemClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	    systemClipboard.setContents(stringSelection, new ClipboardOwner() {
-			public void lostOwnership(final Clipboard clipboard, final Transferable content) {
+	    	public void lostOwnership(final Clipboard clipboard, final Transferable content) {
 				// can be ignored
 			}
 	    });

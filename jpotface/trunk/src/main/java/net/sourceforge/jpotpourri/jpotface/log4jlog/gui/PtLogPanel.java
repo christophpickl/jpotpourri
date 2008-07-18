@@ -122,7 +122,9 @@ public final class PtLogPanel extends JPanel implements IPtDefaultSearchFieldLis
 		this.tableModel.doClearData();
 	}
 	private void doLogLevelFilterBoxChanged() {
-		this.tableFilter = new PtTableFilter(this.logLevelFilterBox.getSelectedLevel(), this.searchField.getProperText());
+		this.tableFilter = new PtTableFilter(
+				this.logLevelFilterBox.getSelectedLevel(),
+				this.searchField.getProperText());
 		this.tableModel.doFilter(this.tableFilter);
 	}
 	

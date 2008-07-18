@@ -15,85 +15,45 @@ package net.sourceforge.jpotpourri.jpotface.flexi;
  */
 
 import java.awt.Color;
-
 import java.awt.Component;
-
 import java.awt.Dimension;
-
 import java.awt.Graphics;
-
 import java.awt.Graphics2D;
-
 import java.awt.Insets;
-
 import java.awt.KeyboardFocusManager;
-
 import java.awt.Point;
-
 import java.awt.Rectangle;
-
 import java.awt.event.ComponentEvent;
-
 import java.awt.event.ComponentListener;
-
 import java.awt.event.HierarchyBoundsListener;
-
 import java.awt.event.HierarchyEvent;
-
 import java.awt.event.HierarchyListener;
-
 import java.awt.event.MouseAdapter;
-
 import java.awt.event.MouseEvent;
-
-import java.awt.event.MouseMotionListener;
-
 import java.awt.geom.AffineTransform;
-
 import java.awt.image.BufferedImage;
-
 import java.beans.PropertyChangeEvent;
-
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
-
 import javax.swing.JList;
-
 import javax.swing.JScrollPane;
-
 import javax.swing.JTree;
-
 import javax.swing.ListCellRenderer;
-
 import javax.swing.Popup;
-
 import javax.swing.PopupFactory;
-
 import javax.swing.SwingUtilities;
-
 import javax.swing.border.Border;
-
 import javax.swing.event.ChangeEvent;
-
 import javax.swing.event.ChangeListener;
-
 import javax.swing.event.ListDataEvent;
-
 import javax.swing.event.ListDataListener;
-
 import javax.swing.event.ListSelectionEvent;
-
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.event.TreeModelEvent;
-
 import javax.swing.event.TreeModelListener;
-
 import javax.swing.event.TreeSelectionEvent;
-
 import javax.swing.event.TreeSelectionListener;
-
 import javax.swing.tree.TreePath;
 
 /**
@@ -105,8 +65,8 @@ import javax.swing.tree.TreePath;
  * 				34-core-java/59-tips-and-tricks-for-jtree-jlist-and-jcombobox-part-i.html
  * @modified Vimal
  */
-public final class PtViewTooltips extends MouseAdapter implements MouseMotionListener {
-		
+public final class PtViewTooltips extends MouseAdapter {
+	
 	// FIXME use this gui util for all jpot lists/trees!
 	// ... continous tips could also be usefull for ColumnLimitedTextFields
 	
@@ -174,7 +134,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 		assert comp instanceof JTree || comp instanceof JList;
 		comp.addMouseListener(this);
 		comp.addMouseMotionListener(this);
-		refcount++;
+		this.refcount++;
 	}
 
 	/** Stop listening to mouse motion on the passed component */
@@ -182,9 +142,10 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 		assert comp instanceof JTree || comp instanceof JList;
 		comp.removeMouseMotionListener(this);
 		comp.removeMouseListener(this);
-		return refcount--;
+		return this.refcount--;
 	}
 
+	@Override
 	public void mouseMoved(final MouseEvent e) {
 		Point p = e.getPoint();
 		JComponent comp = (JComponent) e.getSource();
@@ -197,6 +158,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 		}
 	}
 
+	@Override
 	public void mouseDragged(final MouseEvent e) {
 		hide();
 	}
@@ -264,7 +226,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 
 			if (rects.length > 0) {
 				ensureOldPopupsHidden();
-				painter.configure(list.getModel().getElementAt(listRow),
+				this.painter.configure(list.getModel().getElementAt(listRow),
 				view, list, listRow);
 				showPopups(rects, bds, visible, list, view);
 
@@ -292,7 +254,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 
 			if (rects.length > 0) {
 				ensureOldPopupsHidden();
-				painter.configure(path.getLastPathComponent(),
+				this.painter.configure(path.getLastPathComponent(),
 				view, tree, path, closestRow);
 				showPopups(rects, bds, visible, tree, view);
 			} else {
@@ -319,20 +281,20 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 	 */
 	void hide() {
 		ensureOldPopupsHidden();
-		if (painter != null) {
-			painter.clear();
+		if (this.painter != null) {
+			this.painter.clear();
 		}
 
 		setHideComponent(null, null);
-		inner = null;
-		row = -1;
+		this.inner = null;
+		this.row = -1;
 	}
 
 	private void ensureOldPopupsHidden() {
-		for (int i = 0; i < popups.length; i++) {
-			if (popups[i] != null) {
-				popups[i].hide();
-				popups[i] = null;
+		for (int i = 0; i < this.popups.length; i++) {
+			if (this.popups[i] != null) {
+				this.popups[i].hide();
+				this.popups[i] = null;
 			}
 		}
 	}
@@ -426,7 +388,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 		for (int i = 0; i < rects.length; i++) {
 			Rectangle sect = rects[i];
 			sect.translate(-bds.x, -bds.y);
-			ImgComp part = painter.getPartial(sect, bds.x + rects[i].x < visible.x);
+			ImgComp part = this.painter.getPartial(sect, bds.x + rects[i].x < visible.x);
 			Point pos = new Point(bds.x + rects[i].x, bds.y + rects[i].y);
 			SwingUtilities.convertPointToScreen(pos, comp);
 
@@ -437,9 +399,9 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 
 			if (pos.x > 0) { //Mac OS will reposition off-screen popups to x=0,
 				//so don't try to show them
-				popups[i] = getPopupFactory().getPopup(view,
+				this.popups[i] = getPopupFactory().getPopup(view,
 				part, pos.x, pos.y);
-				popups[i].show();
+				this.popups[i].show();
 				shown = true;
 			}
 		}
@@ -488,18 +450,18 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 	 * should be hidden.
 	 */
 	private void setHideComponent(final JComponent comp, final JScrollPane parent) {
-		if (hider != null && hider.isListeningTo(comp)) {
+		if (this.hider != null && this.hider.isListeningTo(comp)) {
 			return;
 		}
 		
-		if (hider != null) {
-			hider.detach();
+		if (this.hider != null) {
+			this.hider.detach();
 		}
 		
 		if (comp != null) {
-			hider = new Hider(comp, parent);
+			this.hider = new Hider(comp, parent);
 		} else {
-			hider = null;
+			this.hider = null;
 		}
 	}
 
@@ -535,14 +497,14 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 		 */
 		ImgComp(final BufferedImage img, final Rectangle off, final boolean right) {
 			this.img = img;
-			at = AffineTransform.getTranslateInstance(-off.x, 0);
-			d = new Dimension(off.width, off.height);
-			isRight = right;
+			this.at = AffineTransform.getTranslateInstance(-off.x, 0);
+			this.d = new Dimension(off.width, off.height);
+			this.isRight = right;
 		}
 
 		public ImgComp getPartial(final Rectangle bds, final boolean right) {
-			assert img != null;
-			return new ImgComp(img, bds, right);
+			assert this.img != null;
+			return new ImgComp(this.img, bds, right);
 		}
 
 		/** Configures a tree cell renderer and sets up sizing and the 
@@ -558,7 +520,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 //			boolean sameComp = setLastRenderedScrollPane(tv);
 			Component renderer = null;
 			
-			bg = tree.getBackground();
+			this.bg = tree.getBackground();
 			boolean sel = tree.isSelectionEmpty() ? false :
 			tree.getSelectionModel().isPathSelected(path);
 
@@ -584,7 +546,7 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 //			boolean sameVn = setLastRendereredObject(nd);
 //			boolean sameComp = setLastRenderedScrollPane(tv);
 			Component renderer = null;
-			bg = list.getBackground();
+			this.bg = list.getBackground();
 
 			boolean sel = list.isSelectionEmpty() ? false :
 			list.getSelectionModel().isSelectedIndex(row);
@@ -633,15 +595,15 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 
 		private void setImg(final BufferedImage img) {
 			this.img = img;
-			d = null;
+			this.d = null;
 		}
 
 		@Override
 		public Dimension getPreferredSize() {
-			if (d == null) {
-				d = new Dimension(img.getWidth(), img.getHeight());
+			if (this.d == null) {
+				this.d = new Dimension(this.img.getWidth(), this.img.getHeight());
 			}
-			return d;
+			return this.d;
 		}
 
 		@Override
@@ -651,18 +613,18 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 
 		@Override
 		public void paint(final Graphics g) {
-			g.setColor(bg);
-			g.fillRect(0, 0, d.width, d.height);
+			g.setColor(this.bg);
+			g.fillRect(0, 0, this.d.width, this.d.height);
 			Graphics2D g2d = (Graphics2D) g;
-			g2d.drawRenderedImage(img, at);
+			g2d.drawRenderedImage(this.img, this.at);
 			g.setColor(Color.GRAY);
-			g.drawLine(0, 0, d.width, 0);
-			g.drawLine(0, d.height - 1, d.width, d.height - 1);
+			g.drawLine(0, 0, this.d.width, 0);
+			g.drawLine(0, this.d.height - 1, this.d.width, this.d.height - 1);
 
-			if (isRight) {
-				g.drawLine(0, 0, 0, d.height - 1);
+			if (this.isRight) {
+				g.drawLine(0, 0, 0, this.d.height - 1);
 			} else {
-				g.drawLine(d.width - 1, 0, d.width - 1, d.height - 1);
+				g.drawLine(this.d.width - 1, 0, this.d.width - 1, this.d.height - 1);
 			}
 		}
 
@@ -713,36 +675,36 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 				this.tree = null;
 			}
 
-			assert tree != null || list != null;
+			assert this.tree != null || this.list != null;
 			this.pane = pane;
 			attach();
 		}
 
 		private boolean isListeningTo(final JComponent comp) {
-			return !detached && (comp == list || comp == tree);
+			return !this.detached && (comp == this.list || comp == this.tree);
 		}
 
 		private void attach() {
-			if (tree != null) {
-				tree.getModel().addTreeModelListener(this);
-				tree.getSelectionModel().addTreeSelectionListener(this);
-				tree.addHierarchyBoundsListener(this);
-				tree.addHierarchyListener(this);
-				tree.addComponentListener(this);
+			if (this.tree != null) {
+				this.tree.getModel().addTreeModelListener(this);
+				this.tree.getSelectionModel().addTreeSelectionListener(this);
+				this.tree.addHierarchyBoundsListener(this);
+				this.tree.addHierarchyListener(this);
+				this.tree.addComponentListener(this);
 			} else {
-				list.getSelectionModel().addListSelectionListener(this);
-				list.getModel().addListDataListener(this);
-				list.addHierarchyBoundsListener(this);
-				list.addHierarchyListener(this);
-				list.addComponentListener(this);
+				this.list.getSelectionModel().addListSelectionListener(this);
+				this.list.getModel().addListDataListener(this);
+				this.list.addHierarchyBoundsListener(this);
+				this.list.addHierarchyListener(this);
+				this.list.addComponentListener(this);
 			}
 
-			if (null != pane.getHorizontalScrollBar()) {
-				pane.getHorizontalScrollBar().getModel().addChangeListener(this);
+			if (null != this.pane.getHorizontalScrollBar()) {
+				this.pane.getHorizontalScrollBar().getModel().addChangeListener(this);
 			}
 
-			if (null != pane.getVerticalScrollBar()) {
-				pane.getVerticalScrollBar().getModel().addChangeListener(this);
+			if (null != this.pane.getVerticalScrollBar()) {
+				this.pane.getVerticalScrollBar().getModel().addChangeListener(this);
 			}
 			KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(this);
 		}
@@ -752,28 +714,28 @@ public final class PtViewTooltips extends MouseAdapter implements MouseMotionLis
 		private void detach() {
 			KeyboardFocusManager.getCurrentKeyboardFocusManager().removePropertyChangeListener(this);
 
-			if (tree != null) {
-				tree.getSelectionModel().removeTreeSelectionListener(this);
-				tree.getModel().removeTreeModelListener(this);
-				tree.removeHierarchyBoundsListener(this);
-				tree.removeHierarchyListener(this);
-				tree.removeComponentListener(this);
+			if (this.tree != null) {
+				this.tree.getSelectionModel().removeTreeSelectionListener(this);
+				this.tree.getModel().removeTreeModelListener(this);
+				this.tree.removeHierarchyBoundsListener(this);
+				this.tree.removeHierarchyListener(this);
+				this.tree.removeComponentListener(this);
 			} else {
-				list.getSelectionModel().removeListSelectionListener(this);
-				list.getModel().removeListDataListener(this);
-				list.removeHierarchyBoundsListener(this);
-				list.removeHierarchyListener(this);
-				list.removeComponentListener(this);
+				this.list.getSelectionModel().removeListSelectionListener(this);
+				this.list.getModel().removeListDataListener(this);
+				this.list.removeHierarchyBoundsListener(this);
+				this.list.removeHierarchyListener(this);
+				this.list.removeComponentListener(this);
 			}
 
-			if (null != pane.getHorizontalScrollBar()) {
-				pane.getHorizontalScrollBar().getModel().removeChangeListener(this);
+			if (null != this.pane.getHorizontalScrollBar()) {
+				this.pane.getHorizontalScrollBar().getModel().removeChangeListener(this);
 			}
 
-			if (null != pane.getVerticalScrollBar()) {
-				pane.getVerticalScrollBar().getModel().removeChangeListener(this);
+			if (null != this.pane.getVerticalScrollBar()) {
+				this.pane.getVerticalScrollBar().getModel().removeChangeListener(this);
 			}
-			detached = true;
+			this.detached = true;
 		}
 
 		private void change() {

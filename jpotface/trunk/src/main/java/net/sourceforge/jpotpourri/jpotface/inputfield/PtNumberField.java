@@ -173,7 +173,8 @@ public class PtNumberField extends JTextField {
                 Long.parseLong(newString + "0"); // ???
                 
                 final long value = Long.parseLong(newString);
-                final boolean isValidValue = (value >= PtNumberField.this.minValue && value <= PtNumberField.this.maxValue);
+                final boolean isValidValue = (value >= PtNumberField.this.minValue &&
+                							  value <= PtNumberField.this.maxValue);
                 if(DEBUG) {
                 	System.out.println("DEBUG: is valid value " + isValidValue + " " + "(value=" + value + "; " +
                 			"minVal=" + PtNumberField.this.minValue + "; maxVal=" + PtNumberField.this.maxValue + ")");
