@@ -26,12 +26,12 @@ public final class PtCloseUtilTest extends PtAbstractUtilTestCase {
 	}
 
 
-	public void testCloseException() throws Exception {
+	public void testCloseException() {
 		innerTestCloseException(PtCloseUtil.class);
 		innerTestCloseException(SubCloseUtil.class);
 	}
 	
-	private void innerTestCloseException(final Class<? extends PtCloseUtil> clazz) throws Exception {
+	private void innerTestCloseException(final Class<? extends PtCloseUtil> clazz) {
 		try {
 			LOG.info("CloseUtil will throw exception.");
 			

@@ -75,7 +75,7 @@ public class PtCollectionUtilTest extends TestCase {
 //	}
 
 
-	public final void testToStringMapOfObjectObject() throws Exception {
+	public final void testToStringMapOfObjectObject() {
 		assertEquals("null", PtCollectionUtil.toString((Map<?, ?>) null));
 		assertEquals("Map[]", PtCollectionUtil.toString(new HashMap<String, String>()));
 		
