@@ -30,7 +30,8 @@ public final class PtImageUtil {
 
 	public static ImageInfo getResizedImage(final File coverFile, final Component component,
 			final int maxWidth, final int maxHeight) {
-		LOG.info("resizing cover image '" + coverFile.getAbsolutePath() + "' to max "+maxWidth+"/"+maxHeight+".");
+		LOG.info("resizing cover image '" + coverFile.getAbsolutePath() + "' to max " + 
+				maxWidth + "/" + maxHeight + ".");
 		
 		final Image source = Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath());
 		return PtImageUtil.getResizedImage(source, component, maxWidth, maxHeight);
@@ -38,7 +39,7 @@ public final class PtImageUtil {
 
 	public static ImageInfo getResizedImage(final Image source, final Component component,
 			final int maxWidth, final int maxHeight) {
-		LOG.info("resizing cover image to max "+maxWidth+"/"+maxHeight+".");
+		LOG.info("resizing cover image to max " + maxWidth + "/" + maxHeight + ".");
 		
 		final Date resizeActionStart = new Date();
         final MediaTracker media = new MediaTracker(component);
@@ -90,7 +91,7 @@ public final class PtImageUtil {
 		
 		@Override
 		public String toString() {
-			return "ImageInfo[image=...;widthHeight="+widthHeight+"]";
+			return "ImageInfo[image=...;widthHeight=" + widthHeight + "]";
 		}
 		
 		public Image getImage() {
@@ -157,7 +158,7 @@ public final class PtImageUtil {
         }
 
         if(DEBUG) {
-        	System.out.println("ImageUtil: new "+newWidth+"/"+newHeight);
+        	System.out.println("ImageUtil: new " + newWidth + "/" + newHeight);
         }
         return new WidthHeight(newWidth, newHeight);
     }
