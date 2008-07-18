@@ -30,6 +30,7 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
@@ -65,7 +66,7 @@ import javax.swing.tree.TreePath;
  * 				34-core-java/59-tips-and-tricks-for-jtree-jlist-and-jcombobox-part-i.html
  * @modified Vimal
  */
-public final class PtViewTooltips extends MouseAdapter {
+public final class PtViewTooltips extends MouseAdapter implements MouseMotionListener { // implements MouseMotionListener necessary for Java5!
 	
 	// FIXME use this gui util for all jpot lists/trees!
 	// ... continous tips could also be usefull for ColumnLimitedTextFields
@@ -145,7 +146,6 @@ public final class PtViewTooltips extends MouseAdapter {
 		return this.refcount--;
 	}
 
-	@Override
 	public void mouseMoved(final MouseEvent e) {
 		Point p = e.getPoint();
 		JComponent comp = (JComponent) e.getSource();
@@ -158,7 +158,6 @@ public final class PtViewTooltips extends MouseAdapter {
 		}
 	}
 
-	@Override
 	public void mouseDragged(final MouseEvent e) {
 		hide();
 	}
