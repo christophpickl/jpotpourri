@@ -1,0 +1,119 @@
+<!--
+
+full run:
+# mvn net.sourceforge.omov:maven-buildmac-plugin:0.1-SNAPSHOT:buildmac
+
+use latest version:
+# mvn net.sourceforge.omov:maven-buildmac-plugin:buildmac
+
+use maven's pattern matching:
+# mvn net.sourceforge.omov:buildmac:buildmac
+
+add to your .m2/setings.xml: <pluginGroups><pluginGroup>net.sourceforge.omov</pluginGroup></pluginGroups>
+# mvn buildmac:buildmac
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>maven-buildmac-plugin</name>
+	<url>http://maven.apache.org</url>
+	<packaging>maven-plugin</packaging>
+	
+	<groupId>net.sourceforge.jpotpourri</groupId>
+	<artifactId>maven-buildmac-plugin</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sourceforge.jpotpourri</groupId>
+			<artifactId>jpotpourri</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<!-- =================================================================== -->
+	<!-- Distribution                                                        -->
+	<!-- =================================================================== -->
+
+	<distributionManagement>
+
+		<!--
+		<site>
+			<id>omov.sourceforge-repo</id>
+			<url>
+				scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/
+			</url>
+		</site>
+		-->
+
+		<repository>
+			<id>jpotpourri.sourceforge-repo</id>
+			<name>jpotpourri sourceforge repository</name>
+			<url>
+				scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/maven2
+			</url>
+		</repository>
+	</distributionManagement>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Repositories                                                        -->
+	<!-- =================================================================== -->
+
+	<repositories>
+
+		<repository>
+			<id>repo1.maven</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+
+		<repository>
+			<id>Mojo</id>
+			<url>http://repository.codehaus.org/</url>
+		</repository>
+
+		<repository>
+			<id>jpotpourri.sourceforge-repo</id>
+			<url>http://jpotpourri.sourceforge.net/maven2</url>
+		</repository>
+
+	</repositories>
+	
+
+	<!-- =================================================================== -->
+	<!-- Developers                                                          -->
+	<!-- =================================================================== -->
+
+	<developers>
+		<developer>
+			<id>CP</id>
+			<name>Christoph Pickl</name>
+			<roles>
+				<role>Everything</role>
+			</roles>
+			<email>christoph_pickl.AT.users.DOT.sourceforge.net</email>
+		</developer>
+	</developers>
+</project>
