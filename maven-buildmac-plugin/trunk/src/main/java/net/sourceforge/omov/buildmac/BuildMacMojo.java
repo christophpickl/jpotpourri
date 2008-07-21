@@ -225,7 +225,7 @@ public class BuildMacMojo extends AbstractMojo {
 		
 		assert(targetJavaAppStub.exists() == true);
 		shellExec("chmod 775 " + targetJavaAppStub.getAbsolutePath());
-		
+		// TODO escape whitespace in paths path.replaceAll(" ", "\\ ");
 		assert(folderApp.exists() == true);
 		shellExec("/Developer/Tools/SetFile -a B " + folderApp.getAbsolutePath());
 	}
