@@ -1,6 +1,8 @@
 package net.sourceforge.jpotpourri.util;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.StringTokenizer;
 
 /**
@@ -81,8 +83,11 @@ public class PtStringUtil {
 			final String line = tokenizer.nextToken();
 			
 			if(line.trim().isEmpty() == false) {
-				if(first == true) first = false;
-				else sb.append("\n");
+				if(first == true) {
+				first = false;
+				} else {
+					sb.append("\n");
+				}
 				
 				sb.append(line);
 			}
@@ -110,4 +115,33 @@ public class PtStringUtil {
 		
 		return out;
 	}
+	
+
+
+    public static String convertExceptionToString(final Throwable throwable) {
+    	return convertExceptionToString(throwable, false);
+    }
+    public static String convertExceptionToString(final Throwable throwable, final boolean withCause) {
+    	final StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(convertSingleException(throwable));
+    	
+    	if(withCause == true) {
+    		Throwable cause = throwable.getCause();
+    		while (cause != null) {
+    			sb.append("Caused by: ");
+    			sb.append(convertSingleException(cause));
+    			cause = cause.getCause();
+    		}
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    private static String convertSingleException(final Throwable t) {
+    	final StringWriter sw = new StringWriter();
+    	final PrintWriter pw = new PrintWriter(sw);
+    	t.printStackTrace(pw);
+    	return sw.toString();
+    }
 }
