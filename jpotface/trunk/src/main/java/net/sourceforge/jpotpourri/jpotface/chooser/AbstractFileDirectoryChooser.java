@@ -39,7 +39,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     
     private File fileOrDir;
     
-    private JTextField directoryPath = new JTextField(DIRECTORY_PATH_FIELD_SIZE);
+    private JTextField textField = new JTextField(DIRECTORY_PATH_FIELD_SIZE);
 
     /** Can be null. */
     private File defaultPath;
@@ -72,7 +72,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
         assert (buttonLabel.length() > 0);
         
         this.defaultPath = defaultPath;
-        this.directoryPath.setEditable(false);
+        this.textField.setEditable(false);
         this.dialogTitle = dialogTitle;
         
         this.button = new JButton(buttonLabel);
@@ -104,14 +104,14 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
         c.insets = new Insets(0, 0, 0, (btnPosition == PtButtonPosition.LEFT) ? buttonTextGap : 0);
         c.weightx = 0.0;
         c.gridx = 0;
-        this.add((btnPosition == PtButtonPosition.LEFT) ? this.button : this.directoryPath, c);
+        this.add((btnPosition == PtButtonPosition.LEFT) ? this.button : this.textField, c);
 
         c.fill = (btnPosition == PtButtonPosition.LEFT) ? GridBagConstraints.HORIZONTAL : GridBagConstraints.NONE;
         // adjust left margin
         c.insets = new Insets(0, (btnPosition == PtButtonPosition.LEFT) ? 0 : buttonTextGap, 0, 0);
         c.weightx = 1.0;
         c.gridx++;
-        this.add((btnPosition == PtButtonPosition.LEFT) ? this.directoryPath : this.button, c);
+        this.add((btnPosition == PtButtonPosition.LEFT) ? this.textField : this.button, c);
         
     }
     
@@ -122,7 +122,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
             this.clearYourself();
         } else {
             if (this.fileOrDir.exists() && this.isRightFileOrDir(fileOrDir)) {
-            	this.directoryPath.setText(this.fileOrDir.getAbsolutePath());
+            	this.textField.setText(this.fileOrDir.getAbsolutePath());
             } else {
             	final String errorMessage = this.fileOrDir.exists() == false
             			? "Given " + this.getFileDirName() + " '" + fileOrDir.getAbsolutePath() + "'  does not exist!"
@@ -135,19 +135,36 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
 
     public final void uncheckedSetFileOrDir(final File directory) {
         this.fileOrDir = directory;
-        this.directoryPath.setText(this.fileOrDir.getAbsolutePath());
+        this.textField.setText(this.fileOrDir.getAbsolutePath());
     }
     
     // for future use: could clear folder-icon
     private void clearYourself() {
-        this.directoryPath.setText("");
+        this.textField.setText("");
     }
     
     /**
      * @return can be null
      */
     final File getFileOrDir() {
-        return this.fileOrDir;
+    	final String enteredText = this.textField.getText().trim();
+    	
+        // first check values, because textField could have been set to editable = true
+    	if(this.fileOrDir == null && enteredText.isEmpty() == false) {
+        	// use text input
+    		this.fileOrDir = new File(enteredText);
+        	
+        } else if(this.fileOrDir != null && enteredText.isEmpty() == false) {
+        	// compare text input with selected file
+        	final String fileText = this.fileOrDir.getAbsolutePath();
+        	
+        	if(fileText.equals(enteredText) == false) {
+        		// use entered text instead
+        		this.fileOrDir = new File(enteredText);
+        	}
+        	
+        }
+    	return this.fileOrDir;
     }
     
     abstract boolean isRightFileOrDir(final File file);
@@ -167,7 +184,11 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     
     public final void actionPerformed(final ActionEvent event) {
     	assert(event.getSource() == this.button);
-        LOG.debug("showing file chooser with default path '"
+        this.doPressButton();
+    }
+    
+    public void doPressButton() {
+    	LOG.debug("showing file chooser with default path '"
         		+ (this.defaultPath == null ? "null" : this.defaultPath.getAbsolutePath()) + "'...");
         
         final JFileChooser chooser = new JFileChooser(this.defaultPath);
@@ -211,6 +232,10 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     	this.button.setPreferredSize(dimension);
     	this.button.setSize(dimension);
     	this.button.setMinimumSize(dimension);
+    }
+    
+    public final void setTextfieldEditable(final boolean editable) {
+    	this.textField.setEditable(editable);
     }
     
 }
