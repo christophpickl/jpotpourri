@@ -41,6 +41,7 @@
         <menu name="Overview">
             <item name="Home" href="index.html" />
             <item name="Introduction" href="introduction.html" />
+            <item name="Download" href="download.html" />
             <item name="FAQ" href="faq.html" />
             
         </menu>

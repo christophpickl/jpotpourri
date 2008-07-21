@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+	<properties>
+		<title>Download</title>
+    <author email="christoph_pickl@users.sourceforge.net">Christoph Pickl</author>
+</properties>
+<body>
+
+<section name="Download">
+
+
+<subsection name="Maven">
+<p>Add following dependency for jpotpurri and jpotface:</p>
+
+<pre>
+<![CDATA[
+<project>
+  
+  <dependencies>
+
+    <dependency>
+      <groupId>net.sourceforge.jpotpourri</groupId>
+      <artifactId>jpotpourri</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.jpotpourri</groupId>
+      <artifactId>jpotface</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+  
+  </dependencies>
+  ...
+]]>
+</pre>
+
+<p>This will only work, if you have added the jpotpourri repository:</p>
+
+<pre>
+<![CDATA[
+<project>
+
+  <repositories>
+  
+    <repository>
+      <id>jpotpourri.sourceforge-repo</id>
+      <url>http://jpotpourri.sourceforge.net/maven2</url>
+    </repository>
+    
+  </repositories>
+  ...
+]]>
+</pre>
+
+</subsection>
+
+
+<subsection name="Direct Download">
+
+<p>If you want to have the jar, not using maven:</p>
+
+<ul>
+	<li><a href="#">jpotpourri-0.0.1-SNAPSHOT.jar</a></li>
+	<li><a href="#">jpotpourri-0.0.1-SNAPSHOT-src.jar</a></li>
+	<li><a href="#">jpotpourri-0.0.1-SNAPSHOT-javadoc.jar</a></li>
+	<br />
+	<li><a href="#">jpotface-0.0.1-SNAPSHOT.jar</a></li>
+	<li><a href="#">jpotface-0.0.1-SNAPSHOT-src.jar</a></li>
+	<li><a href="#">jpotface-0.0.1-SNAPSHOT-javadoc.jar</a></li>
+</ul>
+
+</subsection>
+
+</section>
+
+</body>
+</document>
