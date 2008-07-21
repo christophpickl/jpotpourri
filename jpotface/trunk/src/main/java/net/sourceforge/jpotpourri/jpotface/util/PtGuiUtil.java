@@ -13,8 +13,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -25,8 +23,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.jpotface.PtGlobalKey;
 import net.sourceforge.jpotpourri.jpotface.IPtGlobalKeyListener;
+import net.sourceforge.jpotpourri.jpotface.PtGlobalKey;
 import net.sourceforge.jpotpourri.jpotface.dialog.PtErrorDialog;
 
 import org.apache.commons.logging.Log;
@@ -142,33 +140,6 @@ public final class PtGuiUtil {
     
     
     
-
-    public static String convertExceptionToString(final Exception e) {
-    	return convertExceptionToString(e, false);
-    }
-    public static String convertExceptionToString(final Exception e, final boolean withCause) {
-    	final StringBuffer sb = new StringBuffer();
-    	
-    	sb.append(convertSingleException(e));
-    	
-    	if(withCause == true) {
-    		Throwable cause = e.getCause();
-    		while (cause != null) {
-    			sb.append("Caused by:");
-    			sb.append(convertSingleException(cause));
-    			cause = cause.getCause();
-    		}
-    	}
-    	
-    	return sb.toString();
-    }
-    
-    private static String convertSingleException(final Throwable t) {
-    	final StringWriter sw = new StringWriter();
-    	final PrintWriter pw = new PrintWriter(sw);
-    	t.printStackTrace(pw);
-    	return sw.toString();
-    }
     
 
     public static JMenuItem newMenuItem(final String label, final String actionCmd, final List<JMenuItem> list) {
