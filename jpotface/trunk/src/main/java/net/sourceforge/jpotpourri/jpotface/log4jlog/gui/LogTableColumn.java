@@ -10,7 +10,7 @@ import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLog4jEvent;
  */
 abstract class LogTableColumn {
 
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
 	public static final LogTableColumn DATE = new LogTableColumn("Date") {
 		@Override

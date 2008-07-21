@@ -82,6 +82,10 @@ final class LogTableModel extends AbstractTableModel {
 		return this.listeners.remove(listener);
 	}
 	
+	public PtLog4jEvent getEventAt(final int rowIndex) {
+		return this.data.get(rowIndex);
+	}
+	
 	// ----------------- table model optional
 	
 	@Override

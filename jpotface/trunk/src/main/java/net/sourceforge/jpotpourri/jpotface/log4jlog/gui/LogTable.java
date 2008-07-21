@@ -2,22 +2,38 @@ package net.sourceforge.jpotpourri.jpotface.log4jlog.gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.jpotpourri.jpotface.log4jlog.De;
+import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLog4jEvent;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLogGuiTableDefinition;
 import net.sourceforge.jpotpourri.jpotface.table.IPtTableBodyContextListener;
 import net.sourceforge.jpotpourri.jpotface.table.IPtTableFillEmptyRowsReceiver;
 import net.sourceforge.jpotpourri.jpotface.table.PtTableBodyContext;
 import net.sourceforge.jpotpourri.jpotface.table.PtTableEmptyRowsPainter;
+import net.sourceforge.jpotpourri.util.PtStringUtil;
 
 import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXTable;
@@ -32,10 +48,10 @@ class LogTable extends JXTable implements IPtTableFillEmptyRowsReceiver, IPtTabl
 	private final transient PtTableEmptyRowsPainter emptyRowsPainter;
 
 	private static final Color COLOR_BG_ROW_WARN = Color.YELLOW;
-	private static final Color COLOR_BG_ROW_ERROR = Color.ORANGE;
-	private static final Color COLOR_BG_ROW_FATAL = Color.RED;
+	private static final Color COLOR_BG_ROW_ERROR = Color.RED;
+	private static final Color COLOR_BG_ROW_FATAL = new Color(187, 74, 207);
 
-    private static final String CMD_EXCEPTION_DETAILS = "CMD_EXCEPTION_DETAILS";
+    private static final String CMD_SHOW_DETAILS = "CMD_SHOW_DETAILS";
     
 	
 	private Color colorRowBackgroundEven;
@@ -97,18 +113,28 @@ class LogTable extends JXTable implements IPtTableFillEmptyRowsReceiver, IPtTabl
         
         this.emptyRowsPainter = new PtTableEmptyRowsPainter(this);
         this.initContextMenu();
+        this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(final MouseEvent event) {
+				if(event.getClickCount() >= 2) {
+					if(getSelectedRowCount() == 1) {
+						doShowDetails(getSelectedRow());
+					} else {
+						Toolkit.getDefaultToolkit().beep();
+					}
+				}
+			}
+        });
 	}
-	// TODO enable double click on table ->
-	//      pop summary dialog (content in table could be too big, especially message part)
 	
 	private void initContextMenu() {
 		final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-		PtTableBodyContext.newJMenuItem(itemsSingle, "Exception Details", CMD_EXCEPTION_DETAILS); // optional icon
+		PtTableBodyContext.newJMenuItem(itemsSingle, "Show Details", CMD_SHOW_DETAILS); // optional icon
         
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
         final JMenuItem exceptionDetailsMultiple =
-        	PtTableBodyContext.newJMenuItem(itemsMultiple, "Exception Details", CMD_EXCEPTION_DETAILS); // optional icon
+        	PtTableBodyContext.newJMenuItem(itemsMultiple, "Show Details", CMD_SHOW_DETAILS); // optional icon
         exceptionDetailsMultiple.setEnabled(false);
         new PtTableBodyContext(this, itemsSingle, itemsMultiple, this);
 	}
@@ -148,13 +174,14 @@ class LogTable extends JXTable implements IPtTableFillEmptyRowsReceiver, IPtTabl
         	final boolean isEven = modelRowIndex % 2 == 0;
         	
         	final int viewRow = this.convertRowIndexToModel(modelRowIndex);
-        	final int viewCol = 1; // FIXME table hack
-        	String s = (String) this.getModel().getValueAt(viewRow, viewCol);
-        	if("WARN".equals(s)) {
+        	final PtLog4jEvent event = this.getProperModel().getEventAt(viewRow);
+        	final Level level = event.getLevel();
+        	
+        	if(level == Level.WARN) {
         		bgColor = COLOR_BG_ROW_WARN;
-        	} else if("ERROR".equals(s)) {
+        	} else if(level == Level.ERROR) {
         		bgColor = COLOR_BG_ROW_ERROR;
-        	} else if("FATAL".equals(s)) {
+        	} else if(level == Level.FATAL) {
         		bgColor = COLOR_BG_ROW_FATAL;
         	} else {
         		bgColor = isEven ? this.colorRowBackgroundEven : this.colorRowBackgroundOdd;
@@ -169,25 +196,112 @@ class LogTable extends JXTable implements IPtTableFillEmptyRowsReceiver, IPtTabl
 		return c;
 	}
 
+	private LogTableModel getProperModel() {
+		return (LogTableModel) this.getModel();
+	}
     
 	public final void contextMenuClicked(final JMenuItem item, final int tableRowSelected) {
 		final String cmd = item.getActionCommand();
-		if(cmd.equals(CMD_EXCEPTION_DETAILS)) {
-			JOptionPane.showMessageDialog(this, "Work in progress...", "Exception Details",
-					JOptionPane.WARNING_MESSAGE); // FIXME exception details
+		if(cmd.equals(CMD_SHOW_DETAILS)) {
+			this.doShowDetails(tableRowSelected);
 		} else {
 			throw new IllegalArgumentException("actionCommand=" + cmd);
 		}
+	}
+	
+	private void doShowDetails(final int viewRow) {
+		final int modelRow = this.convertRowIndexToModel(viewRow);
+		final PtLog4jEvent event = this.getProperModel().getEventAt(modelRow);
+		new LogEventDialog(event).setVisible(true);
 	}
 
 
 	public final void contextMenuClickedMultiple(final JMenuItem item, final int[] tableRowsSelected) {
 		final String cmd = item.getActionCommand();
-		if(cmd.equals(CMD_EXCEPTION_DETAILS)) {
+		if(cmd.equals(CMD_SHOW_DETAILS)) {
 			assert(false); // may not happen
 		} else {
 			throw new IllegalArgumentException("actionCommand=" + cmd);
 		}
 	}
 
+
+	/**
+	 * @author christoph_pickl@users.sourceforge.net
+	 */
+	private static class LogEventDialog extends JDialog {
+		
+		private static final long serialVersionUID = 5266842801576134828L;
+		
+		private static final Font LABEL_FONT = new Font(null, Font.BOLD, 12);
+		
+		private static final Insets INSET_LEFT = new Insets(0, 0, 2, 3);
+		private static final Insets INSET_RIGHT = new Insets(0, 0, 2, 0);
+		
+		private final PtLog4jEvent event;
+		
+		public LogEventDialog(final PtLog4jEvent event) {
+			this.event = event;
+			this.setTitle("Log Event Details");
+			this.getContentPane().add(this.initComponents());
+			this.pack();
+			this.setLocationRelativeTo(null);
+		}
+		
+		private JPanel initComponents() {
+			final JPanel panel = new JPanel();
+			panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+			final GridBagLayout layout = new GridBagLayout();
+			final GridBagConstraints c = new GridBagConstraints();
+			layout.setConstraints(panel, c);
+			panel.setLayout(layout);
+			
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+
+			this.addRow("Date", LogTableColumn.DATE_FORMAT.format(this.event.getDate()), c, panel);
+			this.addRow("Level", this.event.getLevel().toString(), c, panel);
+			this.addRow("Class", this.event.getLogClassName(), c, panel);
+			this.addRow("Method", this.event.getLogMethod(), c, panel);
+			this.addRow("Thread", this.event.getThreadName(), c, panel);
+			final JTextArea textAreaMessage = new JTextArea(this.event.getMessageRendered(), 3, 60);
+			textAreaMessage.setEditable(false);
+			this.addRow("Message", new JScrollPane(textAreaMessage), c, panel, 0.0, 0.3, GridBagConstraints.BOTH);
+			final String exceptionString = this.event.getThrowable() != null ?
+					PtStringUtil.convertExceptionToString(this.event.getThrowable(), true) :
+					"N/A";
+			final JTextArea textAreaException = new JTextArea(exceptionString, 3, 60);
+			textAreaException.setEditable(false);
+			this.addRow("Exception", new JScrollPane(textAreaException), c, panel, 0.0, 0.3, GridBagConstraints.BOTH);
+			
+			return panel;
+		}
+		
+		private void addRow(final String label, final String value, final GridBagConstraints c, final JPanel panel) {
+			this.addRow(label, new JLabel(value), c, panel, 0.0, 0.0, GridBagConstraints.NONE);
+		}
+		
+		private void addRow(final String label, final JComponent comp, final GridBagConstraints c, final JPanel panel,
+				final double weighty1, final double weighty2, final int fillMode) {
+			
+			c.fill = GridBagConstraints.NONE;
+			c.weightx = 0.0;
+			c.weighty = weighty1;
+			c.gridx = 0;
+			c.gridy++;
+			final JLabel lbl = new JLabel(label);
+			lbl.setFont(LABEL_FONT);
+			c.insets = INSET_LEFT;
+			panel.add(lbl, c);
+			
+			c.fill = fillMode;
+			c.weightx = 1.0;
+			c.weighty = weighty2;
+			c.gridx = 1;
+			c.insets = INSET_RIGHT;
+			panel.add(comp, c);
+		}
+	}
+	
 }
