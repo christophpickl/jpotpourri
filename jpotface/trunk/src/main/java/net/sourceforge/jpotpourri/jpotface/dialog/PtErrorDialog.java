@@ -23,10 +23,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.PtImageFactory;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtStringUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -223,7 +224,7 @@ public final class PtErrorDialog extends JDialog {
 		this.panelDetails.setLayout(new BorderLayout(0, 5));
 		this.panelDetails.setVisible(false);
 		
-		final String detailText = PtGuiUtil.convertExceptionToString(this.exception);
+		final String detailText = PtStringUtil.convertExceptionToString(this.exception);
 		this.stackTraceText.setText(detailText);
 		this.stackTraceText.setRows(6);
 		this.stackTraceText.setColumns(45);
