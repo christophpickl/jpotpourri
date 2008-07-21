@@ -1,6 +1,7 @@
 package net.sourceforge.jpotpourri.util;
 
 import java.io.File;
+import java.util.StringTokenizer;
 
 /**
  * 
@@ -71,6 +72,23 @@ public class PtStringUtil {
 	}
 	
 
+	public static String removeWhitespace(final String input) {
+		final StringBuilder sb = new StringBuilder();
+		final StringTokenizer tokenizer = new StringTokenizer(input, "\n");
+		boolean first = true;
+		
+		while(tokenizer.hasMoreTokens()) {
+			final String line = tokenizer.nextToken();
+			
+			if(line.trim().isEmpty() == false) {
+				if(first == true) first = false;
+				else sb.append("\n");
+				
+				sb.append(line);
+			}
+		}
+		return sb.toString();
+	}
 
 	/** 
 	 * @param in a string, eg: "SOME_LONG"
