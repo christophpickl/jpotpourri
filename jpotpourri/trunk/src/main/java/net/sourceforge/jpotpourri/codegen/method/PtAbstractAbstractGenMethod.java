@@ -1,5 +1,6 @@
 package net.sourceforge.jpotpourri.codegen.method;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.jpotpourri.codegen.PtGenArgument;
@@ -19,6 +20,14 @@ public abstract class PtAbstractAbstractGenMethod extends PtAbstractGenMethod {
 			final List<PtGenArgument> arguments
 			) {
 		super(visibility, methodName, returnType, arguments, PtGenMethodModifier.ABSTRACT);
+	}
+	public PtAbstractAbstractGenMethod(
+			final PtGenVisibility visibility,
+			final String methodName,
+			final String returnType,
+			final PtGenArgument... arguments
+			) {
+		this(visibility, methodName, returnType, Arrays.asList(arguments));
 	}
 
 	@Override
