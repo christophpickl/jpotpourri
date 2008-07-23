@@ -48,7 +48,7 @@ public final class PtShellExecuter {
                     LOG.debug("process output was empty.");
                 }
                 
-                throw new PtException("Process exited with code " + returnCode +"! Error output was:\n" +
+                throw new PtException("Process exited with code " + returnCode + "! Error output was:\n" +
                 		errorGobbler.getResponse());
             }
         } catch (IOException e) {
