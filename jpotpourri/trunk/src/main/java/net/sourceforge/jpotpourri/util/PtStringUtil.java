@@ -82,7 +82,7 @@ public class PtStringUtil {
 		while(tokenizer.hasMoreTokens()) {
 			final String line = tokenizer.nextToken();
 			
-			if(line.trim().isEmpty() == false) {
+			if(line.trim().length() > 0) {
 				if(first == true) {
 				first = false;
 				} else {
