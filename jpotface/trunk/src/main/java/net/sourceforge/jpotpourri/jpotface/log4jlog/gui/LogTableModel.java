@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.De;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.IPtDisplayedLogMessages;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLog4jEvent;
-import net.sourceforge.jpotpourri.jpotface.log4jlog.PtTableFilter;
+import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLogTableFilter;
 
 /**
  * @author christoph_pickl@users.sourceforge.net
@@ -56,7 +56,7 @@ final class LogTableModel extends AbstractTableModel {
 		this.fireTableDataChanged();
 	}
 	
-	public void doFilter(final PtTableFilter filter) {
+	public void doFilter(final PtLogTableFilter filter) {
 		De.bug("Log4jTableModel --- doFilter(" + filter + ")");
 		this.data.doFilter(filter);
 		this.broadcastDisplayedLogMessagesChanged(this.data.getSize(), this.data.getAllEventsSize());

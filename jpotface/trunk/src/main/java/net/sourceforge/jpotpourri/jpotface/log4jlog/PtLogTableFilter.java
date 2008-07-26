@@ -7,27 +7,27 @@ import org.apache.log4j.Level;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-public class PtTableFilter implements IPtUnaryPredicate<PtLog4jEvent> {
+public class PtLogTableFilter implements IPtUnaryPredicate<PtLog4jEvent> {
 	
 	private final Level level;
 	private final String searchString;
 	
-	public static final PtTableFilter FILTER_NONE = new PtTableFilter(Level.ALL, null);
+	public static final PtLogTableFilter FILTER_NONE = new PtLogTableFilter(Level.ALL, null);
 	
 	/**
 	 * @param level log4j loglevel
 	 * @param searchString can be null
 	 */
-	public PtTableFilter(final Level level, final String searchString) {
+	public PtLogTableFilter(final Level level, final String searchString) {
 		this.level = level;
 		this.searchString = searchString;
 	}
 	
-	public static PtTableFilter newBySearchString(final PtTableFilter thatFilter, final String searchString) {
+	public static PtLogTableFilter newBySearchString(final PtLogTableFilter thatFilter, final String searchString) {
 		if(thatFilter == null) {
 			throw new NullPointerException("thatFilter");
 		}
-		return new PtTableFilter(thatFilter.level, searchString);
+		return new PtLogTableFilter(thatFilter.level, searchString);
 	}
 	
 	// increase performance

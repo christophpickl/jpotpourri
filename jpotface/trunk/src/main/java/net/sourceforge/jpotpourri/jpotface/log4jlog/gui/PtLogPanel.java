@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import net.sourceforge.jpotpourri.jpotface.inputfield.search.IPtDefaultSearchFieldListener;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLog4jEvent;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLogGuiHandlerDefinition;
-import net.sourceforge.jpotpourri.jpotface.log4jlog.PtTableFilter;
+import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLogTableFilter;
 
 import org.apache.log4j.Level;
 
@@ -32,7 +32,7 @@ public final class PtLogPanel extends JPanel implements IPtDefaultSearchFieldLis
 	private final LogTableModel tableModel = new LogTableModel();
 	private final DisplayedLogMessagesPanel displayedLogMsgs = new DisplayedLogMessagesPanel();
 	
-	private PtTableFilter tableFilter;
+	private PtLogTableFilter tableFilter;
 	
 	
 	
@@ -54,11 +54,11 @@ public final class PtLogPanel extends JPanel implements IPtDefaultSearchFieldLis
 
 
 	public void doResetSearch() {
-		final PtTableFilter properFilter;
+		final PtLogTableFilter properFilter;
 		if(this.tableFilter == null) {
-			properFilter = PtTableFilter.FILTER_NONE;
+			properFilter = PtLogTableFilter.FILTER_NONE;
 		} else {
-			this.tableFilter = PtTableFilter.newBySearchString(this.tableFilter, null);
+			this.tableFilter = PtLogTableFilter.newBySearchString(this.tableFilter, null);
 			properFilter = this.tableFilter;
 		}
 		this.tableModel.doFilter(properFilter);
@@ -72,7 +72,7 @@ public final class PtLogPanel extends JPanel implements IPtDefaultSearchFieldLis
 			assert (s.equals(p)); // TODO asserts
 		}
 		
-		this.tableFilter = new PtTableFilter(this.logLevelFilterBox.getSelectedLevel(), s);
+		this.tableFilter = new PtLogTableFilter(this.logLevelFilterBox.getSelectedLevel(), s);
 		this.tableModel.doFilter(this.tableFilter);
 	}
 	
@@ -122,7 +122,7 @@ public final class PtLogPanel extends JPanel implements IPtDefaultSearchFieldLis
 		this.tableModel.doClearData();
 	}
 	private void doLogLevelFilterBoxChanged() {
-		this.tableFilter = new PtTableFilter(
+		this.tableFilter = new PtLogTableFilter(
 				this.logLevelFilterBox.getSelectedLevel(),
 				this.searchField.getProperText());
 		this.tableModel.doFilter(this.tableFilter);

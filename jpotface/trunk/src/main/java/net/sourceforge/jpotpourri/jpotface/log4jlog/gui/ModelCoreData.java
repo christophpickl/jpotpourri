@@ -6,7 +6,7 @@ import java.util.List;
 import net.sourceforge.jpotpourri.fprog.PtFprog;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.De;
 import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLog4jEvent;
-import net.sourceforge.jpotpourri.jpotface.log4jlog.PtTableFilter;
+import net.sourceforge.jpotpourri.jpotface.log4jlog.PtLogTableFilter;
 
 /**
  * @author christoph_pickl@users.sourceforge.net
@@ -19,7 +19,7 @@ final class ModelCoreData {
 	
 //	private final Map<Level, List<LoggingEvent>> map = new HashMap<Level, List<LoggingEvent>>();
 	
-	private PtTableFilter filter;
+	private PtLogTableFilter filter;
 	
 	public ModelCoreData() {
 //		for (Level level : LOG_LEVELS) {
@@ -58,7 +58,7 @@ final class ModelCoreData {
 		return this.isFilter() ? this.filteredEvents : this.allEvents;
 	}
 
-	public synchronized void doFilter(final PtTableFilter newFilter) {
+	public synchronized void doFilter(final PtLogTableFilter newFilter) {
 		if(newFilter == null) {
 			throw new NullPointerException("filter");
 		}
