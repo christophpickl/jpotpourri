@@ -150,11 +150,11 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     	final String enteredText = this.textField.getText().trim();
     	
         // first check values, because textField could have been set to editable = true
-    	if(this.fileOrDir == null && enteredText.isEmpty() == false) {
+    	if(this.fileOrDir == null && enteredText.length() > 0) { // .isEmpty() available since JDK 1.6
         	// use text input
     		this.fileOrDir = new File(enteredText);
         	
-        } else if(this.fileOrDir != null && enteredText.isEmpty() == false) {
+        } else if(this.fileOrDir != null && enteredText.length() > 0) {
         	// compare text input with selected file
         	final String fileText = this.fileOrDir.getAbsolutePath();
         	
