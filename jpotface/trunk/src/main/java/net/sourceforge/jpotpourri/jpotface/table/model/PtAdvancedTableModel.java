@@ -155,8 +155,8 @@ public class PtAdvancedTableModel<T> extends AbstractTableModel {
 		class MyTable extends JXTable implements IPtTableFillEmptyRowsReceiver {
 			private static final long serialVersionUID = 1L;
 			private final PtTableEmptyRowsPainter emptyRowsPainter;
-			private MyTable(PtAdvancedTableModel<Person> m) {
-				super(m);
+			private MyTable(PtAdvancedTableModel<Person> model) {
+				super(model);
 				this.emptyRowsPainter = new PtTableEmptyRowsPainter(this);
 			}
 			public Color getColorRowBackgroundEven() {

@@ -25,8 +25,11 @@ import java.awt.Color;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface IPtMacColors {
+public final class PtMacColors {
 	
+	private PtMacColors() {
+		// no instantiation
+	}
 	/**
 	 * if editting value in cell, this will be background color of all other
 	 * (unfocused) cells in that row
@@ -35,39 +38,36 @@ public interface IPtMacColors {
 	
 	
 	// for renderer
-	Color MAC_COLOR_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE   = new Color(0x7daaea);
-	Color MAC_COLOR_FOCUSED_SELECTED_VERTICAL_LINE          = new Color(0x346dbe);
-	Color MAC_COLOR_FOCUSED_UNSELECTED_VERTICAL_LINE        = new Color(0xd9d9d9);
+	public static final Color MAC_COLOR_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE   = new Color(0x7daaea);
+	public static final Color MAC_COLOR_FOCUSED_SELECTED_VERTICAL_LINE          = new Color(0x346dbe);
+	public static final Color MAC_COLOR_FOCUSED_UNSELECTED_VERTICAL_LINE        = new Color(0xd9d9d9);
 	
-	Color MAC_COLOR_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE = new Color(0xe0e0e0);
-	Color MAC_COLOR_UNFOCUSED_SELECTED_VERTICAL_LINE        = new Color(0xacacac);
-	Color MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE      = new Color(0xd9d9d9);
+	public static final Color MAC_COLOR_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE = new Color(0xe0e0e0);
+	public static final Color MAC_COLOR_UNFOCUSED_SELECTED_VERTICAL_LINE        = new Color(0xacacac);
+	public static final Color MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE      = new Color(0xd9d9d9);
 
 
 	
 	
 
 	/** */
-	Color MAC_COLOR_ROW_FOREGROUND = Color.BLACK;
+	public static final Color MAC_COLOR_ROW_FOREGROUND = Color.BLACK;
 
 	/** */
-	Color MAC_COLOR_ROW_BACKGROUND_EVEN = Color.WHITE;
+	public static final Color MAC_COLOR_ROW_BACKGROUND_EVEN = Color.WHITE;
 
 	/** */
-	Color MAC_COLOR_ROW_BACKGROUND_ODD = new Color(241, 245, 250);
+	public static final Color MAC_COLOR_ROW_BACKGROUND_ODD = new Color(241, 245, 250);
 
 	
 	
     /** table background for selected rows */
-	Color MAC_COLOR_SELECTED_ROW_BACKGROUND = new Color(61, 128, 223);
+	public static final Color MAC_COLOR_SELECTED_ROW_BACKGROUND = new Color(61, 128, 223);
 
     /** table foreground for selected rows */
-	Color MAC_COLOR_SELECTED_ROW_FOREGROUND = Color.WHITE;	
+	public static final Color MAC_COLOR_SELECTED_ROW_FOREGROUND = Color.WHITE;	
 
     /** table background for selected rows without focus */
-	Color MAC_COLOR_SELECTED_NOFOCUS_BG = new Color(212, 212, 212);
-	
-	
-	String toString(); // nice hack to get rid of checkstyle message ;)
+	public static final Color MAC_COLOR_SELECTED_NOFOCUS_BG = new Color(212, 212, 212);
 
 }

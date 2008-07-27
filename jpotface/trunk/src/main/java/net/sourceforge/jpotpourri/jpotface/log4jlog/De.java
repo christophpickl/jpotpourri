@@ -5,11 +5,15 @@ package net.sourceforge.jpotpourri.jpotface.log4jlog;
  */
 public final class De {
 
+	private static final boolean DEBUG_ENABLED = false;
+	
 	private De() {
 		// no instantiation
 	}
 	
 	public static void bug(final String msg) {
-//		System.out.println("DEBUG: " + msg);
+		if(DEBUG_ENABLED == true) {
+			System.out.println("DEBUG: " + msg);
+		}
 	}
 }

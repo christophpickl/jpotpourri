@@ -11,6 +11,9 @@ import java.awt.image.ReplicateScaleFilter;
 import java.io.File;
 import java.util.Date;
 
+import net.sourceforge.jpotpourri.jpotface.PtImageInfo;
+import net.sourceforge.jpotpourri.jpotface.PtWidthHeight;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -28,7 +31,7 @@ public final class PtImageUtil {
 		// no instantiation
 	}
 
-	public static ImageInfo getResizedImage(final File coverFile, final Component component,
+	public static PtImageInfo getResizedImage(final File coverFile, final Component component,
 			final int maxWidth, final int maxHeight) {
 		LOG.info("resizing cover image '" + coverFile.getAbsolutePath() + "' to max " + 
 				maxWidth + "/" + maxHeight + ".");
@@ -37,7 +40,7 @@ public final class PtImageUtil {
 		return PtImageUtil.getResizedImage(source, component, maxWidth, maxHeight);
 	}
 
-	public static ImageInfo getResizedImage(final Image source, final Component component,
+	public static PtImageInfo getResizedImage(final Image source, final Component component,
 			final int maxWidth, final int maxHeight) {
 		LOG.info("resizing cover image to max " + maxWidth + "/" + maxHeight + ".");
 		
@@ -47,7 +50,7 @@ public final class PtImageUtil {
         Image resizedImage;
         media.addImage(source, 0);
 
-        WidthHeight newDimension = null;
+        PtWidthHeight newDimension = null;
         
         try {
             media.waitForID(0);
@@ -71,42 +74,12 @@ public final class PtImageUtil {
         final double secondsTook = ((double) (new Date(new Date().getTime() - resizeActionStart.getTime())).getTime()
         		/ 1000);
         LOG.info("resizing image took " + secondsTook + " seconds.");
-        return new ImageInfo(resizedImage, newDimension);
+        return new PtImageInfo(resizedImage, newDimension);
     }
-
-	/**
-	 * 
-	 * @author christoph_pickl@users.sourceforge.net
-	 */
-	public static final class ImageInfo {
-		
-		private final Image image;
-		
-		private final WidthHeight widthHeight;
-		
-		private ImageInfo(final Image image, final WidthHeight widthHeight) {
-			this.image = image;
-			this.widthHeight = widthHeight;
-		}
-		
-		@Override
-		public String toString() {
-			return "ImageInfo[image=...;widthHeight=" + widthHeight + "]";
-		}
-		
-		public Image getImage() {
-			return image;
-		}
-		
-		public WidthHeight getWidthHeight() {
-			return widthHeight;
-		}
-		
-	}
 	
 	
 	@SuppressWarnings("cast")
-	private static WidthHeight recalcMaxWidthHeight(
+	private static PtWidthHeight recalcMaxWidthHeight(
 			final int oldWidth, final int oldHeight,
 			final int maxWidth, final int maxHeight) {
         final int newWidth;
@@ -160,30 +133,7 @@ public final class PtImageUtil {
         if(DEBUG) {
         	System.out.println("ImageUtil: new " + newWidth + "/" + newHeight);
         }
-        return new WidthHeight(newWidth, newHeight);
+        return new PtWidthHeight(newWidth, newHeight);
     }
 
-
-	/**
-	 * 
-	 * @author christoph_pickl@users.sourceforge.net
-	 */
-    public static class WidthHeight {
-        private final int width;
-        private final int height;
-        public WidthHeight(final int width, final int height) {
-            super();
-            this.width = width;
-            this.height = height;
-        }
-        
-        public final int getHeight() {
-            return this.height;
-        }
-        
-        public final int getWidth() {
-            return this.width;
-        }
-
-    }
 }

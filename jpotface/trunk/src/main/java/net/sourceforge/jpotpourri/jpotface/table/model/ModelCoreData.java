@@ -21,7 +21,8 @@ class ModelCoreData<T> {
 	}
 
 	public synchronized void add(final T object) {
-		this.add(0, object);
+		this.data.add(0, object);
+		// this.add(0, object);
 	}
 
 	public synchronized void add(final int rowIndex, final T object) {

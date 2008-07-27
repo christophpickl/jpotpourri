@@ -2,33 +2,33 @@ package net.sourceforge.jpotpourri.jpotface.log4jlog;
 
 import java.awt.Color;
 
-import net.sourceforge.jpotpourri.jpotface.IPtMacColors;
+import net.sourceforge.jpotpourri.jpotface.PtMacColors;
 
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-public final class PtLogGuiTableDefinition implements IPtMacColors {
+public final class PtLogGuiTableDefinition {
 
 	private final int rows;
 	public static final int DEFAULT_ROWS = -1;
 	
 	private final Color colorRowBackgroundEven;
-	private static final Color DEFAULT_COLOR_EVEN = MAC_COLOR_ROW_BACKGROUND_EVEN;
+	private static final Color DEFAULT_COLOR_EVEN = PtMacColors.MAC_COLOR_ROW_BACKGROUND_EVEN;
 	
 	private final Color colorRowBackgroundOdd;
-	private static final Color DEFAULT_COLOR_ODD = MAC_COLOR_ROW_BACKGROUND_ODD;
+	private static final Color DEFAULT_COLOR_ODD = PtMacColors.MAC_COLOR_ROW_BACKGROUND_ODD;
 
 	private final Color colorRowForeground;
-	private static final Color DEFAULT_COLOR_ROW_FOREGROUND = MAC_COLOR_ROW_FOREGROUND;
+	private static final Color DEFAULT_COLOR_ROW_FOREGROUND = PtMacColors.MAC_COLOR_ROW_FOREGROUND;
 	
 	private final Color colorSelectedRowForeground;
-	private static final Color DEFAULT_COLOR_SELECTED_FOREGROUND = MAC_COLOR_SELECTED_ROW_FOREGROUND;
+	private static final Color DEFAULT_COLOR_SELECTED_FOREGROUND = PtMacColors.MAC_COLOR_SELECTED_ROW_FOREGROUND;
 	
 	private final Color colorSelectedRowBackground;
-	private static final Color DEFAULT_COLOR_SELECTED_BACKGROUND = MAC_COLOR_SELECTED_ROW_BACKGROUND;
+	private static final Color DEFAULT_COLOR_SELECTED_BACKGROUND = PtMacColors.MAC_COLOR_SELECTED_ROW_BACKGROUND;
 	
 //	private final Color colorSelectedNofocusRowBackground;
-//	private static final Color DEFAULT_COLOR_SELECTED_NOFOCUS_BG = MAC_COLOR_SELECTED_NOFOCUS_BG;
+//	private static final Color DEFAULT_COLOR_SELECTED_NOFOCUS_BG = PtMacColors.MAC_COLOR_SELECTED_NOFOCUS_BG;
 	
 	
 	
