@@ -15,6 +15,7 @@ public class PtAdvancedEditableTableModel<T> extends PtAdvancedTableModel<T> {
 
 	public void addObject(final T object) {
 		this.getModelCoreData().add(object);
+		// FIXME preselect all rows, which were selected before!
 		this.fireTableDataChanged();
 	}
 
