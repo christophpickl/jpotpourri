@@ -1,8 +1,12 @@
 package net.sourceforge.jpotpourri.jpotface.toolbar;
 
-import java.awt.Toolkit;
+import java.awt.Color;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -28,31 +32,61 @@ public final class ToolbarPlayground {
 			}
 		});
 	}
+
+	private static final String CMD_BRAZIL = "CMD_BRAZIL";
+	private static final String CMD_CHINA = "CMD_CHINA";
+	private static final String CMD_FRANCE = "CMD_FRANCE";
+	
+	private static final Map<String, JPanel> PANELS = new HashMap<String, JPanel>();
+	private static final JPanel PANEL_BRAZIL = new JPanel();
+	private static final JPanel PANEL_CHINA = new JPanel();
+	private static final JPanel PANEL_FRANCE = new JPanel();
+	static {
+		PANEL_BRAZIL.add(new JLabel("this is brazil."));
+		PANEL_CHINA.add(new JLabel("welcome to china."));
+		PANEL_FRANCE.add(new JLabel("i -the frenchman- like soup."));
+		PANELS.put(CMD_BRAZIL, PANEL_BRAZIL);
+		PANELS.put(CMD_CHINA, PANEL_CHINA);
+		PANELS.put(CMD_FRANCE, PANEL_FRANCE);
+	}
+	
+	private static final JPanel CONTENT_PANEL = new JPanel();
 	
 	private static void initGui() {
 		final JFrame f = new JFrame();
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		final JPanel p = new JPanel();
-		p.add(new JLabel("main"));
+		
+		CONTENT_PANEL.add(PANEL_BRAZIL);
+		
 		
 		final List<IPtToolbarItem> items = new LinkedList<IPtToolbarItem>();
-		items.add(new PtDefaultToolbarItem("LBL1", loadImageIcon("/delme_toolbar1.png"), "CMD_ITEM1"));
-		items.add(new PtDefaultToolbarItem("LBL2", loadImageIcon("/delme_toolbar2.png"), "CMD_ITEM2"));
-		final IPtToolbar tb = PtToolbarFactory.newPtToolbar(p, items);
+		items.add(new PtDefaultToolbarItem("Brazil", loadImageIcon("Brazil.gif"), CMD_BRAZIL));
+		items.add(new PtDefaultToolbarItem("China", loadImageIcon("China.gif"), CMD_CHINA));
+		items.add(new PtDefaultToolbarItem("France", loadImageIcon("France.gif"), CMD_FRANCE));
+		final IPtToolbar tb = PtToolbarFactory.newPtToolbar(CONTENT_PANEL, items);
 		
 		tb.addIPtToolbarListener(new IPtToolbarListener() {
 			public void doToolbarClicked(final IPtToolbarItem item) {
-				System.out.println("toolbar clicked: " + item);
+				System.out.println("clicked on toolbar item: " + item);
+				CONTENT_PANEL.removeAll();
+				CONTENT_PANEL.add(PANELS.get(item.getActionCommand()));
+				CONTENT_PANEL.revalidate();
+				CONTENT_PANEL.repaint();
 			}
 		});
+		tb.setBackgroundColor(Color.RED);
 		
 		f.getContentPane().add(tb.asJComponent());
 		f.pack();
 		f.setVisible(true);
 	}
 	
-	private static ImageIcon loadImageIcon(final String imagePath) {
-		System.out.println(imagePath);
-		return new ImageIcon(Toolkit.getDefaultToolkit().getImage(ToolbarPlayground.class.getResource(imagePath)));
+	public static ImageIcon loadImageIcon(final String imageFileName) {
+//		return new ImageIcon(Toolkit.getDefaultToolkit().getImage(ToolbarPlayground.class.getResource(imagePath)));
+		try {
+			return new ImageIcon(new File("/delme/"+imageFileName).toURL());
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

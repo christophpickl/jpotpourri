@@ -12,9 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.jpotface.PtImageInfo;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.jpotface.util.PtImageUtil;
-import net.sourceforge.jpotpourri.jpotface.util.PtImageUtil.ImageInfo;
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
@@ -29,6 +29,7 @@ class ToolbarPanel extends JPanel {
 		layout.setConstraints(this, c);
 		this.setLayout(layout);
 
+		
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -39,20 +40,22 @@ class ToolbarPanel extends JPanel {
 		}
 	}
 
-	@Override
-    public void paintComponent(final Graphics g) {
-		super.paintComponent(g);
-		System.out.println(this.getSize());
-    }
+//	@Override
+//    public void paintComponent(final Graphics g) {
+//		super.paintComponent(g);
+//		System.out.println(this.getSize());
+//    }
 	
 	private JPanel newToolbarItemPanel(final IPtToolbarItem item, final ActionListener actionListener) {
 		final JPanel panel = new JPanel(new BorderLayout());
+
+		panel.setOpaque(false);
 		
 		final ResizableImageButton btn = new ResizableImageButton(this, item);
 		btn.addActionListener(actionListener);
 		
-		panel.add(btn, BorderLayout.CENTER); // FIXME IMAGE
-//		panel.add(new JLabel(item.getLabel(), JLabel.CENTER), BorderLayout.SOUTH);
+		panel.add(btn, BorderLayout.CENTER);
+//		panel.add(new JLabel(item.getImageIcon(), JLabel.CENTER), BorderLayout.SOUTH);
 		
 		
 		return panel;
@@ -82,7 +85,7 @@ class ToolbarPanel extends JPanel {
 		// TODO das richtet sich daweil nicht aus... muss man erst haendisch schreiben!
 		@Override
 	    public void paintComponent(final Graphics g) {
-			final ImageInfo info = PtImageUtil.getResizedImage(this.icon.getImage(), this,
+			final PtImageInfo info = PtImageUtil.getResizedImage(this.icon.getImage(), this,
 					this.parent.getSize().width, this.parent.getSize().height);
 			g.drawImage(info.getImage(), 0, 0, null);
 			
@@ -100,6 +103,8 @@ class ToolbarPanel extends JPanel {
 			}
 			this.icon = item.getImageIcon();
 			this.parent = parent;
+
+			this.setOpaque(false);
 			this.setBorderPainted(false);
 			if(item.getActionCommand() != null) {
 				this.setActionCommand(item.getActionCommand());
