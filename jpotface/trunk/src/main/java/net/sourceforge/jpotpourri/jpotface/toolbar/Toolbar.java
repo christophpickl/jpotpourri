@@ -33,9 +33,10 @@ class Toolbar implements IPtToolbar {
 			}
 		});
 		
-		toolbarPanel.setBackground(Color.RED);
+//		this.toolbarPanel.setBackground(Color.RED);
 		
-//		this.toolbarPanel.setPreferredSize(new Dimension(40, 40)); // TODO setting max does not work
+//		this.toolbarPanel.setMaximumSize(new Dimension(60, 60)); // TODO setting max does not work
+//		this.toolbarPanel.setPreferredSize(new Dimension(40, 40));
 		this.toolbarPanel.setMinimumSize(new Dimension(30, 0));
 		
 		final Map<String, IPtToolbarItem> tmp = new HashMap<String, IPtToolbarItem>();
@@ -78,6 +79,10 @@ class Toolbar implements IPtToolbar {
 		for (final IPtToolbarListener listener : this.toolbarListeners) {
 			listener.doToolbarClicked(item);
 		}
+	}
+	
+	public void setBackgroundColor(final Color backgroundColor) {
+		this.toolbarPanel.setBackground(backgroundColor);
 	}
 	
 	

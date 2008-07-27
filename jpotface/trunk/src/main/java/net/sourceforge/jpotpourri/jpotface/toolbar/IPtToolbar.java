@@ -1,5 +1,7 @@
 package net.sourceforge.jpotpourri.jpotface.toolbar;
 
+import java.awt.Color;
+
 import javax.swing.JComponent;
 /**
  * 
@@ -13,4 +15,6 @@ public interface IPtToolbar {
 	boolean addIPtToolbarListener(final IPtToolbarListener listener);
 	
 	boolean removeIPtToolbarListener(final IPtToolbarListener listener);
+	
+	void setBackgroundColor(final Color backgroundColor);
 }
