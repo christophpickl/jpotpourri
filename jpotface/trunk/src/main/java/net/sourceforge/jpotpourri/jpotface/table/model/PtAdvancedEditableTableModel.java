@@ -15,6 +15,7 @@ public class PtAdvancedEditableTableModel<T> extends PtAdvancedTableModel<T> {
 
 	public void addObject(final T object) {
 		this.getModelCoreData().add(object);
+		this.fireTableDataChanged();
 	}
 
 	public void addObject(final int rowIndex, final T object) {
