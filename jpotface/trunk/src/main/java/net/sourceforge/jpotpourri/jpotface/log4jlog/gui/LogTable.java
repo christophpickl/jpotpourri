@@ -29,7 +29,7 @@ import org.jdesktop.swingx.JXTable;
  * @author christoph_pickl@users.sourceforge.net
  */
 class LogTable extends JXTable implements IPtTableFillEmptyRowsReceiver, IPtTableBodyContextListener {
-
+	// TODO extends PtMacLikeTable + remove IPtTableFillEmptyRowsReceiver!
 	private static final long serialVersionUID = -5142437725186427922L;
 
 	private final transient PtTableEmptyRowsPainter emptyRowsPainter;
