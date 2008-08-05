@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="JPotpourri">
+	<version position="none" />
+
+    <bannerLeft>
+        <name>JPotpourri</name>
+    </bannerLeft>
+
+    <publishDate format="yyyy-MM-dd" />
+    <body>
+    
+        <links>
+            <item name="JPotpourri" href="http://jpotpourri.sourceforge.net/" />
+            <item name="JPotface" href="http://jpotpourri.sourceforge.net/jpotface" />
+        </links>
+        
+        <menu name="Overview">
+            <item name="Introduction" href="index.html" />
+            <item name="Goals" href="plugin-info.html" />
+            <item name="Usage" href="usage.html" />
+            <item name="FAQ" href="faq.html" />
+        </menu>
+        
+        <menu name="Examples">
+            <item name="Minimal" href="examples/1-minimal.html" />
+            <item name="Basic" href="examples/2-basic.html" />
+            <item name="Advanced" href="examples/3-advanced.html" />
+        </menu>
+        
+        <menu name="Misc">
+            <item name="Exec Shortcut" href="misc/exec-shortcut.html" />
+            <item name="Jar with Dependencies" href="misc/howto-jar-with-dependencies.html" />
+        </menu>
+
+       
+        <!--
+         <menu ref="reports" />
+        	<item menu name="Documentation">
+            <item name="Dependencies" href="dependencies.html"/>
+            <item name="Javadoc" href=""/>
+            -->
+
+
+    </body>
+</project>
