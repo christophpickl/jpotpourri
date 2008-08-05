@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<faqs id="FAQ" title="Frequently Asked Questions">
+  <part id="General">
+    <faq id="question1">
+      <question>Question 1?</question>
+      <answer>
+        <p>
+          Some answer.
+        </p>
+        <p>
+          Or maybe visit: <a href="http://omov.sourceforge.net" target="_blank">omov</a>.
+        </p>
+      </answer>
+    </faq>
+  </part>
+</faqs>

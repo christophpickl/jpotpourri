@@ -1,0 +1,48 @@
+ ------
+ Plugin Shortcut
+ ------
+ Christoph Pickl
+ ------
+
+
+Plugin Execution Shortcut
+
+* Some Maven Background Knowledge
+ 
+ full (and most annyoing to type) run:
+
+-------------------
+# mvn net.sourceforge.jpotpourri:maven-buildmac-plugin:0.1:buildmac
+-------------------
+
+ use most recent version:
+ 
+-------------------
+# mvn net.sourceforge.jpotpourri:maven-buildmac-plugin:buildmac
+-------------------
+
+ use maven's pattern matching (maven-<pluginName>-plugin):
+ 
+-------------------
+# mvn net.sourceforge.jpotpourri:buildmac:buildmac
+-------------------
+
+* Simplify Things
+
+ add following your <<<~/.m2/setings.xml>>>:
+
+-------------------
+<settings>
+  ...
+  <pluginGroups>
+    <pluginGroup>net.sourceforge.jpotpourri</pluginGroup>
+  </pluginGroups>
+  ...
+</settings>
+-------------------
+
+ and you can use the final version:
+
+-------------------
+# mvn buildmac:buildmac
+-------------------
