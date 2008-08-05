@@ -1,0 +1,71 @@
+ ------
+ Example 1
+ ------
+ Christoph Pickl
+ ------
+
+
+Minimal Example
+
+*Available Configuration Options
+ 
+ You can refer to the {{{../buildmac-mojo.html}goal documentation}} to discover
+ the different configuration options for this plugin.
+
+*How to Use
+
+ In your <<<pom.xml>>>, insert this segment:
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.sourceforge.jpotpourri</groupId>
+        <artifactId>maven-buildmac-plugin</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <configuration>
+          <plistInfoParams>
+            <!-- single mandatory value -->
+            <MainClass>package.App</MainClass>
+          </plistInfoParams>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+ Simply invoke the following command 
+ (assumed you {{{../misc/exec-shortcut.html}configured the plugin execution shortcut}} properly):
+
+-------------------
+mvn buildmac:buildmac
+-------------------
+
+ <<ATTENTION>>: Building will fail, if the *-jar-with-dependencies.jar was not built before 
+ ({{{../misc/howto-jar-with-dependencies.html}how to create jar-with-dependencies}}).
+
+ And you will get the following directory structure in your target-folder:
+
+-------------------
+{project.name}.app/
+  |
+  +--+ Contents
+     |
+     +-- Info.plist
+     |
+     +-- version.plist
+     |
+     +--+ MacOS
+     |  |
+     |  +-- TODO ................!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     |
+     |
+     |
+     +--+ Resources
+     
+-------------------
+

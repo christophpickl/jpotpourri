@@ -1,0 +1,45 @@
+ ------
+ Example 2
+ ------
+ Christoph Pickl
+ ------
+
+
+Basic Example
+
+*Available Configuration Options
+ 
+ You can refer to the {{{../buildmac-mojo.html}goal documentation}} to discover
+ the different configuration options for this plugin.
+
+*How to Use
+
+ In your <<<pom.xml>>>, insert this segment:
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.sourceforge.jpotpourri</groupId>
+        <artifactId>maven-buildmac-plugin</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <configuration>
+          <plistInfoParams>
+            <!-- single mandatory value -->
+            <MainClass>package.App</MainClass>
+            
+            ... TODO ...     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
+          </plistInfoParams>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+ 
+~~ TODO: explain what has happened in the background !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+

@@ -1,0 +1,35 @@
+ ------
+ Introduction
+ ------
+ Christoph Pickl
+ ------
+ 05 August 2008
+ ------
+
+Maven Build Mac Plugin
+
+ Builds an executable Mac OS X <<<*.app>>> folder with all necessary contents
+ (depends on {{{misc/howto-jar-with-dependencies.html}jar-with-dependencies}}).
+
+
+* Goals Overview
+
+  The Build Mac Plugin has one goal which generates the desired packaging:
+
+  * {{{buildmac-mojo.html}buildmac:buildmac}} generates the package.
+
+* Usage
+
+  Instructions on how to use the Build Mac Plugin can be found in the {{{usage.html}usage page}}.
+
+* Examples
+
+  To provide you with better understanding of some usages of the Plugin Name,
+  you can take a look into the following examples:
+
+   * {{{examples/1-minimal.html}Minimal}}
+   
+   * {{{examples/2-basic.html}Basic}}
+
+   * {{{examples/3-advanced.html}Advanced}}
+  

@@ -1,0 +1,51 @@
+ ------
+ jar-with-dependencies HowTo
+ ------
+ Christoph Pickl
+ ------
+
+
+How To build a jar-with-dependencies
+
+* Necessary Configuraiton
+
+ Add following to your <<<pom.xml>>> file:
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <!-- NOTE: We don't need a groupId specification because the group is
+      	           org.apache.maven.plugins ...which is assumed by default.
+        <groupId>org.apache.maven.plugins</groupId>
+        -->
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <!-- <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile> -->
+            <manifest>
+              <mainClass>com.mydomain.some.package.App</mainClass>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+
+* Create the JAR
+
+ Simply run the command and you are done:
+
+-------------------
+# mvn assembly:assembly
+-------------------
