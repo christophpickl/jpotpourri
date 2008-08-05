@@ -13,6 +13,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * only represents the interface to maven (holds proper values).
  * 
  * @goal buildmac
+ * @phase ?
  * @author christoph_pickl@users.sourceforge.net
  */
 public class BuildMacMojo extends AbstractMojo implements IMojoData, IMojoLogger{
