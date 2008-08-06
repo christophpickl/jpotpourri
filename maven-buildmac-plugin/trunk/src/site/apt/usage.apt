@@ -47,7 +47,7 @@ How to use the plugin
 
 +-----+
 target
-`-- {project.name}.app
+`-- {project.name}-{project.version}.app
     `-- Contents
         +-- Info.plist
         +-- version.plist

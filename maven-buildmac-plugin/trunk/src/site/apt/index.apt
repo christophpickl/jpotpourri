@@ -30,14 +30,14 @@ Maven Build Mac Plugin
 <project>
   [...]
   <repositories>
-    [...]
+  
     <repository>
 	  <id>jpotpourri.sourceforge-repo</id>
       <url>http://jpotpourri.sourceforge.net/maven2</url>
     </repository>
-    [...]
+    
   </repositories>
-  ...
+  [...]
 </project>
 -------------------
 
@@ -47,14 +47,19 @@ Maven Build Mac Plugin
 <project>
   [...]
   <build>
-    </plugins>
-      [...]
+    <plugins>
+
       <plugin>
-	    <groupdId>net.sourceforge.jpotpourri</groupdId>
+	    <groupId>net.sourceforge.jpotpourri</groupId>
 	    <artifactId>maven-buildmac-plugin</artifactId>
 	    <!-- <version>0.1-SNAPSHOT</version> -->
+	    <configuration>
+	      <plistInfoParams>
+	        <MainClass>com.mydomain.some.package.App</MainClass>
+	      </plistInfoParams>
+	    </configuration>
       </plugin>
-      [...]
+
     </plugins>
   </build>
   [...]

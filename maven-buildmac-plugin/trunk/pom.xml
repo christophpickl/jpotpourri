@@ -17,6 +17,7 @@ add following your ~/.m2/setings.xml: <pluginGroups><pluginGroup>net.sourceforge
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<url>http://mojo.codehaus.org</url>
 	<groupId>net.sourceforge.jpotpourri</groupId>
 	<artifactId>maven-buildmac-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
@@ -107,6 +108,7 @@ add following your ~/.m2/setings.xml: <pluginGroups><pluginGroup>net.sourceforge
 
 			<!-- ********************************** DOC CHECK ********************************** -->
 			<!-- requirement for codehaus mojofs -->
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-docck-plugin</artifactId>
@@ -118,6 +120,7 @@ add following your ~/.m2/setings.xml: <pluginGroups><pluginGroup>net.sourceforge
 					</execution>
 				</executions>
 			</plugin>
+			-->
 
 			<!-- ********************************** COMPILER VERSION ********************************** -->
 			<plugin>
@@ -143,6 +146,7 @@ add following your ~/.m2/setings.xml: <pluginGroups><pluginGroup>net.sourceforge
 			</plugin>
 
 			<!-- ********************************** JAVA DOC JAR ********************************** -->
+			<!--
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
@@ -157,7 +161,8 @@ add following your ~/.m2/setings.xml: <pluginGroups><pluginGroup>net.sourceforge
 					</execution>
 				</executions>
 			</plugin>
-
+			-->
+			
 		</plugins>
 	</build>
 
