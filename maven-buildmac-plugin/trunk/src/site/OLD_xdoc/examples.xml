@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+	<title>maven-buildmac-plugin</title>
+</properties>
+<body>
+	<section name="Examples">
+
+	<p>
+		The following section contains two examples, starting with the minimal and continuing with a full example.
+	</p>
+	
+	<subsection name="Minimal Usage">
+	
+	<pre><![CDATA[
+<build>
+  <plugins>
+    <plugin>
+      <groupId>net.sourceforge.jpotpourri</groupId>
+      <artifactId>maven-buildmac-plugin</artifactId>
+      <version>0.1-SNAPSHOT</version>
+      <configuration>
+        <plistInfoParams>
+          <!-- single mandatory value -->
+          <MainClass>package.App</MainClass>
+        </plistInfoParams>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+]]></pre>
+		
+	</subsection>
+	
+	
+	<subsection name="Full Example">
+	
+	
+<pre><![CDATA[
+<build>
+  <plugins>
+    <plugin>
+      <groupId>net.sourceforge.jpotpourri</groupId>
+      <artifactId>maven-buildmac-plugin</artifactId>
+      <version>0.1-SNAPSHOT</version>
+      <configuration>
+        
+        <!-- custom app name instead of ${project.name} -->
+        <appName>My OS X Application</appName>
+        
+        <!-- custom version instead of ${project.version} -->
+        <appVersion>1.0</appVersion>
+
+        <!-- optional application logo -->
+        <appIcon>macRsrc/logo.icns</appIcon>
+        
+        <!-- either specify already existing file, or configurate values in POM -->
+        <!-- <plistInfo>macRsrc/Info.plist</plistInfo> -->
+        <plistInfoParams>
+          <MainClass>package.App</MainClass>
+          
+          <!-- will be displayed in info dialog for .app, next to "Version:" -->
+          <CFBundleGetInfoString>This is my mac app.</CFBundleGetInfoString>
+
+          <!-- will be displayed in about dialog within parenthesis () -->
+          <CFBundleVersion>42</CFBundleVersion>
+						
+          <!-- will be displayed in about dialog next to parenthesis (); default: ${project.version} -->
+          <CFBundleShortVersionString>1.0</CFBundleShortVersionString>
+          
+          <!-- default: ${project.name} -->
+          <CFBundleName>My App</CFBundleName>
+        </plistInfoParams>
+
+        <!-- either specify already existing file, or configurate values in POM -->
+        <!-- <plistVersion>macRsrc/version.plist</plistVersion> -->
+        <plistVersionParams>
+        
+          <!-- default: ${project.version} -->
+          <CFBundleShortVersionString>42</CFBundleShortVersionString>
+          
+          <!-- default: ${project.name} -->
+          <ProjectName>My App</ProjectName>
+        </plistVersionParams>
+
+        <!-- optional resources which should be copied to *.app/Contents/Resources -->
+        <additionalResources>
+          <param>macRsrc/additionalResource.txt</param>
+        </additionalResources>
+
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+]]></pre>
+
+
+	
+	</subsection>
+	
+	</section>
+
+	</body>
+</document>
