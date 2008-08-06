@@ -3,7 +3,7 @@
  ------
  Christoph Pickl
  ------
- 05 August 2008
+ 06 August 2008
  ------
 
 Maven Build Mac Plugin
@@ -21,6 +21,45 @@ Maven Build Mac Plugin
 * Usage
 
   Instructions on how to use the Build Mac Plugin can be found in the {{{usage.html}usage page}}.
+
+* Installation
+
+  To get the most recent version of the plugin, add the following repository location to your <<<pom.xml>>>:
+
+-------------------
+<project>
+  [...]
+  <repositories>
+    [...]
+    <repository>
+	  <id>jpotpourri.sourceforge-repo</id>
+      <url>http://jpotpourri.sourceforge.net/maven2</url>
+    </repository>
+    [...]
+  </repositories>
+  ...
+</project>
+-------------------
+
+  After that, you can safely add the plugin itself:
+  
+-------------------
+<project>
+  [...]
+  <build>
+    </plugins>
+      [...]
+      <plugin>
+	    <groupdId>net.sourceforge.jpotpourri</groupdId>
+	    <artifactId>maven-buildmac-plugin</artifactId>
+	    <!-- <version>0.1-SNAPSHOT</version> -->
+      </plugin>
+      [...]
+    </plugins>
+  </build>
+  [...]
+</project>
+-------------------
 
 * Examples
 

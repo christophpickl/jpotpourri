@@ -3,6 +3,8 @@
  ------
  Christoph Pickl
  ------
+ 06 August 2008
+ ------
 
 
 Advanced Example
@@ -19,9 +21,10 @@ Advanced Example
 
 -------------------
 <project>
-  ...
+  [...]
   <build>
     <plugins>
+      [...]
       <plugin>
         <groupId>net.sourceforge.jpotpourri</groupId>
         <artifactId>maven-buildmac-plugin</artifactId>
@@ -73,8 +76,9 @@ Advanced Example
 
         </configuration>
       </plugin>
+      [...]
     </plugins>
   </build>
-  ...
+  [...]
 </project>
 -------------------

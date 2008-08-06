@@ -3,6 +3,8 @@
  ------
  Christoph Pickl
  ------
+ 06 August 2008
+ ------
 
 
 Basic Example
@@ -18,28 +20,26 @@ Basic Example
 
 -------------------
 <project>
-  ...
+  [...]
   <build>
     <plugins>
+      [...]
       <plugin>
         <groupId>net.sourceforge.jpotpourri</groupId>
         <artifactId>maven-buildmac-plugin</artifactId>
         <version>0.1-SNAPSHOT</version>
         <configuration>
-          <plistInfoParams>
-            <!-- single mandatory value -->
-            <MainClass>package.App</MainClass>
-            
-            ... TODO ...     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-          </plistInfoParams>
+          <plistInfo>path/to/Info.plist</plistInfo>
         </configuration>
       </plugin>
+      [...]
     </plugins>
   </build>
-  ...
+  [...]
 </project>
 -------------------
  
 ~~ TODO: explain what has happened in the background !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+ you can either specify file, or configure it here and files will be automatically created
+ (same for plistVersion-param)

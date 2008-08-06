@@ -3,6 +3,8 @@
  ------
  Christoph Pickl
  ------
+ 06 August 2008
+ ------
 
 
 Minimal Example
@@ -18,9 +20,10 @@ Minimal Example
 
 -------------------
 <project>
-  ...
+  [...]
   <build>
     <plugins>
+      [...]
       <plugin>
         <groupId>net.sourceforge.jpotpourri</groupId>
         <artifactId>maven-buildmac-plugin</artifactId>
@@ -32,9 +35,10 @@ Minimal Example
           </plistInfoParams>
         </configuration>
       </plugin>
+      [...]
     </plugins>
   </build>
-  ...
+  [...]
 </project>
 -------------------
 
@@ -47,25 +51,3 @@ mvn buildmac:buildmac
 
  <<ATTENTION>>: Building will fail, if the *-jar-with-dependencies.jar was not built before 
  ({{{../misc/howto-jar-with-dependencies.html}how to create jar-with-dependencies}}).
-
- And you will get the following directory structure in your target-folder:
-
--------------------
-{project.name}.app/
-  |
-  +--+ Contents
-     |
-     +-- Info.plist
-     |
-     +-- version.plist
-     |
-     +--+ MacOS
-     |  |
-     |  +-- TODO ................!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     |
-     |
-     |
-     +--+ Resources
-     
--------------------
-
