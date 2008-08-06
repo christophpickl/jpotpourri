@@ -53,14 +53,13 @@ class PlistWriter
         }
 
         final String infoString =
-            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_GET_INFO_STRING, this.data.getProjectName() );
+            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_GET_INFO_STRING, this.data.getAppVersion() );
         final String bundleShortVersion =
-            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_SHORT_VERSION_STRING,
-                                               this.data.getProjectVersion() );
+            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_SHORT_VERSION_STRING, this.data.getAppVersion() );
         final String bundleVersion =
-            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_VERSION, this.data.getProjectVersion() );
+            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_VERSION, this.data.getAppVersion() );
         final String bundleName =
-            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_NAME, this.data.getProjectName() );
+            this.getPlistInfoValueWithDefault( PlistInfoParam.CF_BUNDLE_NAME, this.data.getAppName() );
         final String jvmVersion = this.getPlistInfoValueWithDefault( PlistInfoParam.JVM_VERSION, DEFAULT_JVM_VERSION );
 
         final StringBuilder sb = new StringBuilder();
@@ -129,10 +128,10 @@ class PlistWriter
     {
 
         final String projectName =
-            this.getPlistVersionValueWithDefault( PlistVersionParam.PROJECT_NAME, this.data.getProjectName() );
+            this.getPlistVersionValueWithDefault( PlistVersionParam.PROJECT_NAME, this.data.getAppName() );
         final String bundleVersion =
             this.getPlistVersionValueWithDefault( PlistVersionParam.CF_BUNDLE_SHORT_VERSION_STRING,
-                                                  this.data.getProjectVersion() );
+                                                  this.data.getAppVersion() );
 
         final StringBuilder sb = new StringBuilder();
         sb.append( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" ).append( "\n" );
@@ -182,7 +181,7 @@ class PlistWriter
         }
         finally
         {
-            PtCloseUtil.close( new Closeable[] { writer} );
+            PtCloseUtil.close( new Closeable[] { writer } );
         }
     }
 
@@ -216,9 +215,10 @@ class PlistWriter
     {
 
         // only one of them must have been set
-        if ( ( paramInfo != null ^ paramVersion != null ) == false ) {
-            throw new IllegalStateException("Either paramInfo or paramVersion must be set: " +
-            		"paramInfo=" + paramInfo + "; paramVersion = " + paramVersion);
+        if ( ( paramInfo != null ^ paramVersion != null ) == false )
+        {
+            throw new IllegalStateException( "Either paramInfo or paramVersion must be set: " + "paramInfo="
+                + paramInfo + "; paramVersion = " + paramVersion );
         }
         final boolean useInfo = paramInfo != null;
 
@@ -231,12 +231,17 @@ class PlistWriter
         }
 
         final String pomKey;
-        if(paramInfo != null) {
+        if ( paramInfo != null )
+        {
             pomKey = paramInfo.getXmlPomKey();
-        } else if(paramVersion != null) {
+        }
+        else if ( paramVersion != null )
+        {
             pomKey = paramVersion.getXmlPomKey();
-        } else {
-            throw new IllegalStateException("Neither paramInfo nor paramVersion set!");
+        }
+        else
+        {
+            throw new IllegalStateException( "Neither paramInfo nor paramVersion set!" );
         }
 
         this.logger.debug( "No '" + pomKey + "' value set, using default '" + defaultValue + "' instead." );

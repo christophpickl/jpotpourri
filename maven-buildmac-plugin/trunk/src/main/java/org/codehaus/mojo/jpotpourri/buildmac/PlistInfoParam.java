@@ -26,19 +26,13 @@ final class PlistInfoParam
     /** optional, default: 1.5+ */
     static final PlistInfoParam JVM_VERSION = new PlistInfoParam( "JVMVersion" );
 
-    
-    
     private final String xmlPomKey;
 
-    
-    
     private PlistInfoParam( final String xmlPomKey )
     {
         this.xmlPomKey = xmlPomKey;
     }
 
-    
-    
     String getXmlPomKey()
     {
         return this.xmlPomKey;

@@ -15,13 +15,27 @@ interface IMojoData
 
     File getAppIcon();
 
-    File getPlistInfo();
+    File getTargetDirectory();
 
-    String getPlistInfoParams( final PlistInfoParam paramKey );
+    File getBaseDirectory();
+
+    // String getProjectName(); // should NOT be accessible
+
+    // String getProjectVersion(); // should NOT be accessible
+
+    boolean isPlistInfoSet();
+
+    File getPlistInfo();
 
     boolean isPlistInfoParamsSet();
 
+    String getPlistInfoParams( final PlistInfoParam paramKey );
+
+    boolean isPlistVersionSet();
+
     File getPlistVersion();
+
+    boolean isPlistVersionParamsSet();
 
     String getPlistVersionParams( final PlistVersionParam paramKey );
 
@@ -29,13 +43,4 @@ interface IMojoData
      * @return List<String>
      */
     List getAdditionalResources();
-
-    File getTargetDirectory();
-
-    File getBaseDirectory();
-
-    String getProjectName();
-
-    String getProjectVersion();
-
 }

@@ -1,6 +1,9 @@
 package org.codehaus.mojo.jpotpourri.buildmac;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import net.sourceforge.jpotpourri.PtException;
 import net.sourceforge.jpotpourri.tools.PtOperatingSystem;
@@ -86,11 +89,77 @@ class Executer
 
         final String jarWithDependsFileName =
             this.data.getAppName() + "-" + this.data.getAppVersion() + "-" + "jar-with-dependencies.jar";
+        final File jarWithDependsSource = new File( this.data.getTargetDirectory(), jarWithDependsFileName );
 
-        this.executeCopyFiles( folderResources, folderJava, targetJavaAppStub, jarWithDependsFileName );
+        if ( jarWithDependsSource.exists() == false )
+        {
+            throw new MojoExecutionException(
+                                              "Jar with dependencies file not existing (try 'mvn assembly:assembly') at: "
+                                                  + jarWithDependsSource.getAbsolutePath() );
+        }
+
+        if ( this.data.isPlistInfoParamsSet() == true )
+        {
+
+            final String mainClassFqn = this.data.getPlistInfoParams( PlistInfoParam.MAIN_CLASS );
+            this.checkJarWithDependsMainClass( jarWithDependsSource, mainClassFqn );
+
+        }
+        else
+        {
+            this.logger.debug( "Could not check MainClass existence." );
+            // TODO if Info.plist file is given directly, check for file existence,
+            // then parse it (validate!) and retrieve MainClass attribute to check jar with dependencies
+        }
+
+        this.executeCopyFiles( folderResources, folderJava, targetJavaAppStub, jarWithDependsSource );
         this.executePlistFiles( jarWithDependsFileName, targetInfoPlistFile, targetVersionPlistFile );
         this.executeShellCommands( folderApp, targetJavaAppStub );
 
+    }
+
+    /**
+     * Checks if the MainClass is existing within the jar-with-dependencies file.
+     * 
+     * @param jarWithDependsSource existing file in target/ folder
+     * @param mainClassFqn full qualified name of the main class
+     * @throws MojoExecutionException if problems with the jarFile occurs or the MainClass could not be found
+     */
+    private void checkJarWithDependsMainClass( final File jarWithDependsSource, final String mainClassFqn )
+        throws MojoExecutionException
+    {
+        this.logger.debug( "Checking jar-with-dependencies file for main class '" + mainClassFqn + "'." );
+
+        final JarFile jarFile;
+        try
+        {
+            jarFile = new JarFile( jarWithDependsSource );
+        }
+        catch ( IOException e )
+        {
+            throw new MojoExecutionException( "Could not open JAR [" + jarWithDependsSource.getAbsolutePath() + "]!", e );
+        }
+
+        final String mainClassName = mainClassFqn.substring( mainClassFqn.lastIndexOf( "." ) + 1 );
+        final String packageName = mainClassFqn.substring( 0, mainClassFqn.lastIndexOf( "." ) );
+
+        final String entryName = packageName.replaceAll( "\\.", "/" ) + "/" + mainClassName + ".class";
+        this.logger.info( "Checking if MainClass is existing in jar by name '" + entryName + "' ..." );
+
+        final ZipEntry entry = jarFile.getEntry( entryName );
+
+        if ( entry == null )
+        {
+            final String msg =
+                "Could not find the Java main class '" + mainClassName + "' " + "by entry name '" + entryName
+                    + "' within '" + jarWithDependsSource.getAbsolutePath() + "'!";
+            throw new MojoExecutionException( msg );
+        }
+
+        // for( final Enumeration jarEntries = jarFile.entries() ; jarEntries.hasMoreElements(); ) {
+        // final JarEntry entry = (JarEntry) jarEntries.nextElement();
+        // System.out.println("entry: " + entry);
+        // }
     }
 
     /**
@@ -103,19 +172,13 @@ class Executer
      * @throws MojoExecutionException if jarWithDependencies/JavaApplication not exists, or copying fails
      */
     private void executeCopyFiles( final File folderResources, final File folderJava, final File targetJavaAppStub,
-                                   final String jarWithDependsFileName )
+                                   final File jarWithDependsSource )
         throws MojoExecutionException
     {
         this.logger.info( "Copying files ..." );
 
-        final File jarWithDependsSource = new File( this.data.getTargetDirectory(), jarWithDependsFileName );
-        final File jarWithDependsTarget = new File( folderJava, jarWithDependsFileName );
+        final File jarWithDependsTarget = new File( folderJava, jarWithDependsSource.getName() );
 
-        if ( jarWithDependsSource.exists() == false )
-        {
-            throw new MojoExecutionException( "Jar with dependencies file not existing at: "
-                + jarWithDependsSource.getAbsolutePath() );
-        }
         if ( JAVA_APP_STUB.exists() == false )
         {
             throw new MojoExecutionException( "Could not find Java Application stub at: "
@@ -135,10 +198,10 @@ class Executer
             for ( int i = 0, n = this.data.getAdditionalResources().size(); i < n; i++ )
             {
                 final String rsrc = (String) this.data.getAdditionalResources().get( i );
-                
+
                 final File source = new File( this.data.getBaseDirectory(), rsrc );
                 final File target = new File( folderResources, source.getName() );
-                
+
                 copyFile( source, target );
             }
         }
@@ -159,7 +222,7 @@ class Executer
 
         final PlistWriter plistWriter = new PlistWriter( this.logger, this.data );
 
-        if ( this.data.getPlistInfo() != null )
+        if ( this.data.isPlistInfoSet() == true )
         {
             this.copyFile( this.data.getPlistInfo(), infoPlistFile );
         }
@@ -172,7 +235,7 @@ class Executer
             throw new MojoExecutionException( "Neither plistInfo nor plistInfoParams defined!" );
         }
 
-        if ( this.data.getPlistVersion() != null )
+        if ( this.data.isPlistVersionSet() == true )
         {
             this.copyFile( this.data.getPlistVersion(), versionPlistFile );
         }
@@ -267,6 +330,7 @@ class Executer
 
     /**
      * creates given directory by invoking <code>mkdirs</code>.
+     * 
      * @param directoryToCreate may not be null
      * @throws MojoExecutionException if creating directories failed (<code>mkdirs</code> returned false).
      */
@@ -282,6 +346,7 @@ class Executer
 
     /**
      * checks if user is running proper operating system.
+     * 
      * @throws MojoExecutionException if operating system is not equals mac os x.
      */
     private void checkOperatingSystem()
