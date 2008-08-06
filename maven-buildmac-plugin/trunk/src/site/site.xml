@@ -28,7 +28,7 @@
         </menu>
         
         <menu name="Misc">
-            <item name="Exec Shortcut" href="misc/exec-shortcut.html" />
+            <item name="Maven Plugin Shortcut" href="misc/exec-shortcut.html" />
             <item name="Jar with Dependencies" href="misc/howto-jar-with-dependencies.html" />
         </menu>
 

@@ -3,6 +3,8 @@
  ------
  Christoph Pickl
  ------
+ 06 August 2008
+ ------
 
 
 Plugin Execution Shortcut
@@ -33,11 +35,11 @@ Plugin Execution Shortcut
 
 -------------------
 <settings>
-  ...
+  [...]
   <pluginGroups>
     <pluginGroup>net.sourceforge.jpotpourri</pluginGroup>
   </pluginGroups>
-  ...
+  [...]
 </settings>
 -------------------
 
