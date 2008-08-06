@@ -49,5 +49,5 @@ Minimal Example
 mvn buildmac:buildmac
 -------------------
 
- <<ATTENTION>>: Building will fail, if the *-jar-with-dependencies.jar was not built before 
- ({{{../misc/howto-jar-with-dependencies.html}how to create jar-with-dependencies}}).
+ <<ATTENTION>>: Building will fail, if the <<<{project.name}-{project.version}-jar-with-dependencies.jar>>>
+ was not built before ({{{../misc/howto-jar-with-dependencies.html}how to create jar-with-dependencies}}).
