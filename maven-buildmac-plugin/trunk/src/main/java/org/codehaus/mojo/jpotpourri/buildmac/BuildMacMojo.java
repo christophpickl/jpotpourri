@@ -21,7 +21,9 @@ public class BuildMacMojo
     implements IMojoData, IMojoLogger
 {
 
-    /** maven workaround, because there is no "real required" parameter instead you can choose on of two options */
+    /**
+     * maven workaround, because there is no "real required" parameter instead you can choose on of two options
+     */
     private static final String TRICK_MAVEN = "TRICK_MAVEN";
 
     /**
@@ -133,7 +135,8 @@ public class BuildMacMojo
         this.debug( "this.isPlistInfoParamsSet() = " + this.isPlistInfoParamsSet() + " [" + this.plistInfoParams + "]" );
         this.debug( "======= DEBUG VALUE OUTPUT END =======" );
 
-        // check if one of info's values is set (either file name, or parameters)
+        // check if one of info's values is set (either file name, or
+        // parameters)
         if ( ( this.isPlistInfoSet() ^ this.isPlistInfoParamsSet() ) == false )
         {
             final String msg =
@@ -167,7 +170,8 @@ public class BuildMacMojo
 
     }
 
-    // should NOT be accessible; only used to get default values (by maven expression) for appName/appVersion
+    // should NOT be accessible; only used to get default values (by maven
+    // expression) for appName/appVersion
     // public String getProjectName()
     // {
     // return this.projectName;
@@ -225,7 +229,8 @@ public class BuildMacMojo
     }
 
     // IMojoData
-    public File getPlistVersion() // TODO rename {PlistVersion, PlistInfo} to: <*>FileName
+    public File getPlistVersion() // TODO rename {PlistVersion, PlistInfo} to:
+    // <*>FileName
     {
         if ( this.isPlistVersionParamsSet() == true )
         {
@@ -235,7 +240,11 @@ public class BuildMacMojo
     }
 
     // IMojoData
-    public String getPlistVersionParams( final PlistVersionParam param ) // TODO rename {Params} to: Parameters
+    public String getPlistVersionParams( final PlistVersionParam param ) // TODO
+    // rename
+    // {Params}
+    // to:
+    // Parameters
     {
         if ( this.isPlistVersionSet() == true )
         {

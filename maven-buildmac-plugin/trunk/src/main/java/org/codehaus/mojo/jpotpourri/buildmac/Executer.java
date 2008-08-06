@@ -21,7 +21,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 class Executer
 {
 
-    /** absolute path to mac os x JavaApplicationStub file to create an executable *.app bundle */
+    /**
+     * absolute path to mac os x JavaApplicationStub file to create an executable *.app bundle
+     */
     private static final File JAVA_APP_STUB =
         new File( "/System/Library/Frameworks/JavaVM.framework/"
             + "Versions/Current/Resources/MacOS/JavaApplicationStub" );
@@ -108,8 +110,10 @@ class Executer
         else
         {
             this.logger.debug( "Could not check MainClass existence." );
-            // TODO if Info.plist file is given directly, check for file existence,
-            // then parse it (validate!) and retrieve MainClass attribute to check jar with dependencies
+            // TODO if Info.plist file is given directly, check for file
+            // existence,
+            // then parse it (validate!) and retrieve MainClass attribute to
+            // check jar with dependencies
         }
 
         this.executeCopyFiles( folderResources, folderJava, targetJavaAppStub, jarWithDependsSource );
@@ -156,7 +160,8 @@ class Executer
             throw new MojoExecutionException( msg );
         }
 
-        // for( final Enumeration jarEntries = jarFile.entries() ; jarEntries.hasMoreElements(); ) {
+        // for( final Enumeration jarEntries = jarFile.entries() ;
+        // jarEntries.hasMoreElements(); ) {
         // final JarEntry entry = (JarEntry) jarEntries.nextElement();
         // System.out.println("entry: " + entry);
         // }
