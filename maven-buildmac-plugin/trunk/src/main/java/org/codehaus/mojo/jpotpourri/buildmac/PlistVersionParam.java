@@ -12,21 +12,16 @@ final class PlistVersionParam
     static final PlistVersionParam PROJECT_NAME = new PlistVersionParam( "ProjectName" );
 
     /** optional, default: project.version */
-    static final PlistVersionParam CF_BUNDLE_SHORT_VERSION_STRING = new PlistVersionParam( "CFBundleShortVersionString" );
+    static final PlistVersionParam CF_BUNDLE_SHORT_VERSION_STRING =
+        new PlistVersionParam( "CFBundleShortVersionString" );
 
-    
-    
     private final String xmlPomKey;
 
-    
-    
     private PlistVersionParam( final String xmlPomKey )
     {
         this.xmlPomKey = xmlPomKey;
     }
 
-    
-    
     String getXmlPomKey()
     {
         return this.xmlPomKey;
