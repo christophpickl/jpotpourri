@@ -19,6 +19,7 @@
 		<groupId>net.sourceforge.jpotpourri</groupId>
 		<artifactId>jpotpom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+        <relativePath>../jpotpom</relativePath>
 	</parent>
 
 
