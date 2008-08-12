@@ -17,12 +17,17 @@ public class PtDataModelDisplayer<T extends IPtDataModelDisplayable> extends Abs
 	
 	private final List<ColumnSpecifier<T>> columns;
 	
-	private final List<T> data;
+	private List<T> data;
 	
 	
 	public PtDataModelDisplayer(final Class<T> clazz, final Collection<T> data) {
 		this.data = new ArrayList<T>(data);
 		this.columns = AnnotationParser.<T>parse(clazz);
+	}
+	
+	public void setData(final Collection<T> data) {
+		this.data = new ArrayList<T>(data);
+		this.fireTableDataChanged();
 	}
 	
 	
