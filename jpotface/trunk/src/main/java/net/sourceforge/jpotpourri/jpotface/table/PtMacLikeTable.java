@@ -86,7 +86,7 @@ public class PtMacLikeTable extends JXTable implements IPtTableFillEmptyRowsRece
 	}
 
 	@Override
-	public final Component prepareRenderer(
+	public Component prepareRenderer(
 			final TableCellRenderer renderer,
 			final int modelRowIndex,
 			final int modelColumnIndex) {
