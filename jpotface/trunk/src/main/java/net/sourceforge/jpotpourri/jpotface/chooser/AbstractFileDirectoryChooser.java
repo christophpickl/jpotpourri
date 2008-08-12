@@ -225,6 +225,10 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     @Override
     public final void setEnabled(final boolean enabled) {
         this.button.setEnabled(enabled);
+        
+        if(this.textField.isEditable() == true) {
+        	this.textField.setEnabled(enabled);
+        }
     }
 
     public final void setFixedButtonSize(final Dimension dimension) {
