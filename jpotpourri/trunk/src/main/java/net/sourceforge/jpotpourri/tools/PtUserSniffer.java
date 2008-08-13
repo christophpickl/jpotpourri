@@ -1,6 +1,7 @@
 package net.sourceforge.jpotpourri.tools;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -9,7 +10,7 @@ import org.apache.log4j.Logger;
 public final class PtUserSniffer {
 
     /** class' own logger using log4j */
-    private static final Logger LOG = Logger.getLogger(PtUserSniffer.class);
+    private static final Log LOG = LogFactory.getLog(PtUserSniffer.class);
 
     /**  */
     private static PtOperatingSystem os;
