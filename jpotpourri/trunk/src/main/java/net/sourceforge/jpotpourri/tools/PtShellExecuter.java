@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 public final class PtShellExecuter {
 
     /** class' own logger using log4j */
-    private static final Logger LOG = Logger.getLogger(PtUserSniffer.class);
+    private static final Logger LOG = Logger.getLogger(PtUserSniffer.class); // FIXME remove each and every log4j stuff (use commons-logging instead)
     
     private static final String[] ENV_VARS = {
         "PATH=/opt/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
