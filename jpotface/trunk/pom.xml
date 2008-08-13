@@ -41,7 +41,20 @@
 			<version>0.9.2</version>
 		</dependency>
 
-
 	</dependencies>
-	
+
+
+	<!-- =================================================================== -->
+	<!-- Distribution                                                        -->
+	<!-- =================================================================== -->
+
+	<distributionManagement>
+
+		<site>
+			<id>jpotpourri.sourceforge-repo</id>
+			<url>scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/jpotface</url>
+		</site>
+		
+	</distributionManagement>
+		
 </project>
