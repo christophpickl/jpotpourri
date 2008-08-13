@@ -1,7 +1,9 @@
-package net.sourceforge.jpotpourri.codegen;
+package net.sourceforge.jpotpourri.codegen.java;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sourceforge.jpotpourri.codegen.java.PtGenArgument;
 
 import junit.framework.TestCase;
 
