@@ -65,7 +65,6 @@ public final class AnnotationParser {
 	@SuppressWarnings("unused")
 	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-			@Override
 			public void run() {
 
 				class Person implements IPtDataModelDisplayable {

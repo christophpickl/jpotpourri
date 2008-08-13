@@ -40,7 +40,6 @@ public class PtDataModelDisplayer<T extends IPtDataModelDisplayable> extends Abs
 		return this.columns.get(colIndex).getColumnClass();
 	}
 
-	@Override
 	public final int getColumnCount() {
 		return this.columns.size();
 	}
@@ -50,12 +49,10 @@ public class PtDataModelDisplayer<T extends IPtDataModelDisplayable> extends Abs
 		return this.columns.get(colIndex).getColumnName();
 	}
 
-	@Override
 	public final int getRowCount() {
 		return this.data.size();
 	}
 
-	@Override
 	public final Object getValueAt(final int rowIndex, final int colIndex) {
 		final T object = this.data.get(rowIndex);
 		return this.columns.get(colIndex).getValue(object);
