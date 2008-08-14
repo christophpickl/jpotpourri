@@ -24,8 +24,9 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-abstract class AbstractFileDirectoryChooser extends JPanel implements ActionListener {
-
+public abstract class AbstractFileDirectoryChooser extends JPanel implements ActionListener {
+// actually, this class should only visible within JPotFace
+	
 	private static final long serialVersionUID = 6190683599071858829L;
 
 	private static final Log LOG = LogFactory.getLog(AbstractFileDirectoryChooser.class);
@@ -133,9 +134,18 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
         }
     }
 
-    public final void uncheckedSetFileOrDir(final File directory) {
-        this.fileOrDir = directory;
+    public final void uncheckedSetFileOrDir(final File uncheckedFileOrDir) {
+        this.fileOrDir = uncheckedFileOrDir;
         this.textField.setText(this.fileOrDir.getAbsolutePath());
+    }
+
+    public final void uncheckedSetFileOrDir(final String uncheckedFileOrDir) {
+    	this.uncheckedSetFileOrDir(new File(uncheckedFileOrDir));
+    }
+
+    public final String uncheckedGetFileOrDir() {
+        // NO!!! return this.fileOrDir.getAbsolutePath();
+    	return this.textField.getText();
     }
     
     // for future use: could clear folder-icon
