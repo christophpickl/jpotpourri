@@ -4,11 +4,12 @@ import java.lang.reflect.Method;
 
 /**
  * 
+ * @param <T> key type
  * @author christoph_pickl@users.sourceforge.net
  */
-public final class PtStorageItem {
+public final class PtStorageItem<T extends IPtMemoryKey<?>> {
 
-	private final String key;
+	private final T key;
 
 	private final Object target;
 	
@@ -25,7 +26,7 @@ public final class PtStorageItem {
 	
 	
 	public PtStorageItem(
-			final String key,
+			final T key,
 			final Object target,
 			final Class<?> propertyClass,
 			final Method getterMethod,
@@ -55,7 +56,7 @@ public final class PtStorageItem {
 		"]";
 	}
 	
-	public String getKey() {
+	public T getKey() {
 		return this.key;
 	}
 	
