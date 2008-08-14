@@ -71,30 +71,29 @@ public class PtPreferencesMemoryStorage extends PtAbstractMemoryStorage {
 		PREF_CLASS_STORE = Collections.unmodifiableMap(tmp);
 	}
 	
-	private static int currentKeyIndex = 0;
 	
+	private final Set<PtStorageItem> items = new HashSet<PtStorageItem>();
 	
-	private final Set<StorageItemX> items = new HashSet<StorageItemX>();
-	
+	private final Set<String> keys = new HashSet<String>();
 	
 	
 	@Override
 	public void retain() {
 		LOG.info("retain() " + this.items.size() + " items");
 		
-		for (final StorageItemX itemX : this.items) {
-			final PreferencesMethod prefMethod = PREF_CLASS_STORE.get(itemX.getItem().getPropertyClass());
+		
+		for (final PtStorageItem item : this.items) {
+			final PreferencesMethod prefMethod = PREF_CLASS_STORE.get(item.getPropertyClass());
 			try {
-				final PtStorageItem item = itemX.getItem();
 				final Method getterMethod = item.getGetterMethod();
 				
 				LOG.trace("Invoking getter method [" + getterMethod.getName()  + "] " +
 						"for target [" + item.getTarget().getClass().getName() + "].");
 				final Object value = getterMethod.invoke(item.getTarget());
-				LOG.trace("Setting value to [" + value + "] for key [" + itemX.getKey() + "].");
-				prefMethod.setValue(itemX.getKey(), value);
+				LOG.trace("Setting value to [" + value + "] for key [" + item.getKey() + "].");
+				prefMethod.setValue(item.getKey(), value);
 			} catch (Exception e) { // IllegalArgumentException, IllegalAccessException, InvocationTargetException
-				final String errMsg = "Could not set value for item [" + itemX + "]!";
+				final String errMsg = "Could not set value for item [" + item + "]!";
 				LOG.error(errMsg, e);
 				throw new RuntimeException(errMsg, e);
 			}
@@ -104,16 +103,19 @@ public class PtPreferencesMemoryStorage extends PtAbstractMemoryStorage {
 	@Override
 	void addStorageItem(final PtStorageItem item) {
 		LOG.info("addStorageItem(item=" + item + ")");
+
+		if(this.keys.add(item.getKey()) == false) {
+			throw new IllegalArgumentException("The key [" + item.getKey() + "] is already in use!");
+		}
 		
-		final String prefKey = "KEY_" + currentKeyIndex;
 		// set initial value
 		try {
 
 			LOG.trace("Getting PreferencesMethod for property class [" + item.getPropertyClass().getName() + "].");
 			final PreferencesMethod method = PREF_CLASS_STORE.get(item.getPropertyClass());
 			
-			final Object value = method.getValue(prefKey, item.getDefaultValue());
-			LOG.trace("Preferences value for key [" + prefKey + "] returned value [" + value + "] " +
+			final Object value = method.getValue(item.getKey(), item.getDefaultValue());
+			LOG.trace("Preferences value for key [" + item.getKey() + "] returned value [" + value + "] " +
 					"with default [" + item.getDefaultValue() + "].");
 			
 			
@@ -125,8 +127,7 @@ public class PtPreferencesMemoryStorage extends PtAbstractMemoryStorage {
 			throw new RuntimeException(errMsg, e);
 		}
 		
-		this.items.add(new StorageItemX(item, prefKey));
-		currentKeyIndex++;
+		this.items.add(item);
 	}
 	
 	@Override
@@ -176,35 +177,5 @@ public class PtPreferencesMemoryStorage extends PtAbstractMemoryStorage {
 		}
 	}
 	
-	
-	
-	/**
-	 * @author christoph_pickl@users.sourceforge.net
-	 */
-	private static class StorageItemX {
-		
-		private final PtStorageItem item;
-		
-		private final String key;
-
-		private StorageItemX(final PtStorageItem item, final String key) {
-			this.item = item;
-			this.key = key;
-		}
-		
-		@Override
-		public String toString() {
-			return "StorageItemX[key=" + this.key + ";item=" + this.item + "]";
-		}
-
-		public PtStorageItem getItem() {
-			return this.item;
-		}
-
-		public String getKey() {
-			return this.key;
-		}
-		
-	}
 	
 }

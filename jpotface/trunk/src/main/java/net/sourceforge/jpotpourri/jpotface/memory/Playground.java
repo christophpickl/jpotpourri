@@ -18,17 +18,20 @@ class Playground {
 
 	private static final PtAbstractMemoryStorage MEMORY = new PtPreferencesMemoryStorage();
 
+	private static final String KEY_T = "KEY_T";
+	private static final String KEY_C = "KEY_C";
+	private static final String KEY_S = "KEY_S";
 	
 	public static void main(final String[] args) {
 		
 		JTextField t = new JTextField(30);
-		PtMemoryEnabler.enableMemoryOn(MEMORY, t, "default");
+		PtMemoryEnabler.enableMemoryOn(KEY_T, t, MEMORY, "default");
 		
 		JCheckBox c = new JCheckBox();
-		PtMemoryEnabler.enableMemoryOn(MEMORY, c);
+		PtMemoryEnabler.enableMemoryOn(KEY_C, c, MEMORY);
 		
 		NumberSpinner s = new NumberSpinner();
-		PtMemoryEnabler.enableMemoryOn(MEMORY, s, "getNumber", "setNumber", int.class, true, 42);
+		PtMemoryEnabler.enableMemoryOn(KEY_S, s, MEMORY, "getNumber", "setNumber", int.class, true, 42);
 		
 		
 		JButton b = new JButton("save");

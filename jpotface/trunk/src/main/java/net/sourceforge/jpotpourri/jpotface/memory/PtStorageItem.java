@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
  */
 public final class PtStorageItem {
 
+	private final String key;
+
 	private final Object target;
 	
 	private final Class<?> propertyClass;
@@ -23,6 +25,7 @@ public final class PtStorageItem {
 	
 	
 	public PtStorageItem(
+			final String key,
 			final Object target,
 			final Class<?> propertyClass,
 			final Method getterMethod,
@@ -30,6 +33,7 @@ public final class PtStorageItem {
 			final boolean isPrimitive,
 			final Object defaultValue
 			) {
+		this.key = key;
 		this.target = target;
 		this.propertyClass = propertyClass;
 		this.getterMethod = getterMethod;
@@ -41,13 +45,18 @@ public final class PtStorageItem {
 	@Override
 	public String toString() {
 		return "PtStorageItem[" +
-				"target.class=" + this.target.getClass().getName() + ";" +
-				"propertyClass=" + this.propertyClass.getName() + ";" +
-				"getterMethod.name=" + this.getterMethod.getName() + ";" +
-				"setterMethod.name=" + this.setterMethod.getName() + ";" +
-				"isPrimitive=" + this.isPrimitive + ";" +
-				"defaultValue=" + this.defaultValue + ";" +
-						"]";
+			"key=" + this.key + ";" +
+			"target.class=" + this.target.getClass().getName() + ";" +
+			"propertyClass=" + this.propertyClass.getName() + ";" +
+			"getterMethod.name=" + this.getterMethod.getName() + ";" +
+			"setterMethod.name=" + this.setterMethod.getName() + ";" +
+			"isPrimitive=" + this.isPrimitive + ";" +
+			"defaultValue=" + this.defaultValue + ";" +
+		"]";
+	}
+	
+	public String getKey() {
+		return this.key;
 	}
 	
 	public Object getTarget() {

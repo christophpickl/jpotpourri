@@ -18,6 +18,8 @@ public final class PtMemoryEnabler {
 
 	private static final Log LOG = LogFactory.getLog(PtMemoryEnabler.class);
 
+	// FEATURE enableMemoryOn shortcut for own classes also (not only JTextField/JCheckBox) and 
+	//         store their getter/setter-names within a certain datastructure
 	
 	private PtMemoryEnabler() {
 		// no instantiation
@@ -25,33 +27,42 @@ public final class PtMemoryEnabler {
 
 	// JTextField
 	public static void enableMemoryOn(
-		final PtAbstractMemoryStorage memory,
-		final JTextField target) {
-		enableMemoryOn(memory, target, "");
+		final String key,
+		final JTextField target,
+		final PtAbstractMemoryStorage memory
+		) {
+		enableMemoryOn(key, target, memory, "");
 	}
 	public static void enableMemoryOn(
-			final PtAbstractMemoryStorage memory,
+			final String key,
 			final JTextField target,
-			final String defaultValue) {
-		enableMemoryOn(memory, target, "getText", "setText", String.class, false, defaultValue);
+			final PtAbstractMemoryStorage memory,
+			final String defaultValue
+			) {
+		enableMemoryOn(key, target, memory, "getText", "setText", String.class, false, defaultValue);
 	}
 
 	// JCheckBox
 	public static void enableMemoryOn(
-		final PtAbstractMemoryStorage memory,
-		final JCheckBox target) {
-		enableMemoryOn(memory, target, false);
+		final String key,
+		final JCheckBox target,
+		final PtAbstractMemoryStorage memory
+		) {
+		enableMemoryOn(key, target, memory, false);
 	}
 	public static void enableMemoryOn(
-			final PtAbstractMemoryStorage memory,
+			final String key,
 			final JCheckBox target,
-			final boolean defaultValue) {
-		enableMemoryOn(memory, target, "isSelected", "setSelected", Boolean.class, true, defaultValue);
+			final PtAbstractMemoryStorage memory,
+			final boolean defaultValue
+			) {
+		enableMemoryOn(key, target, memory, "isSelected", "setSelected", Boolean.class, true, defaultValue);
 	}
 	
 	public static void enableMemoryOn(
-		final PtAbstractMemoryStorage memory,
+		final String key,
 		final Object target,
+		final PtAbstractMemoryStorage memory,
 		final String getterMethodName,
 		final String setterMethodName,
 		final Class<?> propertyClass,
@@ -93,7 +104,7 @@ public final class PtMemoryEnabler {
 		}
 		
 		memory.addStorageItem(new PtStorageItem(
-				target, propertyClass, getterMethod, setterMethod, isPrimitive, defaultValue));
+				key, target, propertyClass, getterMethod, setterMethod, isPrimitive, defaultValue));
 	}
 	
 	private static boolean checkClassEquality(final Class<?> clazz1, final Class<?> clazz2) {
