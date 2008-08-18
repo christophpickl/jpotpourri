@@ -17,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
+import net.sourceforge.jpotpourri.jpotface.cairngorm.bindobj.PtBindableString;
+import net.sourceforge.jpotpourri.jpotface.cairngorm.component.PtBTextFieldGeneric;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -252,4 +255,11 @@ public abstract class AbstractFileDirectoryChooser extends JPanel implements Act
     	this.textField.setEditable(editable);
     }
     
+    public final boolean isTextfieldEditable() {
+    	return this.textField.isEditable();
+    }
+    
+    public final void enableFileBinding(final PtBindableString string) {
+    	new PtBTextFieldGeneric(this.textField, string);
+    }
 }
