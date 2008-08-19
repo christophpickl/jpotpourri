@@ -9,8 +9,8 @@ public interface IPtEventDispatcher {
 	void dispatch(final PtAbstractCairngormEvent<?> event);
 	
 	
-	boolean addEventListener(final IPtEventListener listener);
+	boolean addEventListener(final IPtEventListener<? extends PtAbstractCairngormEvent<?>> listener);
 	
-	boolean removeEventListener(final IPtEventListener listener);
+	boolean removeEventListener(final IPtEventListener<? extends PtAbstractCairngormEvent<?>> listener);
 		
 }

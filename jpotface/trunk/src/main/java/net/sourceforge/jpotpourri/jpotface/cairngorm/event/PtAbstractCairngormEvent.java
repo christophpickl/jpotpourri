@@ -2,25 +2,28 @@ package net.sourceforge.jpotpourri.jpotface.cairngorm.event;
 
 
 /**
- *
- * @param <T> type of event key
+ * @param <T> event type
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class PtAbstractCairngormEvent<T> {
+public abstract class PtAbstractCairngormEvent<T extends IPtEventType<?>> {
 
-	private final IPtEventType<T> type;
+	private final T type;
 	
 	private final Object source;
 
 	
-	public PtAbstractCairngormEvent(final IPtEventType<T> type, final Object source) {
+	public PtAbstractCairngormEvent(final T type, final Object source) {
 		this.type = type;
 		this.source = source;
 	}
 
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + "[type=" + this.type + ";source=" + this.source + "]";
+	}
 
-	public IPtEventType<T> getType() {
+	public T getType() {
 		return this.type;
 	}
 	
