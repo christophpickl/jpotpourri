@@ -1,16 +1,16 @@
 package net.sourceforge.jpotpourri.jpotface.cairngorm.bindobj;
 
+import net.sourceforge.jpotpourri.jpotface.cairngorm.event.PtBindingEvent;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import net.sourceforge.jpotpourri.jpotface.cairngorm.event.PtBindingEvent;
 
 /**
  * @param <T> object type
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class PtAbstractBindableSimpleObject<T> extends PtDefaultBindableObject<T> {
+public abstract class PtAbstractBindableNotNullableObject<T> extends PtDefaultBindableObject<T> {
 	
 	private static final Log LOG = LogFactory.getLog(PtAbstractBindableSimpleObject.class);
 
@@ -18,7 +18,7 @@ public abstract class PtAbstractBindableSimpleObject<T> extends PtDefaultBindabl
 
 	private final String propertyName;
 	
-	public PtAbstractBindableSimpleObject(
+	public PtAbstractBindableNotNullableObject(
 			final T value,
 			final String propertyName
 		) {
@@ -28,6 +28,9 @@ public abstract class PtAbstractBindableSimpleObject<T> extends PtDefaultBindabl
 	
 	public final void setValue(final T newValue) {
 		LOG.trace("setValue(newValue=" + newValue + ")");
+		if(newValue == null) {
+			throw new IllegalArgumentException(this.getClass().getSimpleName() + ".setValue(null)");
+		}
 		final T oldValue = this.value;
 		this.value = newValue;
 		this.dispatchBindingEvent(new PtBindingEvent<T>(this, this.propertyName, oldValue, newValue));
