@@ -1,8 +1,5 @@
 package net.sourceforge.jpotpourri.jpotface.memory;
 
-import java.util.Enumeration;
-
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
