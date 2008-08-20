@@ -1,11 +1,13 @@
 package net.sourceforge.jpotpourri.jpotface.memory;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.sourceforge.jpotpourri.util.PtClassUtil;
@@ -85,6 +87,23 @@ public class PtPreferencesMemoryStorage<K extends IPtMemoryKey<String>> extends 
 		// nothing to do
 	}
 
+
+	@Override
+	final void resetInternal() {
+		try {
+			PREF.clear();
+			PREF.flush();
+		} catch (BackingStoreException e) {
+			throw new RuntimeException("Could not reset preferences memory storage!", e);
+		}
+	}
+
+
+	@Override
+	final Collection<PtStorageItem<K>> getItems() {
+		return this.items;
+	}
+	
     // -----------------------------------------------------------------------------------------------------------------
     //  enable stuff
     // -----------------------------------------------------------------------------------------------------------------
