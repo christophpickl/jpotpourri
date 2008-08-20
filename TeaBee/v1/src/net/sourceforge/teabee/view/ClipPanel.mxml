@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="vertical">
+	<mx:Script>
+		<![CDATA[
+			import net.sourceforge.teabee.model.Model;
+		]]>
+	</mx:Script>
+	
+	<mx:Form>
+			<mx:FormHeading label="Clip Info" />
+		
+			<mx:FormItem label="Title">
+				<mx:Label text="{Model.instance.selectedClip.title}" />
+			</mx:FormItem>
+			
+			<mx:FormItem label="Duration">
+				<mx:Label text="{Model.instance.selectedClip.duration}" />
+			</mx:FormItem>
+		
+			<mx:FormItem>
+				<mx:HBox>
+					<mx:Button label="btn1" />
+					<mx:Button label="btn2" />
+				</mx:HBox>
+			</mx:FormItem>
+	</mx:Form>
+	
+</mx:Panel>

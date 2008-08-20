@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="vertical"
+	title="Playlist">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			import mx.utils.ObjectUtil;
+			import net.sourceforge.teabee.valueobject.Clip;
+			import net.sourceforge.teabee.valueobject.SearchResult;
+			import mx.core.DragSource;
+			import mx.controls.DataGrid;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			import logging.Logger;
+			import net.sourceforge.teabee.model.Model;
+			
+			private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.view.PlaylistPanel");
+			
+			private function onChange(event:ListEvent):void {
+				LOG.finer("onChange(event=" + event + ")");
+				Model.instance.selectedClip = playlistDataGrid.selectedItem as Clip;
+			}
+			
+			/* ****************************************************************************************************** */
+			//    DRAG'N'DROP
+			/* ****************************************************************************************************** */
+			
+			/** this function validates the drop */
+			private function onDragEnter(event:DragEvent):void {
+				LOG.finer("onDragEnter(event="+event+")");
+				
+                if (isDragInitiatorSearchGrid(event) == true && Model.instance.selectedPlaylist != null) {
+            		// accept the drop from search panel
+            		DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+            		// TODO change cursor icon for drop-target-enabled
+                }
+			}
+			
+			/** this function adds new items to the list */
+			private function onDragDrop(event:DragEvent):void {
+				LOG.finest("onDragDrop(event="+event+")");
+				
+				var ds:DragSource = event.dragSource;
+				if (isDragInitiatorSearchGrid(event) && ds.hasFormat("items")) {
+					LOG.finer("accepting drop object.");
+					var dropData:Array = ds.dataForFormat("items") as Array;
+					if(dropData.length != 1) {
+						throw new Error("dropData.length != 1 but " + dropData.length + "! " + ObjectUtil.toString(dropData));
+					}
+					
+					var searchResult:SearchResult = dropData[0] as SearchResult;
+					var newClip:Clip = new Clip(searchResult.title, searchResult.url, searchResult.duration);
+					Model.instance.selectedPlaylist.clips.addItem(newClip); // TODO do not only add it at last position, but on proper dropped position!
+				}
+			}
+			
+			private static function isDragInitiatorSearchGrid(event:DragEvent):Boolean {
+				if (event.dragInitiator is DataGrid) {
+                	const grid:DataGrid = event.dragInitiator as DataGrid;
+                	if(grid.id == "searchDataGrid") {
+                		return true;
+                	}
+    			}
+    			
+    			return false;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="100%">
+		
+		<mx:Label text="{Model.instance.selectedPlaylist.title}" />
+		
+		<mx:DataGrid id="playlistDataGrid"
+			dataProvider="{Model.instance.selectedPlaylist.clips}"
+			width="100%" height="100%"
+			dragMoveEnabled="true" dragEnabled="true"
+			dragEnter="onDragEnter(event)" dragDrop="onDragDrop(event)"
+			change="onChange(event)"
+			backgroundColor="{Model.instance.selectedPlaylist == null ? 0xCECECE : 0xFFFFFF}"
+			/> <!--  dropEnabled="true" -->
+		
+	</mx:VBox>
+	
+</mx:Panel>

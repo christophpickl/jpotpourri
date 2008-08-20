@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:libtree="net.sourceforge.teabee.view.libtree.*"
+	
+	layout="vertical" title="Library">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			import mx.utils.ObjectUtil;
+			import mx.core.DragSource;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			import net.sourceforge.teabee.valueobject.Folder;
+			import net.sourceforge.teabee.valueobject.Playlist;
+			import logging.Logger;
+			import net.sourceforge.teabee.model.Model;
+			import net.sourceforge.teabee.view.libtree.INodeContainer;
+			import net.sourceforge.teabee.view.libtree.INode;
+			
+			// necessary for Tree._dropData (to get a dropped node's parent)
+			import mx.core.mx_internal;
+			use namespace mx_internal;
+			
+			
+			private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.view.LibraryPanel");
+			
+			
+			
+			private function onChange(event:ListEvent):void {
+				var item:Object = this.tree.selectedItem;
+				LOG.finer("onChange() this.tree.selectedItem=" + item);
+				if(item is Playlist) {
+					Model.instance.selectedPlaylist = item as Playlist;
+				} else {
+					Model.instance.selectedPlaylist = null;
+				}
+				
+			}
+			
+			/* ****************************************************************************************************** */
+			//    JUST ENABLE DOUBLECLICK
+			/* ****************************************************************************************************** */
+			
+			private function onClick():void {
+				// LOG.finest("onTreeClick()");
+				this.tree.editable = false;
+			}
+			
+			private function onDoubleClick():void {
+				LOG.finer("onTreeDoubleClick()");
+				this.tree.editable = true;
+				this.tree.editedItemPosition = {columnIndex: 0, rowIndex: this.tree.selectedIndex}; // TODO duplicate code
+			}
+			
+			/* ****************************************************************************************************** */
+			//    ADD
+			/* ****************************************************************************************************** */
+			
+			private function doAdd(newNode:INode):void { 
+				newNode.parentNode = this.getDefaultAddTarget();
+				newNode.parentNode.children.addItem(newNode);
+				
+				this.tree.invalidateList();
+				
+				this.tree.openNodesUntil(newNode);
+				this.tree.selectedItem = newNode;
+				 
+				this.tree.editable = true;
+				this.tree.editedItemPosition = {columnIndex: 0, rowIndex: this.tree.selectedIndex}; // TODO duplicate code
+			}
+			
+			private function onAddFolder():void {
+				LOG.fine("onAddFolder()");
+				this.doAdd(new Folder("untitled"));
+			}
+			
+			private function onAddPlaylist():void {
+				LOG.fine("onAddPlaylist()");
+				this.doAdd(new Playlist("untitled"));
+			}
+			
+			private function getDefaultAddTarget():INodeContainer {
+				var defaultTarget:INode;
+				
+				if(this.tree.selectedItem != null) {
+					var selectedNode:INode = this.tree.selectedItem as INode;
+					if(selectedNode.children != null) { // its not a leaf
+						defaultTarget = selectedNode;
+					} else {
+						defaultTarget = selectedNode.parentNode; // its a leaf, get parent
+					}
+				} else {
+					defaultTarget = Model.instance.library;
+				}
+				LOG.finer("getDefaultAddTarget() returns: " + defaultTarget);
+				return defaultTarget as INodeContainer;
+			}
+			
+			/* ****************************************************************************************************** */
+			//    DRAG'N'DROP
+			/* ****************************************************************************************************** */
+			
+			/** this function validates the drop */
+			private function onDragEnter(event:DragEvent):void {
+				LOG.finer("onDragEnter(event="+event+")");
+				
+                if (event.dragInitiator is LibraryTree) {
+                	// accept the drop from yourself
+                	DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+                } // TODO else if from search result or from playlist table
+			}
+			
+			/** this function adds new items to the list */
+			private function onDragDrop(event:DragEvent):void {
+				LOG.finest("onDragDrop(event="+event+")");
+				
+				
+				var ds:DragSource = event.dragSource;
+				if(event.dragInitiator is LibraryTree && ds.hasFormat("treeItems")) {
+					var treeItems:Array = ds.dataForFormat("treeItems") as Array;
+					LOG.finest("dropped treeItems.length="+treeItems.length);
+					if(treeItems.length != 1) {
+						throw new Error("treeItems.length != 1 but " + treeItems.length + "! " + ObjectUtil.toString(treeItems));
+					}
+					
+					var node:INode = treeItems[0] as INode;
+					LOG.finer("dropping node is: " + node);
+					var newParent:INodeContainer;
+					
+					var rawParent:Object = this.tree._dropData.parent;
+					if(rawParent == null) {
+						newParent = Model.instance.library;
+					} else {
+						newParent = rawParent as INodeContainer;
+					}
+					LOG.finer("new parent will be: " + newParent);
+					node.parentNode = newParent;
+					
+				} else {
+					throw new Error("drag source has no 'treeItems' format! " + ObjectUtil.toString(ds));
+				}
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="100%">
+		
+		<libtree:LibraryTree id="tree"
+			
+			click="onClick()" doubleClick="onDoubleClick()"
+			dragEnter="onDragEnter(event)" dragDrop="onDragDrop(event)"
+			change="onChange(event)"
+			width="100%" height="100%"/>
+		
+		<mx:HBox>
+			<mx:Button label="+Folder" click="onAddFolder()" />
+			<mx:Button label="+Playlist" click="onAddPlaylist()" />
+		</mx:HBox>
+		
+	</mx:VBox>
+	
+	
+</mx:Panel>

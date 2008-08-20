@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:controller="net.sourceforge.teabee.controller.*"
+	xmlns:view="net.sourceforge.teabee.view.*"
+	
+	layout="vertical" >
+	
+	<!-- load controller class -->
+	<controller:Controller />
+	
+	
+	<mx:Style>
+		/*
+		Application {
+			 for MenuBar 
+			
+			padding-top: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+		*/
+		
+	</mx:Style>
+	
+	<mx:Script>
+		<![CDATA[
+			import logging.Logger;
+			import net.sourceforge.teabee.event.SearchSubmitEvent;
+			import net.sourceforge.teabee.model.Model;
+			
+			private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.TeaBee");
+			
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox height="100%" width="100%">
+		
+		<view:LibraryPanel height="100%" width="20%" />
+				
+		<view:PlaylistPanel height="100%" width="50%" />
+		
+		<view:SearchPanel height="100%" width="30%" />
+		
+	</mx:HBox>
+	
+	<mx:HBox height="250" width="100%">
+		
+		<view:ClipPanel height="100%" width="300" />
+		
+		<view:Player height="100%" width="100%" />
+		
+	</mx:HBox>
+	
+</mx:Application>
