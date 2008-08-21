@@ -3,25 +3,14 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:controller="net.sourceforge.teabee.controller.*"
 	xmlns:view="net.sourceforge.teabee.view.*"
-	
+	backgroundColor="#000000"
 	layout="vertical" >
 	
 	<!-- load controller class -->
 	<controller:Controller />
 	
 	
-	<mx:Style>
-		/*
-		Application {
-			 for MenuBar 
-			
-			padding-top: 0px;
-			padding-left: 0px;
-			padding-right: 0px;
-		}
-		*/
-		
-	</mx:Style>
+	<mx:Style source="main.css" />
 	
 	<mx:Script>
 		<![CDATA[
