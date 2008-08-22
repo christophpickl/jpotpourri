@@ -5,6 +5,7 @@
 	title="Playlist">
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.List;
 			import mx.events.ListEvent;
 			import mx.utils.ObjectUtil;
 			import net.sourceforge.teabee.valueobject.Clip;
@@ -32,7 +33,7 @@
 			private function onDragEnter(event:DragEvent):void {
 				LOG.finer("onDragEnter(event="+event+")");
 				
-                if (isDragInitiatorSearchGrid(event) == true && Model.instance.selectedPlaylist != null) {
+                if (isDragInitiatorSearchResult(event) == true && Model.instance.selectedPlaylist != null) {
             		// accept the drop from search panel
             		DragManager.acceptDragDrop(UIComponent(event.currentTarget));
             		// TODO change cursor icon for drop-target-enabled
@@ -44,7 +45,7 @@
 				LOG.finest("onDragDrop(event="+event+")");
 				
 				var ds:DragSource = event.dragSource;
-				if (isDragInitiatorSearchGrid(event) && ds.hasFormat("items")) {
+				if (isDragInitiatorSearchResult(event) && ds.hasFormat("items")) {
 					LOG.finer("accepting drop object.");
 					var dropData:Array = ds.dataForFormat("items") as Array;
 					if(dropData.length != 1) {
@@ -57,10 +58,10 @@
 				}
 			}
 			
-			private static function isDragInitiatorSearchGrid(event:DragEvent):Boolean {
-				if (event.dragInitiator is DataGrid) {
-                	const grid:DataGrid = event.dragInitiator as DataGrid;
-                	if(grid.id == "searchDataGrid") {
+			private static function isDragInitiatorSearchResult(event:DragEvent):Boolean {
+				if (event.dragInitiator is List) {
+                	const list:List = event.dragInitiator as List;
+                	if(list.id == "searchDataResult") {
                 		return true;
                 	}
     			}

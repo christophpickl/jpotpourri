@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%" height="125"
+	verticalScrollPolicy="off">
+	
+	<!-- data.type == net.sourceforge.teabee.valueobject.SearchResult -->
+	
+	<mx:Canvas maxWidth="150" height="120">
+	<mx:Image source="{data.thumbnail.url}"
+		width="{data.thumbnail.width}"
+		height="{data.thumbnail.height}"
+		maxHeight="90"
+		maintainAspectRatio="true"
+		/>
+	</mx:Canvas>
+	
+	<mx:VBox>
+		<mx:Label text="{data.title}" fontWeight="bold" />
+		<mx:Label text="Duration: {data.duration}s" />
+		<mx:Label text="URL: {data.url != null ? 'Available' : 'N/A'}" />
+	</mx:VBox>
+	
+</mx:HBox>

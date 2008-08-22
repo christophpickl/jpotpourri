@@ -10,6 +10,7 @@ import mx.rpc.http.HTTPService;
 import mx.utils.ObjectUtil;
 
 import net.sourceforge.teabee.valueobject.SearchResult;
+import net.sourceforge.teabee.valueobject.Thumbnail;
 
 
 public class YoutubeSearch {
@@ -83,16 +84,17 @@ public class YoutubeSearch {
 	
 	private function onResult(event:ResultEvent):void {
 		LOG.fine("onResult(event="+event+")");
-		var rawResult:ArrayCollection = event.result.feed.entry as ArrayCollection;
+		var entries:ArrayCollection = event.result.feed.entry as ArrayCollection;
 		
 		var result:ArrayCollection = new ArrayCollection();
-		for (var i:int=0; i < rawResult.length; i++) {
+		for (var i:int=0; i < entries.length; i++) {
+			var entry:Object = entries.getItemAt(i);
 			
-			var obj:Object = rawResult.getItemAt(i);
-			var entryTitle:String = obj.title;
-			var entrySwfSource:String = this.extractSwfSource(obj);
-			var duration:uint = obj.group.duration.seconds as uint;
-			var searchResult:SearchResult = new SearchResult(entryTitle, entrySwfSource, duration);
+			var entryTitle:String = entry.title;
+			var entrySwfSource:String = extractSwfSource(entry);
+			var duration:uint = entry.group.duration.seconds as uint;
+			var thumbnail:Thumbnail = extractFirstThumbnail(entry);
+			var searchResult:SearchResult = new SearchResult(entryTitle, entrySwfSource, duration, thumbnail);
 			
 			result.addItem(searchResult);
 		}
@@ -100,7 +102,18 @@ public class YoutubeSearch {
 		this._fnResult(result);
 	}
 	
-	private function extractSwfSource(item:Object):String {
+	private static function extractFirstThumbnail(entry:Object):Thumbnail {
+		var thumbnails:ArrayCollection = entry.group.thumbnail as ArrayCollection;
+		var tn:Object = thumbnails.getItemAt(0);
+		
+		var url:String = tn.url as String;
+		var width:uint = tn.width as uint;
+		var height:uint = tn.height as uint;
+		
+		return new Thumbnail(url, width, height);
+	}
+	
+	private static function extractSwfSource(item:Object):String {
 		if(item.group.content is ArrayCollection) {
 			for(var i:int=0; i < item.group.content.length; i++) {
 				var obj:Object = item.group.content[i];

@@ -30,10 +30,18 @@
 			<mx:Label text="{model.isSearching ? 'Searching ...' : 'Idle' }" />
 		</mx:HBox>
 		
+		<!--
 		<mx:DataGrid id="searchDataGrid"
 			dataProvider="{model.searchResult}"
 			width="100%" height="100%"
 			dragEnabled="true"
+			/>
+		-->
+		<mx:List id="searchDataResult"
+			dataProvider="{model.searchResult}"
+			width="100%" height="100%"
+			dragEnabled="true"
+			itemRenderer="net.sourceforge.teabee.view.renderer.SearchResultRenderer"
 			/>
 		
 	</mx:VBox>
