@@ -155,7 +155,6 @@ package net.sourceforge.teabee.view.third {
                 this._matrix.tx = this._point.x * -1;
                 this._matrix.ty = (this._point.y - target.height) * -1;
                 
-                trace("ReflectionManager.drawReflection(width="+width+";height="+height+")");
                 this._targetBMData = new BitmapData(this.width, this.height, true, 0);
                 this._targetBMData.draw(target, this._matrix);
                 

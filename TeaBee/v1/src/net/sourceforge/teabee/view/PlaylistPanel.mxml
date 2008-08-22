@@ -5,6 +5,9 @@
 	title="Playlist">
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import net.sourceforge.teabee.util.TimeUtil;
+			import net.sourceforge.teabee.valueobject.Playlist;
 			import mx.controls.List;
 			import mx.events.ListEvent;
 			import mx.utils.ObjectUtil;
@@ -53,7 +56,7 @@
 					}
 					
 					var searchResult:SearchResult = dropData[0] as SearchResult;
-					var newClip:Clip = new Clip(searchResult.title, searchResult.url, searchResult.duration);
+					var newClip:Clip = new Clip(searchResult.title, searchResult.url, searchResult.duration, searchResult.thumbnail);
 					Model.instance.selectedPlaylist.clips.addItem(newClip); // TODO do not only add it at last position, but on proper dropped position!
 				}
 			}
@@ -69,6 +72,9 @@
     			return false;
 			}
 			
+			private function lblDuration(item:Object, column:DataGridColumn):String {
+				return TimeUtil.formatSeconds(item.duration);
+			}
 		]]>
 	</mx:Script>
 	
@@ -81,9 +87,14 @@
 			width="100%" height="100%"
 			dragMoveEnabled="true" dragEnabled="true"
 			dragEnter="onDragEnter(event)" dragDrop="onDragDrop(event)"
-			change="onChange(event)"
-			backgroundColor="{Model.instance.selectedPlaylist == null ? 0xCECECE : 0xFFFFFF}"
-			/> <!--  dropEnabled="true" -->
+			change="onChange(event)">
+			<!-- dropEnabled="true" -->
+			<mx:columns>
+				<mx:DataGridColumn headerText="Title" dataField="title" />
+				<mx:DataGridColumn headerText="Duration" labelFunction="lblDuration" />
+			</mx:columns>
+			
+		</mx:DataGrid>
 		
 	</mx:VBox>
 	

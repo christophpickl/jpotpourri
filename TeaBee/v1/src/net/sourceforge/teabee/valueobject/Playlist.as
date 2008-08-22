@@ -20,6 +20,9 @@ public class Playlist implements INode {
 		this.parent = parent;
 	}
 
+	public static function newDefault():Playlist {
+		return new Playlist("untitled playlist");
+	}
 
 	public function toString():String {
 		return "Playlist[title=" + title + ";parent=" + parent + "]";

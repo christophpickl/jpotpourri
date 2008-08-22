@@ -9,8 +9,10 @@
 		<libtree:LibraryTree id="tree" width="100%" height="100%"/>
 		
 		<mx:HBox width="100%" horizontalAlign="center">
+			
 			<mx:Button label="add" icon="{Assets.TreePlaylistIcon}" click="this.tree.doAddPlaylist()" />
 			<mx:Button label="add" icon="{Assets.TreeFolderIcon}" click="this.tree.doAddFolder()" />
+			
 		</mx:HBox>
 		
 	</mx:VBox>

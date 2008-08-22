@@ -41,9 +41,7 @@ public class ReflectionCanvas extends Canvas {
 		
 		reflectionManager.target = panel;
 		reflectionManager.width = panel.width;
-		var newHeight:Number = (panel.height / 100) * this._distance;
-		trace("newHeight: " + newHeight.toString());
-		reflectionManager.height = newHeight;
+		reflectionManager.height = (panel.height / 100) * this._distance;
 		reflectionManager.fadeFrom = 0.5;
 		reflectionManager.fadeTo = 0.0;
 		reflectionManager.blur = 0.3;
