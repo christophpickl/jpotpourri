@@ -3,8 +3,94 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	layout="vertical" title="Player"
 	backgroundColor="#000000"
+	creationComplete="onCreationComplete()"
 	>
 	
-	<mx:Label text="... work in progress ..." color="#FFFFFF" />
+	<mx:Script>
+		<![CDATA[
+			import net.sourceforge.teabee.valueobject.IPlayable;
+			import net.sourceforge.teabee.business.PlayDelegate;
+		import mx.controls.Alert;
+		import mx.events.VideoEvent;
+		import logging.Logger;
+		
+		private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.view.VideoPlayer");
+		
+		[Bindable]
+		private var playEnabled:Boolean = false;
+		
+		private var loader:Loader;
+	
+	
+		private function onCreationComplete():void {
+			PlayDelegate.instance.addListener(doPlay);
+		}
+	
+		private function doPlay(playable:IPlayable):void {
+			LOG.fine("doPlay(playable="+playable+")");
+			// FIXME !!!!! sollte per binding, und dann beim setter hier diese logik reintun !!!!!
+			if(loader != null) { // not the first time
+				this.playEnabled = false;
+				if(this.videoDisplay.playing) {
+					this.videoDisplay.pause();
+				}
+			}
+			var request:URLRequest = new URLRequest(playable.url);
+			
+			loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.INIT, onRequestLoaded);
+			loader.load(request);
+		}
+		
+		private function onRequestLoaded(evt:Event):void {
+			var vars:URLVariables = new URLVariables();
+			vars.decode(loader.contentLoaderInfo.url.split("?")[1]);
+			var flvURL:String = constructFlvUrl(vars.video_id, vars.t);
+			
+			LOG.fine("onRequestLoaded(videoId="+vars.video_id+"; flvUrl="+flvURL);
+			
+			videoDisplay.source = flvURL;
+			videoDisplay.load();
+		}
+        
+		private static function constructFlvUrl(video_id:String, t:String):String {
+			var tmp:String = "http://www.youtube.com/get_video.php?";
+			tmp += "video_id="+video_id;
+			tmp += "&t="+t;
+			return tmp;
+		}
+		
+		private function onStateChange(event:VideoEvent):void {
+			LOG.finer("onStateChange(event.currentTarget.state="+event.currentTarget.state+")");
+			
+			switch (event.currentTarget.state) {
+                case VideoEvent.CONNECTION_ERROR:
+                    event.currentTarget.visible = false;
+                    Alert.show(event.currentTarget.source, "Unable to connect to video");
+                    break;
+                case VideoEvent.BUFFERING:
+                	this.playEnabled = true
+                	break;
+            }
+        }
+		
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="100%">
+        <mx:VideoDisplay id="videoDisplay" 
+     	    autoPlay="true" 
+            visible="true" 
+        	ready="videoDisplay.visible = true; "
+        	stateChange="onStateChange(event);" 
+        	height="100%"
+        	width="100%"
+        	/>
+        <mx:HBox width="100%" horizontalAlign="center">
+        	<mx:Button label="Play" click="this.videoDisplay.play()" enabled="{playEnabled &amp;&amp; !videoDisplay.playing}" />
+        	<mx:Button label="Pause" click="this.videoDisplay.pause()" enabled="{videoDisplay.playing == true}" />
+        </mx:HBox>
+		
+	</mx:VBox>
 	
 </mx:Panel>

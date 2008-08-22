@@ -1,7 +1,7 @@
 package net.sourceforge.teabee.valueobject {
 
 [Bindable]
-public class Clip {
+public class Clip implements IPlayable {
 	
 	public var title:String;
 	public var url:String;
@@ -16,7 +16,7 @@ public class Clip {
 	}
 	
 	public function toString():String {
-		return "Clip[title="+title+"]";
+		return "Clip[title="+title+";url="+url+"]";
 	}
 
 }

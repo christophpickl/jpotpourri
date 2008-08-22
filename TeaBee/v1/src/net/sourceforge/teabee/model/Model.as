@@ -4,6 +4,7 @@ import com.adobe.cairngorm.model.IModelLocator;
 
 import mx.collections.ArrayCollection;
 
+import net.sourceforge.teabee.dao.LibraryDao;
 import net.sourceforge.teabee.valueobject.Clip;
 import net.sourceforge.teabee.valueobject.Library;
 import net.sourceforge.teabee.valueobject.Playlist;
@@ -14,7 +15,8 @@ public class Model implements IModelLocator {
 	private static var INSTANCE:Model; 
 	
 	
-	public var library:Library = Library.newDefault;
+	// public var library:Library = Library.newDefault();
+	public var library:Library = LibraryDao.instance.load();
 	
 	public var searchResult:ArrayCollection = new ArrayCollection();
 	

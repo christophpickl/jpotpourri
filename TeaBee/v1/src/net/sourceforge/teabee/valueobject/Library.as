@@ -10,7 +10,7 @@ public class Library implements INodeContainer {
 	
 	private static const TITLE:String = "Library";
 
-	
+	/** ArrayCollection<INode> */
 	public var content:ArrayCollection;
 	
 	
@@ -19,7 +19,7 @@ public class Library implements INodeContainer {
 		this.content = content;
 	}
 	
-	public static function get newDefault():Library {
+	public static function newDefault():Library {
 		const lists:ArrayCollection = new ArrayCollection();
 		const library:Library = new Library(lists);
 		
