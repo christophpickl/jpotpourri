@@ -24,6 +24,13 @@
 			import mx.core.mx_internal;
 			use namespace mx_internal;
 			
+			[Embed("assets/img/icons/playlist.png")]
+            private var TreePlaylistIcon:Class;
+			[Embed("assets/img/icons/folder.png")]
+            private var TreeFolderIcon:Class;
+			//[Embed("assets/img/icons/folder_opened.png")]
+            //private var TreeFolderOpenedIcon:Class;
+
 			
 			private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.view.LibraryPanel");
 			
@@ -145,21 +152,30 @@
 				
 			}
 			
+			private function treeIconFunction(item:Object): Class {
+				if(item is Playlist) {
+					return TreePlaylistIcon;
+				} else if(item is Folder) {
+					return TreeFolderIcon;
+				} else {
+					throw new Error("Unhandled tree object: " + item);
+				}
+			}
 		]]>
 	</mx:Script>
 	
 	<mx:VBox width="100%" height="100%">
 		
-		<libtree:LibraryTree id="tree"
+		<libtree:LibraryTree id="tree" iconFunction="treeIconFunction"
 			
 			click="onClick()" doubleClick="onDoubleClick()"
 			dragEnter="onDragEnter(event)" dragDrop="onDragDrop(event)"
 			change="onChange(event)"
 			width="100%" height="100%"/>
 		
-		<mx:HBox>
-			<mx:Button label="+Folder" click="onAddFolder()" />
-			<mx:Button label="+Playlist" click="onAddPlaylist()" />
+		<mx:HBox width="100%" horizontalAlign="center">
+			<mx:Button label="add" icon="{TreePlaylistIcon}" click="onAddPlaylist()" />
+			<mx:Button label="add" icon="{TreeFolderIcon}" click="onAddFolder()" />
 		</mx:HBox>
 		
 	</mx:VBox>
