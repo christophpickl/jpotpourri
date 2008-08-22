@@ -6,11 +6,16 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.teabee.event.ResetLibraryEvent;
 			import net.sourceforge.teabee.dao.LibraryDao;
 			import net.sourceforge.teabee.event.SaveLibraryEvent;
 			
 			private function doSaveLibrary():void {
 				new SaveLibraryEvent().dispatch();
+			}
+			
+			private function doResetLibrary():void {
+				new ResetLibraryEvent().dispatch();
 			}
 			
 		]]>
@@ -26,7 +31,7 @@
 			<mx:Button label="add" icon="{Assets.TreePlaylistIcon}" click="this.tree.doAddPlaylist()" />
 			<mx:Button label="add" icon="{Assets.TreeFolderIcon}" click="this.tree.doAddFolder()" />
 			<mx:Button label="save" click="doSaveLibrary()" />
-			<mx:Button label="clear" click="LibraryDao.instance.clear()" />
+			<mx:Button label="clear" click="doResetLibrary()" />
 			
 		</mx:HBox>
 		

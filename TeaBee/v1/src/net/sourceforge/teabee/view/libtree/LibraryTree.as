@@ -63,6 +63,8 @@ public class LibraryTree extends Tree {
 		
 		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		
+		// FIXME sollte per binding irgendwie automatisch im setter tree.invalidate werden!!!
+		//       weil: beim ResetLibrary wird noch nicht invalidated!!!
 		AddDelegate.instance.addListener(didAdd);
 		
 		this.addEventListener(ListEvent.ITEM_EDIT_BEGIN, onItemEditBegin);
