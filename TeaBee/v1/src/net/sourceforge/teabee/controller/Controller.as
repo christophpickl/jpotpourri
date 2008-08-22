@@ -8,6 +8,7 @@ import net.sourceforge.teabee.command.DeleteClipCommand;
 import net.sourceforge.teabee.command.DeleteFolderCommand;
 import net.sourceforge.teabee.command.DeletePlaylistCommand;
 import net.sourceforge.teabee.command.PlayClipCommand;
+import net.sourceforge.teabee.command.ResetLibraryCommand;
 import net.sourceforge.teabee.command.SaveLibraryCommand;
 import net.sourceforge.teabee.command.SearchSubmitCommand;
 import net.sourceforge.teabee.event.AddFolderEvent;
@@ -16,6 +17,7 @@ import net.sourceforge.teabee.event.DeleteClipEvent;
 import net.sourceforge.teabee.event.DeleteFolderEvent;
 import net.sourceforge.teabee.event.DeletePlaylistEvent;
 import net.sourceforge.teabee.event.PlayClipEvent;
+import net.sourceforge.teabee.event.ResetLibraryEvent;
 import net.sourceforge.teabee.event.SaveLibraryEvent;
 import net.sourceforge.teabee.event.SearchSubmitEvent;
 
@@ -28,6 +30,7 @@ public class Controller extends FrontController {
 		this.addCommand(PlayClipEvent.EVENT_ID, PlayClipCommand);
 		
 		this.addCommand(SaveLibraryEvent.EVENT_ID, SaveLibraryCommand);
+		this.addCommand(ResetLibraryEvent.EVENT_ID, ResetLibraryCommand);
 		
 		
 		// crud stuff
