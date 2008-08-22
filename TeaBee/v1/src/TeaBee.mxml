@@ -29,9 +29,9 @@
 		
 		<view:LibraryPanel height="100%" width="20%" />
 				
-		<view:PlaylistPanel height="100%" width="50%" />
+		<view:PlaylistPanel height="100%" width="40%" />
 		
-		<view:SearchPanel height="100%" width="30%" />
+		<view:SearchPanel height="100%" width="40%" />
 		
 	</mx:HBox>
 	
