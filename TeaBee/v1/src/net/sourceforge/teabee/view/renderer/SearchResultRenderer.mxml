@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:HBox
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	width="100%" height="125"
+	xmlns:third="net.sourceforge.teabee.view.third.*"
+	xmlns:component="net.sourceforge.teabee.view.component.*"
+	
+	width="100%" height="115"
 	verticalScrollPolicy="off">
 	
 	<!-- data.type == net.sourceforge.teabee.valueobject.SearchResult -->
 	
-	<mx:Canvas maxWidth="150" height="120">
-	<mx:Image source="{data.thumbnail.url}"
+	<component:ReflectionCanvas maxWidth="150" height="100" distance="15">
+	<mx:Image id="img" source="{data.thumbnail.url}"
 		width="{data.thumbnail.width}"
 		height="{data.thumbnail.height}"
 		maxHeight="90"
 		maintainAspectRatio="true"
 		/>
-	</mx:Canvas>
-	
+	</component:ReflectionCanvas>
+	<!--
+	<third:ReflectionManager
+		target="{this.img}"
+		width="{this.img.width}"
+		height="{(this.img.height / 100) * 15}"
+		blur="0.3"
+		fadeFrom="0.3"
+		fadeTo="0.0"
+		distance="15"
+		/>
+	-->
+		
 	<mx:VBox>
 		<mx:Label text="{data.title}" fontWeight="bold" />
 		<mx:Label text="Duration: {data.duration}s" />
