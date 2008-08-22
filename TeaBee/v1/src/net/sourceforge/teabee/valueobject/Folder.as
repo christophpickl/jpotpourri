@@ -22,6 +22,10 @@ public class Folder implements INodeContainer {
 		
 		this.content = content == null ? new ArrayCollection() : content;
 	}
+	
+	public static function newDefault():Folder {
+		return new Folder("untitled folder");
+	}
 
 	public function toString():String {
 		return "Folder[title=" + title + ";parent=" + parent + ";content.length=" + content.length + "]";

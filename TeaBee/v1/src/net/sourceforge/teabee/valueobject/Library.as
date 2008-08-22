@@ -22,7 +22,11 @@ public class Library implements INodeContainer {
 	public static function get newDefault():Library {
 		const lists:ArrayCollection = new ArrayCollection();
 		const library:Library = new Library(lists);
-		lists.addItem(new Playlist("untitled", library));
+		
+		var defaultPlaylist:Playlist = Playlist.newDefault();
+		defaultPlaylist.parentNode = library;
+		
+		lists.addItem(defaultPlaylist);
 		
 		return library;
 	}

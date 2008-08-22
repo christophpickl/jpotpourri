@@ -1,9 +1,12 @@
 package net.sourceforge.teabee.view.libtree {
 
+import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
+import flash.ui.Keyboard;
 
 import logging.Logger;
 
+import mx.controls.TextInput;
 import mx.controls.Tree;
 import mx.core.DragSource;
 import mx.core.UIComponent;
@@ -13,16 +16,27 @@ import mx.events.ListEvent;
 import mx.managers.DragManager;
 import mx.utils.ObjectUtil;
 
+import net.sourceforge.teabee.business.AddDelegate;
+import net.sourceforge.teabee.event.AddFolderEvent;
+import net.sourceforge.teabee.event.AddPlaylistEvent;
+import net.sourceforge.teabee.event.DeleteFolderEvent;
+import net.sourceforge.teabee.event.DeletePlaylistEvent;
 import net.sourceforge.teabee.model.Model;
 import net.sourceforge.teabee.valueobject.Folder;
 import net.sourceforge.teabee.valueobject.Playlist;
 import net.sourceforge.teabee.view.Assets;
+
+// used to access Tree._dropData
 use namespace mx_internal;
 
 
 public class LibraryTree extends Tree {
 	
 	private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.view.LibraryTree");	
+	
+	/** used to avoid catching key event for node deletion */
+	private var _isEditing:Boolean = false;
+	
 	
 	
 	public function LibraryTree() {
@@ -46,12 +60,58 @@ public class LibraryTree extends Tree {
 		this.addEventListener(DragEvent.DRAG_DROP, onDragDrop);
 		
 		this.addEventListener(ListEvent.CHANGE, onChange);
+		
+		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		
+		AddDelegate.instance.addListener(didAdd);
+		
+		this.addEventListener(ListEvent.ITEM_EDIT_BEGIN, onItemEditBegin);
+		this.addEventListener(ListEvent.ITEM_EDIT_END, onItemEditEnd);
+	}
+	
+	private function onItemEditBegin(event:ListEvent):void {
+		// to take care of editing all alone: event.preventDefault();
+		
+		const node:INode = event.itemRenderer.data as INode;
+		this._isEditing = true;
+	}
+	
+	private function onItemEditEnd(event:ListEvent):void {
+		const node:INode = event.itemRenderer.data as INode;
+		const editor:TextInput = this.itemEditorInstance as TextInput;
+		if(editor.text.length == 0) {
+			/// prevent setting title to empty string
+			event.preventDefault();
+		}
+		this._isEditing = false;
+	}
+	
+	private function onKeyUp(event:KeyboardEvent):void {
+		if(this.selectedItem != null &&
+		   this._isEditing == false && // only, if not currently not editing a label
+		   (event.keyCode == Keyboard.DELETE || event.keyCode == Keyboard.BACKSPACE) ) {
+			LOG.fine("User hit delete key for item [" + this.selectedItem + "].");
+			
+			this.doDelete();
+		}
+	}
+	
+	private function doDelete():void {
+		if(this.selectedItem is Playlist) {
+			new DeletePlaylistEvent(this.selectedItem as Playlist).dispatch();
+		} else if(this.selectedItem is Folder) {
+			new DeleteFolderEvent(this.selectedItem as Folder).dispatch();
+		} else {
+			throw new Error("Unhandled library tree item: " + this.selectedItem);
+		}
+		
+		this.invalidateDisplayList();
 	}
 	
 	
 	private function openNodesUntil(node:INode):void {
 		while(node != null) {
-			// this.tree.expandChildrenOf(node, true); NO: also expands auf-gleicher-ebene nodes
+			// this.expandChildrenOf(node, true); NO: also expands auf-gleicher-ebene nodes
 			this.expandItem(node, true, false);
 			node = node.parentNode;
 		}
@@ -70,27 +130,26 @@ public class LibraryTree extends Tree {
 			
 	private function onChange(event:ListEvent):void {
 		var item:Object = this.selectedItem;
-		LOG.finer("onChange() this.tree.selectedItem=" + item);
+		LOG.finer("onChange() this.selectedItem=" + item);
 		if(item is Playlist) {
 			Model.instance.selectedPlaylist = item as Playlist;
 		} else {
 			Model.instance.selectedPlaylist = null;
 		}
 		
+		Model.instance.selectedClip = null;
 	}
 			
 	/* ****************************************************************************************************** */
 	//    ADD
 	/* ****************************************************************************************************** */
 	
-	private function doAdd(newNode:INode):void { 
-		newNode.parentNode = this.getDefaultAddTarget();
-		newNode.parentNode.children.addItem(newNode);
-		
+	private function didAdd(node:INode):void {
+		LOG.finer("didAdd(node=" + node + ")");
 		this.invalidateList();
 		
-		this.openNodesUntil(newNode);
-		this.selectedItem = newNode;
+		this.openNodesUntil(node);
+		this.selectedItem = node;
 		 
 		this.editable = true;
 		this.editedItemPosition = {columnIndex: 0, rowIndex: this.selectedIndex}; // TODO duplicate code
@@ -98,16 +157,16 @@ public class LibraryTree extends Tree {
 	
 	public function doAddFolder():void {
 		LOG.fine("doAddFolder()");
-		this.doAdd(new Folder("untitled"));
+		new AddFolderEvent(this.getDefaultAddTarget()).dispatch();
 	}
 	
 	public function doAddPlaylist():void {
 		LOG.fine("doAddPlaylist()");
-		this.doAdd(new Playlist("untitled"));
+		new AddPlaylistEvent(this.getDefaultAddTarget()).dispatch();
 	}
 	
 	private function getDefaultAddTarget():INodeContainer {
-		var defaultTarget:INode;
+		var defaultTarget:INode = null;
 		
 		if(this.selectedItem != null) {
 			var selectedNode:INode = this.selectedItem as INode;
@@ -116,9 +175,8 @@ public class LibraryTree extends Tree {
 			} else {
 				defaultTarget = selectedNode.parentNode; // its a leaf, get parent
 			}
-		} else {
-			defaultTarget = Model.instance.library;
 		}
+		
 		LOG.finer("getDefaultAddTarget() returns: " + defaultTarget);
 		return defaultTarget as INodeContainer;
 	}
