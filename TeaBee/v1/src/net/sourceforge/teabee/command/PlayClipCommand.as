@@ -5,6 +5,7 @@ import com.adobe.cairngorm.control.CairngormEvent;
 
 import logging.Logger;
 
+import net.sourceforge.teabee.business.PlayDelegate;
 import net.sourceforge.teabee.event.PlayClipEvent;
 
 public class PlayClipCommand implements ICommand {
@@ -19,7 +20,7 @@ public class PlayClipCommand implements ICommand {
 		const event:PlayClipEvent = _event as PlayClipEvent;
 		LOG.fine("execute(event=" + event + ")");
 		
-		
+		PlayDelegate.instance.doPlay(event.clip);
 	}
 	
 }

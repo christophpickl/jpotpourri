@@ -5,6 +5,7 @@
 	title="Playlist">
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.teabee.event.DeleteClipEvent;
 			import mx.controls.dataGridClasses.DataGridColumn;
 			import net.sourceforge.teabee.util.TimeUtil;
 			import net.sourceforge.teabee.valueobject.Playlist;
@@ -75,6 +76,13 @@
 			private function lblDuration(item:Object, column:DataGridColumn):String {
 				return TimeUtil.formatSeconds(item.duration);
 			}
+			
+			private function onKeyUp(event:KeyboardEvent):void {
+				if(playlistDataGrid.selectedItem != null &&
+				   (event.keyCode == Keyboard.BACKSPACE || event.keyCode == Keyboard.DELETE)) {
+					new DeleteClipEvent(Model.instance.selectedPlaylist, playlistDataGrid.selectedItem as Clip).dispatch();
+				}
+			}
 		]]>
 	</mx:Script>
 	
@@ -87,11 +95,13 @@
 			width="100%" height="100%"
 			dragMoveEnabled="true" dragEnabled="true"
 			dragEnter="onDragEnter(event)" dragDrop="onDragDrop(event)"
-			change="onChange(event)">
+			change="onChange(event)"
+			keyUp="onKeyUp(event)"
+			editable="true">
 			<!-- dropEnabled="true" -->
 			<mx:columns>
-				<mx:DataGridColumn headerText="Title" dataField="title" />
-				<mx:DataGridColumn headerText="Duration" labelFunction="lblDuration" />
+				<mx:DataGridColumn headerText="Title" dataField="title" editable="true" />
+				<mx:DataGridColumn headerText="Duration" labelFunction="lblDuration" editable="false" />
 			</mx:columns>
 			
 		</mx:DataGrid>
