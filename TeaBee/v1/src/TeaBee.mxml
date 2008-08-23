@@ -66,7 +66,7 @@
 	</mx:Script>
 	
 	<mx:ApplicationControlBar dock="true">
-		<mx:Label text="TeaBee v0.1" fontSize="14" fontWeight="bold" color="#FFFFFF" />
+		<mx:Label text="TeaBee v0.2" fontSize="14" fontWeight="bold" color="#FFFFFF" />
 			
 		<mx:Spacer width="100" />
 		

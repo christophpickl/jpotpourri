@@ -6,10 +6,16 @@
 	creationComplete="onCreationComplete()"
 	>
 	
+	<mx:Metadata>
+		[Event(name="playerFinished",type="net.sourceforge.teabee.event.PlayerEvent")]
+	</mx:Metadata>
+	
 	<mx:Script>
 		<![CDATA[
-			import net.sourceforge.teabee.valueobject.IPlayable;
-			import net.sourceforge.teabee.business.PlayDelegate;
+			import net.sourceforge.teabee.business.Jukebox;
+		import net.sourceforge.teabee.event.PlayerEvent;
+		import net.sourceforge.teabee.valueobject.IPlayable;
+		import net.sourceforge.teabee.business.PlayDelegate;
 		import mx.controls.Alert;
 		import mx.events.VideoEvent;
 		import logging.Logger;
@@ -20,14 +26,20 @@
 		private var playEnabled:Boolean = false;
 		
 		private var loader:Loader;
+		
+		// private var _playable:IPlayable;
 	
 	
 		private function onCreationComplete():void {
-			PlayDelegate.instance.addListener(doPlay);
+			new Jukebox(this);
 		}
 	
-		private function doPlay(playable:IPlayable):void {
-			LOG.fine("doPlay(playable="+playable+")");
+		public function doPlayPlayable(playable:IPlayable):void {
+			LOG.fine("doPlayPlayable(playable="+playable+")");
+			
+			this.lblPlayingTitle.text = "[" + playable.title + "]";
+			this.videoDisplay.visible = false;
+			
 			// FIXME !!!!! sollte per binding, und dann beim setter hier diese logik reintun !!!!!
 			if(loader != null) { // not the first time
 				this.playEnabled = false;
@@ -62,6 +74,7 @@
 		
 		private function onStateChange(event:VideoEvent):void {
 			LOG.finer("onStateChange(event.currentTarget.state="+event.currentTarget.state+")");
+			this.playerState = event.currentTarget.state;
 			
 			switch (event.currentTarget.state) {
                 case VideoEvent.CONNECTION_ERROR:
@@ -71,8 +84,17 @@
                 case VideoEvent.BUFFERING:
                 	this.playEnabled = true
                 	break;
+                case VideoEvent.PLAYING:
+                	this.videoDisplay.visible = true;
+                	break;
+                case VideoEvent.REWINDING:
+                	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYER_FINISHED));
+                	break;
             }
         }
+		
+		[Bindable]
+		private var playerState:String = "N/A";
 		
 		]]>
 	</mx:Script>
@@ -81,14 +103,19 @@
         <mx:VideoDisplay id="videoDisplay" 
      	    autoPlay="true" 
             visible="true" 
-        	ready="videoDisplay.visible = true; "
         	stateChange="onStateChange(event);" 
         	height="100%"
         	width="100%"
         	/>
         <mx:HBox width="100%" horizontalAlign="center">
+        	
+        	<mx:Label text="[{this.playerState}]" color="#FFFFFF" />
+        	
         	<mx:Button label="Play" click="this.videoDisplay.play()" enabled="{playEnabled &amp;&amp; !videoDisplay.playing}" />
         	<mx:Button label="Pause" click="this.videoDisplay.pause()" enabled="{videoDisplay.playing == true}" />
+        	
+        	<mx:Label id="lblPlayingTitle" text="" color="#FFFFFF" />
+        	
         </mx:HBox>
 		
 	</mx:VBox>

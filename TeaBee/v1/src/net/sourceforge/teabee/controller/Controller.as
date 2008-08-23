@@ -9,6 +9,7 @@ import net.sourceforge.teabee.command.DeleteClipCommand;
 import net.sourceforge.teabee.command.DeleteFolderCommand;
 import net.sourceforge.teabee.command.DeletePlaylistCommand;
 import net.sourceforge.teabee.command.PlayClipCommand;
+import net.sourceforge.teabee.command.PlayPlaylistCommand;
 import net.sourceforge.teabee.command.ResetLibraryCommand;
 import net.sourceforge.teabee.command.SaveLibraryCommand;
 import net.sourceforge.teabee.command.SearchSubmitCommand;
@@ -19,6 +20,7 @@ import net.sourceforge.teabee.event.DeleteClipEvent;
 import net.sourceforge.teabee.event.DeleteFolderEvent;
 import net.sourceforge.teabee.event.DeletePlaylistEvent;
 import net.sourceforge.teabee.event.PlayClipEvent;
+import net.sourceforge.teabee.event.PlayPlaylistEvent;
 import net.sourceforge.teabee.event.ResetLibraryEvent;
 import net.sourceforge.teabee.event.SaveLibraryEvent;
 import net.sourceforge.teabee.event.SearchSubmitEvent;
@@ -27,12 +29,21 @@ public class Controller extends FrontController {
 	
 	public function Controller() {
 		
+		// search stuff
+		// ------------------
 		this.addCommand(SearchSubmitEvent.EVENT_ID, SearchSubmitCommand);
 		
-		this.addCommand(PlayClipEvent.EVENT_ID, PlayClipCommand);
 		
+		// library dao stuff
+		// ------------------
 		this.addCommand(SaveLibraryEvent.EVENT_ID, SaveLibraryCommand);
 		this.addCommand(ResetLibraryEvent.EVENT_ID, ResetLibraryCommand);
+		
+		
+		// play stuff
+		// ------------------
+		this.addCommand(PlayPlaylistEvent.EVENT_ID, PlayPlaylistCommand);
+		this.addCommand(PlayClipEvent.EVENT_ID, PlayClipCommand);
 		
 		
 		// crud stuff

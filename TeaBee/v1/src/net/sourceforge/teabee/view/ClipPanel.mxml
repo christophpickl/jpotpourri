@@ -5,6 +5,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.teabee.util.TimeUtil;
 			import net.sourceforge.teabee.event.PlayClipEvent;
 			import net.sourceforge.teabee.valueobject.Clip;
 			import net.sourceforge.teabee.model.Model;
@@ -36,7 +37,7 @@
 			</mx:FormItem>
 			
 			<mx:FormItem label="Duration">
-				<mx:Label text="{MODEL.selectedClip.durationFormatted}" />
+				<mx:Label text="{TimeUtil.formatSeconds(MODEL.selectedClip.duration)}" />
 			</mx:FormItem>
 		
 			<mx:FormItem>
