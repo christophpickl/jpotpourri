@@ -2,7 +2,8 @@
 <mx:Panel
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	layout="vertical"
-	title="Playlist">
+	title="Playlist"
+	creationComplete="onCreationComplete()">
 	<mx:Script>
 		<![CDATA[
 			import net.sourceforge.teabee.event.DeleteClipEvent;
@@ -23,6 +24,21 @@
 			import net.sourceforge.teabee.model.Model;
 			
 			private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.view.PlaylistPanel");
+			
+			/** used to avoid catching key event for node deletion */
+			private var _isEditing:Boolean = false;
+			
+			private function onCreationComplete():void {
+				this.playlistDataGrid.addEventListener(ListEvent.ITEM_EDIT_BEGIN, onItemEditBegin);
+				this.playlistDataGrid.addEventListener(ListEvent.ITEM_EDIT_END, onItemEditEnd);
+			}
+			
+			private function onItemEditBegin(event:Event):void {
+				this._isEditing = true;
+			}
+			private function onItemEditEnd(event:Event):void {
+				this._isEditing = false;
+			}
 			
 			private function onChange(event:ListEvent):void {
 				LOG.finer("onChange(event=" + event + ")");
@@ -73,12 +89,9 @@
     			return false;
 			}
 			
-			private function lblDuration(item:Object, column:DataGridColumn):String {
-				return TimeUtil.formatSeconds(item.duration);
-			}
-			
 			private function onKeyUp(event:KeyboardEvent):void {
 				if(playlistDataGrid.selectedItem != null &&
+				   this._isEditing == false && // only, if not currently not editing a label
 				   (event.keyCode == Keyboard.BACKSPACE || event.keyCode == Keyboard.DELETE)) {
 					new DeleteClipEvent(Model.instance.selectedPlaylist, playlistDataGrid.selectedItem as Clip).dispatch();
 				}
@@ -101,7 +114,8 @@
 			<!-- dropEnabled="true" -->
 			<mx:columns>
 				<mx:DataGridColumn headerText="Title" dataField="title" editable="true" />
-				<mx:DataGridColumn headerText="Duration" labelFunction="lblDuration" editable="false" />
+				<mx:DataGridColumn headerText="Duration" dataField="durationFormatted" editable="false" />
+				<mx:DataGridColumn headerText="URL" dataField="url" editable="false" />
 			</mx:columns>
 			
 		</mx:DataGrid>

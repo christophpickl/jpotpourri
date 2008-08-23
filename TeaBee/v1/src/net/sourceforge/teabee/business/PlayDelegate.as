@@ -1,11 +1,16 @@
 package net.sourceforge.teabee.business {
 
+import logging.Logger;
+
 import mx.collections.ArrayCollection;
 
 import net.sourceforge.teabee.valueobject.IPlayable;
 
 
 public class PlayDelegate {
+	
+	private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.TeaBee");
+	
 	
 	private static var _instance:PlayDelegate;
 	
@@ -24,6 +29,7 @@ public class PlayDelegate {
 	}
 
 	public function doPlay(playable:IPlayable):void {
+		LOG.info("doPlay(playable="+playable+")");
 		this.broadcastDoPlay(playable);
 	}
 
