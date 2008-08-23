@@ -96,6 +96,10 @@
 					new DeleteClipEvent(Model.instance.selectedPlaylist, playlistDataGrid.selectedItem as Clip).dispatch();
 				}
 			}
+			
+			private function lblDuration(item:Object, column:DataGridColumn):String {
+				return TimeUtil.formatSeconds(item.duration);
+			}
 		]]>
 	</mx:Script>
 	
@@ -113,8 +117,14 @@
 			editable="true">
 			<!-- dropEnabled="true" -->
 			<mx:columns>
+				<mx:DataGridColumn headerText="" editable="false" width="60"
+					itemRenderer="net.sourceforge.teabee.view.renderer.PlaylistPlayRenderer" />
+				<!-- TODO disable single-click-edit and change to double-click-edit instead (like in library tree) -->
 				<mx:DataGridColumn headerText="Title" dataField="title" editable="true" />
-				<mx:DataGridColumn headerText="Duration" dataField="durationFormatted" editable="false" />
+				
+				<!--<mx:DataGridColumn headerText="Duration" dataField="durationFormatted" editable="false" />-->
+				<mx:DataGridColumn headerText="Duration" labelFunction="lblDuration" editable="false" />
+				
 				<mx:DataGridColumn headerText="URL" dataField="url" editable="false" />
 			</mx:columns>
 			

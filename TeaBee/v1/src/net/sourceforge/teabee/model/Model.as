@@ -4,6 +4,7 @@ import com.adobe.cairngorm.model.IModelLocator;
 
 import mx.collections.ArrayCollection;
 
+import net.sourceforge.teabee.business.Jukebox;
 import net.sourceforge.teabee.dao.LibraryDao;
 import net.sourceforge.teabee.valueobject.Clip;
 import net.sourceforge.teabee.valueobject.Library;

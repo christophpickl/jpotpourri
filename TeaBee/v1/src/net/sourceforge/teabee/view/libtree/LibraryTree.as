@@ -74,14 +74,14 @@ public class LibraryTree extends Tree {
 		
 	}
 	
-	private function onItemEditBegin(event:DataGridEvent):void {
+	private function onItemEditBegin(event:ListEvent):void {
 		// to take care of editing all alone: event.preventDefault();
 		// const node:INode = event.itemRenderer.data as INode;
 		
 		this._isEditing = true;
 	}
 	
-	private function onItemEditEnd(event:DataGridEvent):void {
+	private function onItemEditEnd(event:ListEvent):void {
 		const node:INode = event.itemRenderer.data as INode;
 		const editor:TextInput = this.itemEditorInstance as TextInput;
 		if(editor.text.length == 0) {

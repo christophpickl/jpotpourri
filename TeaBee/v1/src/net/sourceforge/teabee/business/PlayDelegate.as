@@ -5,11 +5,12 @@ import logging.Logger;
 import mx.collections.ArrayCollection;
 
 import net.sourceforge.teabee.valueobject.IPlayable;
+import net.sourceforge.teabee.valueobject.JukeboxList;
 
 
 public class PlayDelegate {
 	
-	private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.TeaBee");
+	private static const LOG:Logger = Logger.getLogger("net.sourceforge.teabee.business.PlayDelegate");
 	
 	
 	private static var _instance:PlayDelegate;
@@ -28,18 +29,19 @@ public class PlayDelegate {
 		return _instance;
 	}
 
-	public function doPlay(playable:IPlayable):void {
-		LOG.info("doPlay(playable="+playable+")");
-		this.broadcastDoPlay(playable);
+	public function doPlay(jukeboxList:JukeboxList):void {
+		LOG.info("doPlay(jukeboxList="+jukeboxList+")");
+		this.broadcastDoPlay(jukeboxList);
 	}
 
 	public function addListener(doPlayFunction:Function):void {
 		this._listener.addItem(doPlayFunction);
 	}
 	
-	private function broadcastDoPlay(playable:IPlayable):void {
+	private function broadcastDoPlay(jukeboxList:JukeboxList):void {
+		LOG.finest("broadcastDoPlay(jukeboxList="+jukeboxList+") listener.length: " + this._listener.length);
 		for each (var doPlayFunction:Function in this._listener) {
-			doPlayFunction(playable);
+			doPlayFunction(jukeboxList);
 		}
 	}
 }
