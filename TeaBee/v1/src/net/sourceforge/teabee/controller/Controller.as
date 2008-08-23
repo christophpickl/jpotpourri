@@ -2,6 +2,7 @@ package net.sourceforge.teabee.controller {
 
 import com.adobe.cairngorm.control.FrontController;
 
+import net.sourceforge.teabee.command.AddClipCommand;
 import net.sourceforge.teabee.command.AddFolderCommand;
 import net.sourceforge.teabee.command.AddPlaylistCommand;
 import net.sourceforge.teabee.command.DeleteClipCommand;
@@ -11,6 +12,7 @@ import net.sourceforge.teabee.command.PlayClipCommand;
 import net.sourceforge.teabee.command.ResetLibraryCommand;
 import net.sourceforge.teabee.command.SaveLibraryCommand;
 import net.sourceforge.teabee.command.SearchSubmitCommand;
+import net.sourceforge.teabee.event.AddClipEvent;
 import net.sourceforge.teabee.event.AddFolderEvent;
 import net.sourceforge.teabee.event.AddPlaylistEvent;
 import net.sourceforge.teabee.event.DeleteClipEvent;
@@ -41,6 +43,7 @@ public class Controller extends FrontController {
 		this.addCommand(AddPlaylistEvent.EVENT_ID, AddPlaylistCommand);
 		this.addCommand(DeletePlaylistEvent.EVENT_ID, DeletePlaylistCommand);
 		
+		this.addCommand(AddClipEvent.EVENT_ID, AddClipCommand);
 		this.addCommand(DeleteClipEvent.EVENT_ID, DeleteClipCommand);
 		
 	}

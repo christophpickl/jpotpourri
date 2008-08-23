@@ -11,8 +11,6 @@ public class DeleteDelegate {
 	
 	private static var _instance:DeleteDelegate;
 	
-	// private var _listener:ArrayCollection = new ArrayCollection();
-	
 	
 	public function DeleteDelegate(singletonEnforcer:SingletonEnforcer) {
 		
@@ -47,17 +45,6 @@ public class DeleteDelegate {
 		Model.instance.selectedClip = null;
 	}
 
-	/*
-	public function addListener(didDeleteFunction:Function):void {
-		this._listener.addItem(didDeleteFunction);
-	}
-	
-	private function broadcastDidDelete(node:INode):void {
-		for each (var didDeleteFunction:Function in this._listener) {
-			didDeleteFunction(node);
-		}
-	}
-	*/
 }
 }
 

@@ -6,6 +6,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.teabee.model.Model;
 			import net.sourceforge.teabee.event.ResetLibraryEvent;
 			import net.sourceforge.teabee.dao.LibraryDao;
 			import net.sourceforge.teabee.event.SaveLibraryEvent;
@@ -24,7 +25,8 @@
 	
 	<mx:VBox width="100%" height="100%">
 		
-		<libtree:LibraryTree id="tree" width="100%" height="100%"/>
+		<libtree:LibraryTree id="tree" width="100%" height="100%"
+			dataProvider="{Model.instance.library}"/>
 		
 		<mx:HBox width="100%" horizontalAlign="center">
 			
