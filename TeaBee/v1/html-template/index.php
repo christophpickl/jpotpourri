@@ -1,3 +1,3 @@
 <?php
-header("Location: /teabee/TeaBee.swf");
+header("Location: /teabee/TeaBee.html");
 ?>

@@ -36,12 +36,13 @@
 			</mx:FormItem>
 			
 			<mx:FormItem label="Duration">
-				<mx:Label text="{MODEL.selectedClip.duration}" />
+				<mx:Label text="{MODEL.selectedClip.durationFormatted}" />
 			</mx:FormItem>
 		
 			<mx:FormItem>
 				<mx:HBox>
-					<mx:Button label="Play" click="doPlay()" enabled="{MODEL.selectedClip != null}" />
+					<mx:Button label="Play" click="doPlay()"
+						enabled="{MODEL.selectedClip != null &amp;&amp; MODEL.selectedClip.url != null}" />
 				</mx:HBox>
 			</mx:FormItem>
 	</mx:Form>

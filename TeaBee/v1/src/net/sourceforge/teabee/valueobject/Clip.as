@@ -1,4 +1,6 @@
 package net.sourceforge.teabee.valueobject {
+	import net.sourceforge.teabee.util.TimeUtil;
+	
 
 [Bindable]
 public class Clip implements IPlayable {
@@ -13,6 +15,10 @@ public class Clip implements IPlayable {
 		this.url = url;
 		this.duration = duration;
 		this.thumbnail = thumbnail;
+	}
+	
+	public function get durationFormatted():String {
+		return TimeUtil.formatSeconds(this.duration)
 	}
 	
 	public function toString():String {
