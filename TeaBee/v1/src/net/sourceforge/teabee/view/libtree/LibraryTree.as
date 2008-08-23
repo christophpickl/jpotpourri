@@ -16,7 +16,7 @@ import mx.events.ListEvent;
 import mx.managers.DragManager;
 import mx.utils.ObjectUtil;
 
-import net.sourceforge.teabee.business.AddDelegate;
+import net.sourceforge.teabee.business.TreeChangeProvider;
 import net.sourceforge.teabee.event.AddFolderEvent;
 import net.sourceforge.teabee.event.AddPlaylistEvent;
 import net.sourceforge.teabee.event.DeleteFolderEvent;
@@ -40,7 +40,6 @@ public class LibraryTree extends Tree {
 	
 	
 	public function LibraryTree() {
-		this.dataProvider = Model.instance.library;
 		
 		this.showRoot = false;
 		this.editable = true;
@@ -62,13 +61,16 @@ public class LibraryTree extends Tree {
 		this.addEventListener(ListEvent.CHANGE, onChange);
 		
 		this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+				
+		this.addEventListener(ListEvent.ITEM_EDIT_BEGIN, onItemEditBegin);
+		this.addEventListener(ListEvent.ITEM_EDIT_END, onItemEditEnd);
+		
 		
 		// FIXME sollte per binding irgendwie automatisch im setter tree.invalidate werden!!!
 		//       weil: beim ResetLibrary wird noch nicht invalidated!!!
-		AddDelegate.instance.addListener(didAdd);
+		TreeChangeProvider.instance.addAddListener(didAdd);
+		TreeChangeProvider.instance.addResetListener(didReset);
 		
-		this.addEventListener(ListEvent.ITEM_EDIT_BEGIN, onItemEditBegin);
-		this.addEventListener(ListEvent.ITEM_EDIT_END, onItemEditEnd);
 	}
 	
 	private function onItemEditBegin(event:ListEvent):void {
@@ -143,9 +145,9 @@ public class LibraryTree extends Tree {
 	}
 			
 	/* ****************************************************************************************************** */
-	//    ADD
+	//    PSEUDO DATA DESCRIPTOR CHANGES
 	/* ****************************************************************************************************** */
-	
+			
 	private function didAdd(node:INode):void {
 		LOG.finer("didAdd(node=" + node + ")");
 		this.invalidateList();
@@ -156,6 +158,15 @@ public class LibraryTree extends Tree {
 		this.editable = true;
 		this.editedItemPosition = {columnIndex: 0, rowIndex: this.selectedIndex}; // TODO duplicate code
 	}
+	
+	private function didReset():void {
+		this.invalidateList();
+	}
+	
+	/* ****************************************************************************************************** */
+	//    ADD
+	/* ****************************************************************************************************** */
+	
 	
 	public function doAddFolder():void {
 		LOG.fine("doAddFolder()");
