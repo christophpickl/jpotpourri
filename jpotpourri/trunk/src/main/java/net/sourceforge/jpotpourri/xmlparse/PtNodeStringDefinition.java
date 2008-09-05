@@ -11,10 +11,10 @@ public class PtNodeStringDefinition<T> extends AbstractNodeDefinition<T, String>
 	
 	public PtNodeStringDefinition(
 			final Class<? extends T> clazz,
-			final String setterMethodName,
-			final String xmlNodeName
+			final IPtNodeName xmlNodeName,
+			final String setterMethodName
 		) {
-		super(clazz, DUMMY_OBJECT, setterMethodName, xmlNodeName);
+		super(clazz, DUMMY_OBJECT, xmlNodeName, setterMethodName);
 	}
 	
 	@Override

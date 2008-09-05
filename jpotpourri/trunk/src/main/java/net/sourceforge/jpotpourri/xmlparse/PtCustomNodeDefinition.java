@@ -6,13 +6,13 @@ package net.sourceforge.jpotpourri.xmlparse;
  */
 public abstract class PtCustomNodeDefinition<T> implements IPtNodeDefinition<T> {
 	
-	private final String xmlNodeName;
+	private final IPtNodeName xmlNodeName;
 	
-	public PtCustomNodeDefinition(final String xmlNodeName) {
+	public PtCustomNodeDefinition(final IPtNodeName xmlNodeName) {
 		this.xmlNodeName = xmlNodeName;
 	}
 	
-	public final String getXmlNodeName() {
+	public final IPtNodeName getXmlNodeName() {
 		return this.xmlNodeName;
 	}
 }

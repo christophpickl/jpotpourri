@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
  */
 public interface IPtNodeDefinition<T> {
 	
-	String getXmlNodeName();
+	IPtNodeName getXmlNodeName();
 	
 	void invoke(final T alert, final Node node);
 	

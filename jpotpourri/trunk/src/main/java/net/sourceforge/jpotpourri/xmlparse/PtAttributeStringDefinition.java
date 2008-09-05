@@ -11,9 +11,9 @@ public class PtAttributeStringDefinition<T> implements IPtNodeDefinition<T> {
 	private static final String DUMMY_OBJECT = "";
 	
 	
-	private final String xmlNodeName;
+	private final IPtNodeName xmlNodeName;
 	
-	private final String xmlNodeAttribute;
+	private final IPtNodeName xmlNodeAttribute; // TODO change to IPtNodeAttributeName
 	
 	private final MethodFetcher<T> methodFetcher;
 	
@@ -21,21 +21,21 @@ public class PtAttributeStringDefinition<T> implements IPtNodeDefinition<T> {
 	
 	public PtAttributeStringDefinition(
 			final Class<? extends T> clazz,
-			final String setterMethodName,
-			final String xmlNodeName,
-			final String xmlNodeAttribute
+			final IPtNodeName xmlNodeName,
+			final IPtNodeName xmlNodeAttribute,
+			final String setterMethodName
 		) {
 		this.xmlNodeName = xmlNodeName;
 		this.xmlNodeAttribute = xmlNodeAttribute;
 		this.methodFetcher = new MethodFetcher<T>(clazz, setterMethodName, DUMMY_OBJECT);
 	}
 	
-	public final String getXmlNodeName() {
+	public final IPtNodeName getXmlNodeName() {
 		return this.xmlNodeName;
 	}
 	
 	public final void invoke(final T alert, final Node node) {
-		final Node attribute = node.getAttributes().getNamedItem(this.xmlNodeAttribute);
+		final Node attribute = node.getAttributes().getNamedItem(this.xmlNodeAttribute.getNodeName());
 		final String value = attribute.getTextContent().trim();
 		this.methodFetcher.invoke(alert, value);
 	}
