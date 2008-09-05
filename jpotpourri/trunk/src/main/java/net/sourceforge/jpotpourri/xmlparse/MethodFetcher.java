@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
  * @param <T> object type providing setter method
  * @author christoph_pickl@users.sourceforge.net
  */
-class MethodFetcher<T> {
+public class MethodFetcher<T> {
 
 	private static final Log LOG = LogFactory.getLog(MethodFetcher.class);
 	
@@ -50,9 +50,9 @@ class MethodFetcher<T> {
 		}
 	}
 	
-	public void invoke(final T alert, final Object value) {
+	public void invoke(final T target, final Object value) {
 		try {
-			Object targetObject = alert;
+			Object targetObject = target;
 			for (int i = 0, n = this.methods.size(); i < n; i++) {
 				final Method method = this.methods.get(i);
 
@@ -64,7 +64,7 @@ class MethodFetcher<T> {
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Could not invoke method path " +
-					"for class [" + alert.getClass().getName() + "]!", e);
+					"for class [" + target.getClass().getName() + "]!", e);
 		}
 	}
 }
