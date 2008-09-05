@@ -6,15 +6,12 @@ package net.sourceforge.jpotpourri.xmlparse;
  */
 public class PtNodeStringDefinition<T> extends AbstractNodeDefinition<T, String> {
 	
-	private static final String DUMMY_OBJECT = "";
-	
-	
 	public PtNodeStringDefinition(
 			final Class<? extends T> clazz,
 			final IPtNodeName xmlNodeName,
 			final String setterMethodName
 		) {
-		super(clazz, DUMMY_OBJECT, xmlNodeName, setterMethodName);
+		super(clazz, String.class, xmlNodeName, setterMethodName);
 	}
 	
 	@Override

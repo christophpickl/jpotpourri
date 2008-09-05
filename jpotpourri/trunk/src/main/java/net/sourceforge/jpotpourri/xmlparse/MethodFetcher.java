@@ -10,29 +10,30 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @param <T> object type providing setter method
+ * @param <S> type of setter argument
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MethodFetcher<T> {
+public class MethodFetcher<T, S> {
 
 	private static final Log LOG = LogFactory.getLog(MethodFetcher.class);
 	
 	private final List<Method> methods;
 	
 	public MethodFetcher(
-			final Class<?> clazz,
-			final String setterMethodName,
-			final Object dummyObject
+			final Class<? extends T> targetClass,
+			final Class<S> setterClass,
+			final String setterMethodName
 		) {
 		try {
 			final String[] methodNames = setterMethodName.split("\\.");
-			Class<?> tmpClass = clazz;
+			Class<?> tmpClass = targetClass;
 			this.methods = new ArrayList<Method>(methodNames.length);
 			for (int i = 0; i < methodNames.length; i++) {
 				final String methodName = methodNames[i];
 				
 				final Class<?>[] methodArgs;
 				if(i == (methodNames.length - 1)) { // last one, setter
-					methodArgs = new Class<?>[] { dummyObject.getClass() };
+					methodArgs = new Class<?>[] { setterClass };
 				} else {
 					methodArgs = new Class<?>[0];
 				}
@@ -46,7 +47,7 @@ public class MethodFetcher<T> {
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Could not construct method path [" + setterMethodName + "] " +
-					"for class [" + clazz.getName() + "]!", e);
+					"for class [" + targetClass.getName() + "]!", e);
 		}
 	}
 	

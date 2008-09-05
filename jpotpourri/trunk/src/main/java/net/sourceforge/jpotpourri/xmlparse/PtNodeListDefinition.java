@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 public class PtNodeListDefinition<T> {
 	
 	private final List<IPtNodeDefinition<T>> definitions;
-	
+
 	@SuppressWarnings("unchecked")
 	public PtNodeListDefinition(final IPtNodeDefinition<?>... definitions) {
 		if(definitions == null || definitions.length == 0) {
@@ -29,7 +29,8 @@ public class PtNodeListDefinition<T> {
 		
 		boolean yetProcessed = false;
 		for (IPtNodeDefinition<T> definition : this.definitions) {
-			if(definition.getXmlNodeName().equals(nodeName)) {
+			// System.out.println(nodeName + " -> " + definition.getXmlNodeName().getNodeName());
+			if(definition.getXmlNodeName().getNodeName().equals(nodeName)) {
 				definition.invoke(alert, node);
 				yetProcessed = true; // could be processed twice
 			}
