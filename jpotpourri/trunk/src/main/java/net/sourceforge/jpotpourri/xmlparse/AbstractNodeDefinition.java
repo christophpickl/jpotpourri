@@ -10,20 +10,20 @@ import org.w3c.dom.Node;
 abstract class AbstractNodeDefinition<T, S> implements IPtNodeDefinition<T> {
 
 	
-	private final String xmlNodeName;
+	private final IPtNodeName xmlNodeName;
 	private final MethodFetcher<T> methodFetcher; 
 	
 	AbstractNodeDefinition(
 			final Class<? extends T> clazz,
 			final S dummyObject,
-			final String setterMethodName,
-			final String xmlNodeName
+			final IPtNodeName xmlNodeName,
+			final String setterMethodName
 		) {
 		this.methodFetcher = new MethodFetcher<T>(clazz, setterMethodName, dummyObject);
 		this.xmlNodeName = xmlNodeName;
 	}
 	
-	public final String getXmlNodeName() {
+	public final IPtNodeName getXmlNodeName() {
 		return this.xmlNodeName;
 	}
 	
