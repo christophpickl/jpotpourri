@@ -11,15 +11,15 @@ abstract class AbstractNodeDefinition<T, S> implements IPtNodeDefinition<T> {
 
 	
 	private final IPtNodeName xmlNodeName;
-	private final MethodFetcher<T> methodFetcher; 
+	private final MethodFetcher<T, S> methodFetcher; 
 	
 	AbstractNodeDefinition(
-			final Class<? extends T> clazz,
-			final S dummyObject,
+			final Class<? extends T> targetClass,
+			final Class<S> argumentClass,
 			final IPtNodeName xmlNodeName,
 			final String setterMethodName
 		) {
-		this.methodFetcher = new MethodFetcher<T>(clazz, setterMethodName, dummyObject);
+		this.methodFetcher = new MethodFetcher<T, S>(targetClass, argumentClass, setterMethodName);
 		this.xmlNodeName = xmlNodeName;
 	}
 	

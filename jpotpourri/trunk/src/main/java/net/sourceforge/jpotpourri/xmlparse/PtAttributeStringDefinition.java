@@ -7,15 +7,13 @@ import org.w3c.dom.Node;
  * @author christoph_pickl@users.sourceforge.net
  */
 public class PtAttributeStringDefinition<T> implements IPtNodeDefinition<T> {
-
-	private static final String DUMMY_OBJECT = "";
 	
 	
 	private final IPtNodeName xmlNodeName;
 	
 	private final IPtNodeName xmlNodeAttribute; // TODO change to IPtNodeAttributeName
 	
-	private final MethodFetcher<T> methodFetcher;
+	private final MethodFetcher<T, String> methodFetcher;
 	
 	
 	
@@ -27,7 +25,7 @@ public class PtAttributeStringDefinition<T> implements IPtNodeDefinition<T> {
 		) {
 		this.xmlNodeName = xmlNodeName;
 		this.xmlNodeAttribute = xmlNodeAttribute;
-		this.methodFetcher = new MethodFetcher<T>(clazz, setterMethodName, DUMMY_OBJECT);
+		this.methodFetcher = new MethodFetcher<T, String>(clazz, String.class, setterMethodName);
 	}
 	
 	public final IPtNodeName getXmlNodeName() {
