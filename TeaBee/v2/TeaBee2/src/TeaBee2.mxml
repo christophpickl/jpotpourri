@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import net.sourceforge.teabee.air.search.SearchResultVideo;
+			import net.sourceforge.teabee.air.search.SearchResult;
+			import net.sourceforge.teabee.air.search.SearchQuery;
+			import net.sourceforge.teabee.air.search.SearchService;
+			import mx.messaging.channels.AMFChannel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			
+			private const searchService: SearchService = new SearchService();
+			
+			private function onClick():void {
+				// SearchResult doSearch(final SearchQuery query);
+				
+				trace("invoking rpc method...");
+				var query: SearchQuery = new SearchQuery();
+				query.startIndex = 1;
+				query.maxResults = 10;
+				query.searchTerm = "maven";
+				this.searchService.search(query, this.onResult);
+			}
+			
+			private function onResult(result: SearchResult): void {
+				for each(var video: SearchResultVideo in result.videos) {
+					trace("title: " + video.title);
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	
+	<mx:Button label="servere" click="onClick()" />
+		
+</mx:WindowedApplication>
