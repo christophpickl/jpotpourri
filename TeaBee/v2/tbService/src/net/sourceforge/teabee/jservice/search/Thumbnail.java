@@ -4,9 +4,13 @@ import com.google.gdata.data.media.mediarss.MediaThumbnail;
 
 public class Thumbnail {
 
-	private final String url;
-	private final int width;
-	private final int height;
+	private String url;
+	private int width;
+	private int height;
+	
+	public Thumbnail() {
+		// for flex
+	}
 	
 	private Thumbnail(String url, int width, int height) {
 		this.url = url;
@@ -34,6 +38,20 @@ public class Thumbnail {
 	public int getHeight() {
 		return this.height;
 	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+	
 	
 }
 /*

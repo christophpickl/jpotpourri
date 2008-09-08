@@ -4,7 +4,7 @@ import net.sourceforge.teabee.jservice.search.SessionTicket;
 import net.sourceforge.teabee.jservice.storage.HiddenUserService;
 
 public class LoginService {
-
+	// FIXME reimplement master/service-ticket: http://www.ibm.com/developerworks/java/library/j-gss-sso/
 	
 	public LoginResult doLogin(final String username, final String passwordHash) {
 		

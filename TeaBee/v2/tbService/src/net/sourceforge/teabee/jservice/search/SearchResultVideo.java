@@ -11,10 +11,14 @@ public class SearchResultVideo {
 
 	private static final String TYPE_SWF = "application/x-shockwave-flash"; // video/3gpp
 	
-	private final String title;
-	private final String videoId;
-	private final List<Thumbnail> thumbnails;
-	private final int duration; // in seconds
+	private String title;
+	private String videoId;
+	private List<Thumbnail> thumbnails;
+	private int duration; // in seconds
+	
+	public SearchResultVideo() {
+		// for flex
+	}
 	
 	private SearchResultVideo(final String title, final String videoId, final List<Thumbnail> thumbnails, final int duration) {
 		this.title = title;
@@ -85,6 +89,25 @@ public class SearchResultVideo {
 	public int getDuration() {
 		return this.duration;
 	}
+	
+	
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setVideoId(String videoId) {
+		this.videoId = videoId;
+	}
+
+	public void setThumbnails(List<Thumbnail> thumbnails) {
+		this.thumbnails = thumbnails;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+	
 	
 }
 /*
