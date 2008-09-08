@@ -6,12 +6,15 @@ import java.util.List;
 
 public class SearchResult {
 
-	private final SearchQuery query;
+	private SearchQuery query;
 	
-	private final List<SearchResultVideo> videos;
+	private List<SearchResultVideo> videos;
 	
-	private final int totalResults;
+	private int totalResults;
 
+	public SearchResult() {
+		// no-arg public constructor necessary for flex conversion
+	}
 	
 	public SearchResult(final SearchQuery query, final List<SearchResultVideo> videos, final int totalResults) {
 		this.query = query;
@@ -36,6 +39,18 @@ public class SearchResult {
 
 	public int getTotalResults() {
 		return this.totalResults;
+	}
+
+	public void setQuery(SearchQuery query) {
+		this.query = query;
+	}
+
+	public void setVideos(List<SearchResultVideo> videos) {
+		this.videos = videos;
+	}
+
+	public void setTotalResults(int totalResults) {
+		this.totalResults = totalResults;
 	}
 	
 }

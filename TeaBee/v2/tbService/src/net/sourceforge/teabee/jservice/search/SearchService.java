@@ -65,3 +65,53 @@ public class SearchService implements ISearchService {
 		System.out.println("....");
 	}
 }
+/*
+<entry>
+<id>http://gdata.youtube.com/feeds/api/videos/biqsxIUzi2o
+</id>
+<published>2008-08-21T23:11:49.000-07:00</published>
+<updated>2008-08-21T23:18:09.000-07:00</updated>
+<category scheme='http://gdata.youtube.com/schemas/2007/categories.cat' term='Entertainment'
+    label='Entertainment' />
+<category scheme='http://schemas.google.com/g/2005#kind' term='http://gdata.youtube.com/schemas/2007#video' />
+<category scheme='http://gdata.youtube.com/schemas/2007/keywords.cat' term='sdfafsf' />
+<title type='text'>asdf</title>
+<content type='text'>sdf</content>
+<link rel='alternate' type='text/html' href='http://www.youtube.com/watch?v=biqsxIUzi2o' />
+<link rel='http://gdata.youtube.com/schemas/2007#video.responses' type='application/atom+xml'
+    href='http://gdata.youtube.com/feeds/api/videos/biqsxIUzi2o/responses' />
+<link rel='http://gdata.youtube.com/schemas/2007#video.related' type='application/atom+xml'
+    href='http://gdata.youtube.com/feeds/api/videos/biqsxIUzi2o/related' />
+<link rel='self' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/videos/biqsxIUzi2o' />
+<author>
+    <name>DTkixx</name>
+    <uri>http://gdata.youtube.com/feeds/api/users/dtkixx
+    </uri>
+</author>
+<media:group>
+    <media:title type='plain'>asdf</media:title>
+    <media:description type='plain'>sdf</media:description>
+    <media:keywords>sdfafsf</media:keywords>
+    <yt:duration seconds='87' />
+    <media:category label='Entertainment'
+        scheme='http://gdata.youtube.com/schemas/2007/categories.cat'>Entertainment</media:category>
+    <media:content url='http://www.youtube.com/v/biqsxIUzi2o&amp;f=gdata_videos'
+        type='application/x-shockwave-flash' medium='video' isDefault='true' expression='full'
+        duration='87' yt:format='5' />
+    <media:player url='http://www.youtube.com/watch?v=biqsxIUzi2o' />
+    <media:thumbnail url='http://img.youtube.com/vi/biqsxIUzi2o/2.jpg'
+        height='97' width='130' time='00:00:43.500' />
+    <media:thumbnail url='http://img.youtube.com/vi/biqsxIUzi2o/1.jpg'
+        height='97' width='130' time='00:00:21.750' />
+    <media:thumbnail url='http://img.youtube.com/vi/biqsxIUzi2o/3.jpg'
+        height='97' width='130' time='00:01:05.250' />
+    <media:thumbnail url='http://img.youtube.com/vi/biqsxIUzi2o/0.jpg'
+        height='240' width='320' time='00:00:43.500' />
+</media:group>
+<gd:comments>
+    <gd:feedLink href='http://gdata.youtube.com/feeds/api/videos/biqsxIUzi2o/comments'
+        countHint='0' />
+</gd:comments>
+</entry>
+*/
+
