@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication
+	layout="vertical"
+	creationComplete="onCreationComplete()"
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="net.sourceforge.jpotpourri.learnme.view.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import logging.Logger;
+			import logging.LogManager;
+			
+			private static const LOG:Logger = Logger.getLogger("LearnMe");
+			
+			private function onCreationComplete(): void {
+				LogManager.getInstance().readProperties("logging.xml");
+			}
+			/* if(stage.displayState == StageDisplayState.NORMAL) {
+                stage.displayState = StageDisplayState.FULL_SCREEN;
+            } else {
+                stage.displayState = StageDisplayState.NORMAL;
+            } */
+	        
+	        
+			/*
+			private function doLoadQuestionCatalog(): void {
+				new FileOpener().openFile(File.desktopDirectory, onFileOpened);
+			}
+			private function onFileOpened(fileTextContent: String): void {
+				this.inpText.text = fileTextContent;
+			}
+			*/
+			
+		]]>
+	</mx:Script>
+	
+	<!--
+	<mx:Button label="Load Question Catalog" click="doLoadQuestionCatalog()" />
+	<mx:TextArea id="inpText" width="400" height="200" />
+	-->
+	
+	<mx:transitions>
+		<mx:Transition fromState="*" toState="*">
+			<mx:Sequence target="{container}">
+				<!-- <mx:Blur duration="200" blurXFrom="1.0" blurXTo="20.0" /> -->
+				<mx:Blur duration="200" blurXFrom="20.0" blurXTo="1.0" />
+			</mx:Sequence>
+		</mx:Transition>
+	</mx:transitions>
+	
+	
+	<mx:states>
+		<mx:State name="Questionairy">
+			
+			<mx:RemoveChild target="{homePanel}" />
+			
+			<mx:AddChild relativeTo="{container}">
+				<view:QuestionaryPanel />
+			</mx:AddChild>
+			
+		</mx:State>
+		<mx:State name="QuestionairyFinish">
+			
+			<mx:RemoveChild target="{homePanel}" />
+			
+			<mx:AddChild relativeTo="{container}">
+				<view:QuestionaryFinishPanel />
+			</mx:AddChild>
+			
+		</mx:State>
+	</mx:states>
+	
+	
+	<mx:VBox id="container" width="100%" height="100%">
+		<view:HomePanel id="homePanel" />
+	</mx:VBox>
+	
+	
+</mx:WindowedApplication>
