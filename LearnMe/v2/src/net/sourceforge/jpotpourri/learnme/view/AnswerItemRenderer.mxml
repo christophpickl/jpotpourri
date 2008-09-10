@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+
+	<mx:Script>
+		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.vo.ICheckedAnswer;
+			
+			private function onClick(): void {
+				ICheckedAnswer(data).checked = this.checkBox.selected;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox>
+		
+		<mx:CheckBox id="checkBox" selected="{ICheckedAnswer(data).checked}" click="onClick()" />
+		
+		<mx:Label text="{ICheckedAnswer(data).text}" />
+		
+	</mx:HBox>
+	
+</mx:Canvas>
