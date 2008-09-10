@@ -3,8 +3,7 @@ package net.sourceforge.jpotpourri.xmlparse;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface IPtNodeName {
+public interface IPtNodeAttributeName {
 
-	String getNodeName();
-	
+	String getAttributeName();
 }
