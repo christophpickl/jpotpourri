@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QuestionCatalog title="Sun Certified Java Programmer 5">
+
+    <!-- *************************************************** 1 *************************************************** -->
+	<Question title="This is question 1 title.">
+		<Text><![CDATA[
+			This is question 1 text.
+		]]></Text>
+		<Answers>
+			<Answer correct="true">
+				<Text><![CDATA[
+					This is answer 1 text.
+					<code>interface Base implements Base { }</code>
+				]]></Text>
+				<Feedback><![CDATA[
+					This is answer 1 feedback.
+				]]></Feedback>
+			</Answer>
+			<Answer correct="false">
+				<Text><![CDATA[
+					This is answer 2 text.
+					<code>interface Base2 implements Base { }</code>
+				]]></Text>
+				<Feedback><![CDATA[
+					This is answer 2 feedback.
+				]]></Feedback>
+			</Answer>
+		</Answers>
+	</Question>
+	
+
+</QuestionCatalog>

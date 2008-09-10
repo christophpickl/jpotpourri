@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	creationComplete="onCreationComplete()">
+	
+	<mx:Script>
+		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
+			import net.sourceforge.jpotpourri.learnme.xml.CatalogParser;
+			
+			private function onCreationComplete(): void {
+				var f:File = new File();
+				f.url = "file:///D:/FlexDev/LearnMe/question_catalog_scjp.xml"; // TODO how relative path?
+				trace(f.nativePath);
+				
+				var fs:FileStream = new FileStream();
+				fs.open(f, FileMode.READ);
+				const result: String = fs.readUTFBytes(fs.bytesAvailable);
+				fs.close();
+				
+				var qc: IQuestionCatalog = CatalogParser.parse(result);
+				trace("qc: " + qc);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:WindowedApplication>
