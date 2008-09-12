@@ -6,11 +6,12 @@ internal class AbstractCheckedAnswer extends AbstractSourceAnswer {
 	private var _checked: Boolean;
 	
 	public function AbstractCheckedAnswer(
+		id: int,
 		text: String,
 		feedback: String,
 		correct: Boolean
 	) {
-		super(text, feedback, correct);
+		super(id, text, feedback, correct);
 	}
 
 	public function get checkedCorrect():Boolean {

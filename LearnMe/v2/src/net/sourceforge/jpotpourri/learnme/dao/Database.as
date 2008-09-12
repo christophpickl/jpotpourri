@@ -40,7 +40,8 @@ internal class Database {
 		var dbFile:File = File.applicationStorageDirectory.resolvePath("database.db");
 		LOG.fine("opening database file [" + dbFile.nativePath + "] ...");
 		this.fnConnected = fnConnected;
-		this.sqlConnection.openAsync(dbFile);
+		// this.sqlConnection.openAsync(dbFile);
+		this.sqlConnection.open(dbFile); // use synchronized model
 	}
 	
 	private function onSqlConnectionOpen(event:SQLEvent):void {
@@ -70,16 +71,30 @@ internal class Database {
 		this.stmt.execute();
 	}
 	
+	public function get lastInsertId(): int {
+		return this.sqlConnection.lastInsertRowID;
+	}
+	
 	private function onSqlStmtResult(event:SQLEvent):void {
 		LOG.info("onSqlStmtResult(event=" + event + ")");
 		var rs:SQLResult = this.stmt.getResult();
 		
-		if(rs != null && rs.data != null) {
-			var result:ArrayCollection = new ArrayCollection(rs.data as Array);
+		var result:ArrayCollection;
+		if(rs == null) {
+			result = null;
+		} else {
 			LOG.finer("got back database result.");
-			if(_fnResult != null) {
-				_fnResult(result);
+			if(rs.data == null) {
+				result = new ArrayCollection();
+			} else {
+				result = new ArrayCollection(rs.data as Array);
 			}
+		}
+
+		if(_fnResult != null) {
+			_fnResult(result);
+		} else if(rs != null) {
+			LOG.warning("No fnResult set although we got back a result set!");
 		}
 	}
 	private function onSqlStmtError(event:SQLErrorEvent):void {

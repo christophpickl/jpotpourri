@@ -15,7 +15,7 @@ public class MultipleChoiceCheckedQuestion
 		for each(var sourceAnswer: MultipleChoiceSourceAnswer in sourceQuestion.sourceAnswers) {
 			checkedAnswers.addItem(new MultipleChoiceCheckedAnswer(sourceAnswer));
 		}
-		super(sourceQuestion.title, sourceQuestion.text, sourceQuestion.sourceAnswers, checkedAnswers);
+		super(sourceQuestion.id, sourceQuestion.title, sourceQuestion.text, sourceQuestion.sourceAnswers, checkedAnswers);
 	}
 	
 

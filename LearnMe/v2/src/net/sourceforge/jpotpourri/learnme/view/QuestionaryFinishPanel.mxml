@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%" height="100%" horizontalAlign="center">
+	
+	<mx:Style>
+		.finishedLabel {
+			font-size: 16pt;
+			font-weight: bold;
+		}
+	</mx:Style>
 	
 	<mx:Script>
 		<![CDATA[
@@ -10,9 +18,9 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Label text="finished" />
+	<mx:Label text="Result for Questionairy" styleName="finishedLabel" />
 	
-	<mx:DataGrid dataProvider="{model.questionairy.checkedQuestions}">
+	<mx:DataGrid dataProvider="{model.questionairy.checkedQuestions}" width="100%" height="100%">
 		<mx:columns>
 			<mx:DataGridColumn dataField="title" headerText="Title" />
 			<mx:DataGridColumn dataField="checkedAllCorrect" headerText="Correct" />

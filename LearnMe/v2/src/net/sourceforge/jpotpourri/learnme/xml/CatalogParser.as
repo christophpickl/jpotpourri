@@ -68,7 +68,7 @@ public class CatalogParser {
 		}
 		
 		
-		return new MultipleChoiceSourceQuestion(title, text, sourceAnswers);
+		return new MultipleChoiceSourceQuestion(-1, title, text, sourceAnswers);
 	}
 	
 	private static function parseMultipleChoiceAnswers(rootNode: XMLNode): ArrayCollection {
@@ -104,7 +104,7 @@ public class CatalogParser {
 			}
 		}
 		
-		return new MultipleChoiceSourceAnswer(text, feedback, correct);
+		return new MultipleChoiceSourceAnswer(-1, text, feedback, correct);
 	}
 
 	private static function getNodeValue(node: XMLNode): String {

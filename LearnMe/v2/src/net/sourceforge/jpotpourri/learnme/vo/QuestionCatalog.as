@@ -35,6 +35,10 @@ public class QuestionCatalog implements IQuestionCatalog {
 		return this._title;
 	}
 	
+	public function set title(value: String): void {
+		this._title = value;
+	}
+	
 	public function get sourceQuestions(): ArrayCollection {
 		return this._sourceQuestions;
 	}
