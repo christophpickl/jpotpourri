@@ -1,6 +1,7 @@
 package net.sourceforge.jpotpourri.learnme.dao {
 
 import flash.data.SQLConnection;
+import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.events.SQLErrorEvent;
 import flash.events.SQLEvent;
@@ -11,14 +12,16 @@ import logging.Logger;
 import mx.collections.ArrayCollection;
 	
 
-public class Database {
+internal class Database {
 	
 	private static const LOG:Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.dao.Database");
 	private static const INSTANCE: Database = new Database();
 	
-	private var dbConnect:Boolean = false;
+	private var connected:Boolean = false;
 	private var sqlConnection:SQLConnection;
 	private var stmt:SQLStatement;
+	private var _fnResult: Function;
+	private var fnConnected: Function;
 	
 	public function Database() {
 		this.sqlConnection = new SQLConnection();
@@ -30,29 +33,36 @@ public class Database {
 		return INSTANCE;
 	}
 	
-	private function connect(): void {
-		if(this.dbConnect == true) {
+	public function connect(fnConnected: Function = null): void {
+		if(this.connected == true) {
 			return;
 		}
 		var dbFile:File = File.applicationStorageDirectory.resolvePath("database.db");
 		LOG.fine("opening database file [" + dbFile.nativePath + "] ...");
+		this.fnConnected = fnConnected;
 		this.sqlConnection.openAsync(dbFile);
 	}
 	
 	private function onSqlConnectionOpen(event:SQLEvent):void {
-		this.dbConnect = true;
+		LOG.info("connection to sql database established.");
+		this.connected = true;
+		if(this.fnConnected != null) {
+			this.fnConnected();
+		}
 	}
 	
 	private function onSqlConnectionError(event:SQLErrorEvent):void {
 		LOG.severe("onSqlError(event=" + event + ")");
 	}
 	
-	public function execSql(sql: String): void {
+	/**
+	 * @param fnResult Function with signature: (result: ArrayCollection): void
+	 **/
+	public function execSql(sql: String, fnResult: Function = null): void {
 		this.connect();
-		
+		_fnResult = fnResult;
 		this.stmt = new SQLStatement();
 		this.stmt.sqlConnection = this.sqlConnection;
-		// var sql:String = "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)";
 		this.stmt.text = sql;
 		this.stmt.addEventListener(SQLEvent.RESULT, onSqlStmtResult);
 		this.stmt.addEventListener(SQLErrorEvent.ERROR, onSqlStmtError);
@@ -64,9 +74,12 @@ public class Database {
 		LOG.info("onSqlStmtResult(event=" + event + ")");
 		var rs:SQLResult = this.stmt.getResult();
 		
-		if(rs.data != null) {
+		if(rs != null && rs.data != null) {
 			var result:ArrayCollection = new ArrayCollection(rs.data as Array);
-			trace("got result: " + result);
+			LOG.finer("got back database result.");
+			if(_fnResult != null) {
+				_fnResult(result);
+			}
 		}
 	}
 	private function onSqlStmtError(event:SQLErrorEvent):void {

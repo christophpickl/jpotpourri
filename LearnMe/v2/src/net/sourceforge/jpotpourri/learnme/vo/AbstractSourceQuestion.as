@@ -20,6 +20,10 @@ internal class AbstractSourceQuestion {
 		this._sourceAnswers = sourceAnswers;
 	}
 	
+	public function toString(): String {
+		return "AbstractSourceQuestion[title="+_title+";text="+_text+";sourceAnswers="+_sourceAnswers+"]";
+	}
+	
 	public function get title():String {
 		return this._title;
 	}
