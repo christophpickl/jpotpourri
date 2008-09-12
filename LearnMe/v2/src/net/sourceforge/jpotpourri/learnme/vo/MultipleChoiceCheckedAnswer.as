@@ -6,7 +6,7 @@ public class MultipleChoiceCheckedAnswer extends AbstractCheckedAnswer implement
 	public function MultipleChoiceCheckedAnswer(
 		sourceAnswer: MultipleChoiceSourceAnswer
 	) {
-		super(sourceAnswer.text, sourceAnswer.feedback, sourceAnswer.correct);
+		super(sourceAnswer.id, sourceAnswer.text, sourceAnswer.feedback, sourceAnswer.correct);
 	}
 	
 	

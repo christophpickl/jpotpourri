@@ -8,12 +8,13 @@ internal class AbstractCheckedQuestion extends AbstractSourceQuestion {
 	private var _checkedAnswers: ArrayCollection;
 	
 	public function AbstractCheckedQuestion(
+		id: int,
 		title: String,
 		text: String,
 		sourceAnswers: ArrayCollection,
 		checkedAnswers: ArrayCollection
 	) {
-		super(title, text, sourceAnswers);
+		super(id, title, text, sourceAnswers);
 		this._checkedAnswers = checkedAnswers;
 	}
 

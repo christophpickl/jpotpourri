@@ -11,6 +11,8 @@ public interface IQuestionCatalog {
 	
 	function get title(): String;
 	
+	function set title(value: String): void;
+	
 	function get sourceQuestions(): ArrayCollection;
 	
 }

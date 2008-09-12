@@ -10,10 +10,15 @@
 			padding-left: 0px;
 			padding-right: 0px;
 		}
+		.container {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
 	</mx:Style>
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.command.ImportCatalogCommand;
 			import mx.events.CloseEvent;
 			import mx.collections.ArrayCollection;
 			import net.sourceforge.jpotpourri.learnme.vo.IQuestionary;
@@ -54,6 +59,7 @@
 			
 			private function onDatabaseConnected(): void {
 				LOG.info("database connection established.");
+				this.homePanel.onDatabaseConnectionEstablished();
 			}
 			
 			private function onMenuClick(event: MenuEvent): void {
@@ -71,38 +77,7 @@
 			}
 			
 			private function doImportCatalog(): void {
-				new FileOpener().openFile(File.desktopDirectory, onCatalogRead);
-			}
-			
-			private var currentCatalogRead: IQuestionCatalog;
-			private function onCatalogRead(fileTextContent: String): void {
-				this.currentCatalogRead = CatalogParser.parse(fileTextContent);
-				LOG.finer("Parsed file content to catalog: " + this.currentCatalogRead);
-				
-				const dao: ICatalogDao = DaoLocator.instance.catalogDao;
-				
-				dao.selectCatalogsByTitle(this.currentCatalogRead.title, onCatalogRead2);
-			}
-			
-			private function onCatalogRead2(catalogs: ArrayCollection): void {
-				const dao: ICatalogDao = DaoLocator.instance.catalogDao;
-				
-				if(catalogs.length > 0) {
-					Alert.show("The catalog '"+this.currentCatalogRead.title+"' already exists!\nDo you want to import it anyway?", "Catalog already imported",
-						Alert.YES | Alert.NO, this, this.onCatalogRead3, null, Alert.NO);
-				} else {
-					dao.insertCatalog(this.currentCatalogRead);
-					Alert.show("Successfully imported the catalog '"+this.currentCatalogRead.title+"'!", "Catalog Imported");
-					this.currentCatalogRead = null;
-				}
-				
-			}
-			
-			private function onCatalogRead3(event: CloseEvent): void {
-				if(event.detail == Alert.YES) {
-					trace("inserting anyway current catalog"); // TODO implement me
-				}
-				this.currentCatalogRead = null;
+				new ImportCatalogCommand().execute();
 			}
 			
 			private function doQuit(): void {
@@ -164,7 +139,9 @@
 	<mx:MenuBar dataProvider="{this.menuBarData}" labelField="@label"  
 		itemClick="onMenuClick(event)" width="100%" />
 	
-	<mx:VBox id="container" width="100%" height="100%">
+	
+	
+	<mx:VBox id="container" width="100%" height="100%" styleName="container">
 		<view:HomePanel id="homePanel" />
 	</mx:VBox>
 	

@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.dao.DaoLocator;
 			import net.sourceforge.jpotpourri.learnme.xml.CatalogParser;
 			import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
 			import net.sourceforge.jpotpourri.learnme.vo.ICheckedQuestion;
@@ -15,53 +16,48 @@
 			import net.sourceforge.jpotpourri.learnme.vo.IQuestionary;
 			import net.sourceforge.jpotpourri.learnme.model.ModelLocator;
 			
-			private function loadDummyQuestionairy(): IQuestionary {
-				var f:File = new File();
-				f.url = "file:///D:/FlexDev/LearnMe/question_catalog_scjp.xml"; // TODO how relative path?
-				trace(f.nativePath);
-				
-				var fs:FileStream = new FileStream();
-				fs.open(f, FileMode.READ);
-				const result: String = fs.readUTFBytes(fs.bytesAvailable);
-				fs.close();
-				
-				var qc: IQuestionCatalog = CatalogParser.parse(result);
-				
-				const checkedQuestions: ArrayCollection = new ArrayCollection();
-				for each(var question: MultipleChoiceSourceQuestion in qc.sourceQuestions) {
-					checkedQuestions.addItem(new MultipleChoiceCheckedQuestion(question));
-				}
-				return new Questionairy(checkedQuestions);
+			public function onDatabaseConnectionEstablished(): void {
+				DaoLocator.instance.catalogDao.selectCatalogs(onCatalogsFetched);
+			}
+			
+			/** ArrayCollection<IQuestionCatalog> */
+			private function onCatalogsFetched(catalogs: ArrayCollection): void {
+				this.catalogsDataGrid.dataProvider = catalogs;
 			}
 			
 			private function doStartQuestionairy(): void {
-				
-				/*
-				const sourceAnswers1: ArrayCollection = new ArrayCollection();
-				sourceAnswers1.addItem(new MultipleChoiceSourceAnswer("question 1", "feedback 1", true));
-				sourceAnswers1.addItem(new MultipleChoiceSourceAnswer("question 2", "feedback 2", false));
-				sourceAnswers1.addItem(new MultipleChoiceSourceAnswer("question 3", "feedback 3", false));
-				const sourceQuestion1: MultipleChoiceSourceQuestion = new MultipleChoiceSourceQuestion("myTitle 1", "myText 1", sourceAnswers1);
-				
-				const sourceAnswers2: ArrayCollection = new ArrayCollection();
-				sourceAnswers2.addItem(new MultipleChoiceSourceAnswer("question 1", "feedback 1", true));
-				sourceAnswers2.addItem(new MultipleChoiceSourceAnswer("question 2", "feedback 2", false));
-				const sourceQuestion2: MultipleChoiceSourceQuestion = new MultipleChoiceSourceQuestion("myTitle 2", "myText 2", sourceAnswers2);
-				
+				const catalog:IQuestionCatalog = IQuestionCatalog(this.catalogsDataGrid.selectedItem);
 				const checkedQuestions: ArrayCollection = new ArrayCollection();
-				checkedQuestions.addItem(new MultipleChoiceCheckedQuestion(sourceQuestion1));
-				checkedQuestions.addItem(new MultipleChoiceCheckedQuestion(sourceQuestion2));
+				for each(var question: MultipleChoiceSourceQuestion in catalog.sourceQuestions) {
+					checkedQuestions.addItem(new MultipleChoiceCheckedQuestion(question));
+				}
 				const questionairy: IQuestionary = new Questionairy(checkedQuestions);
-				*/
-				const questionairy: IQuestionary = loadDummyQuestionairy();
+				
 				ModelLocator.instance.questionairy = questionairy;
 				ModelLocator.instance.currentQuestion = ICheckedQuestion(questionairy.checkedQuestions.getItemAt(0));
 				parentApplication.currentState = 'Questionairy';
 			}
 			
+			private function gridLabelQuestions(item: Object, column: DataGridColumn):String {
+				const catalog: IQuestionCatalog = IQuestionCatalog(item);
+				return "" + catalog.sourceQuestions.length;
+			}
+			
+			
 		]]>
 	</mx:Script>
 	
-	<mx:Button label="Start Random Questionairy" click="doStartQuestionairy()" />
+	<mx:DataGrid id="catalogsDataGrid" width="100%" height="100%">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Title" dataField="title" />
+			<mx:DataGridColumn headerText="Questions" width="70"
+				labelFunction="gridLabelQuestions" textAlign="right" />
+		</mx:columns>
+	</mx:DataGrid>
+	
+	<mx:HBox>
+		<mx:Button label="Start Questionairy" click="doStartQuestionairy()" enabled="{this.catalogsDataGrid.selectedItem != null}" />
+		<mx:Button label="Refresh Data" click="onDatabaseConnectionEstablished()" />
+	</mx:HBox>
 	
 </mx:VBox>
