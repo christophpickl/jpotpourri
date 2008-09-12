@@ -9,5 +9,13 @@ public class Util {
 	public static function randomInteger(minInclusive:int, maxInclusive:int):int {
 		return Math.round(Math.random() * maxInclusive) + minInclusive;
 	}
+	
+	
+	public static function removeLinebreaks(value: String): String {
+		var replaced: String = value.replace(/[(\n)(\r)]/g, "");
+		return replaced.replace(/[\t]+/g, "");
+	}
+	
+	
 }
 }

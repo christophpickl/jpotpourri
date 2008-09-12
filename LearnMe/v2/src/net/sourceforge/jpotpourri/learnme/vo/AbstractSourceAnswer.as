@@ -17,6 +17,11 @@ internal class AbstractSourceAnswer {
 		this._correct = correct;
 	}
 
+	
+	public function toString(): String {
+		return "AbstractSourceAnswer[text="+_text+";feedback="+_feedback+";correct="+_correct+";]";
+	}
+	
 	public function get text():String {
 		return this._text;
 	}

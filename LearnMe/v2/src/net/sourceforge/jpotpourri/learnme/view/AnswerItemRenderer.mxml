@@ -3,6 +3,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.Style;
 			import net.sourceforge.jpotpourri.learnme.vo.ICheckedAnswer;
 			
 			private function onClick(): void {
@@ -12,11 +13,21 @@
 		]]>
 	</mx:Script>
 	
-	<mx:HBox>
+	<mx:HBox width="100%">
 		
 		<mx:CheckBox id="checkBox" selected="{ICheckedAnswer(data).checked}" click="onClick()" />
 		
-		<mx:Label text="{ICheckedAnswer(data).text}" />
+		<mx:TextArea
+			id="questionText"
+			htmlText="{ICheckedAnswer(data).text}"
+			width="100%"
+			minHeight="100" maxHeight="200"
+			verticalScrollPolicy="auto"
+			editable="false"
+			styleSheet="{Style.xmlStyle}"
+			condenseWhite="true"
+			borderThickness="0"
+			/>
 		
 	</mx:HBox>
 	

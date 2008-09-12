@@ -6,7 +6,6 @@
 			import net.sourceforge.jpotpourri.learnme.model.ModelLocator;
 			
 			private const model: ModelLocator = ModelLocator.instance;
-			
 		]]>
 	</mx:Script>
 	
