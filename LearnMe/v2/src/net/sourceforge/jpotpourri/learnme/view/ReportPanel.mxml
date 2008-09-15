@@ -54,6 +54,7 @@
 			<mx:DataGridColumn headerText="Most Recently Used" labelFunction="labelReportRecentUsed" width="170" textAlign="right" />
 			<mx:DataGridColumn headerText="Amount Used" dataField="countCheckedQuestionsTotal" width="100" textAlign="right" />
 			<mx:DataGridColumn headerText="Success Rate" labelFunction="labelReportSuccessRate" width="100" textAlign="right" />
+			<mx:DataGridColumn headerText="Weight" dataField="weight" width="80" textAlign="right" />
 		</mx:columns>
 	</mx:DataGrid>
 	

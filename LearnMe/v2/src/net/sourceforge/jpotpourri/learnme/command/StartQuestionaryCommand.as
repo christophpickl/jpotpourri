@@ -14,11 +14,12 @@ import net.sourceforge.jpotpourri.learnme.vo.IQuestionary;
 import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceCheckedQuestion;
 import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceSourceQuestion;
 import net.sourceforge.jpotpourri.learnme.vo.Questionary;
+import net.sourceforge.jpotpourri.learnme.vo.misc.Report;
 	
 
 public class StartQuestionaryCommand {
 
-	private static const LOG:Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.command.StartQuestionaryCommand");
+	private static const LOG: Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.command.StartQuestionaryCommand");
 
 	private static const MAX_QUESTIONS: uint = 2;
 
@@ -37,9 +38,15 @@ public class StartQuestionaryCommand {
 	private function onReportsFetched(reports: ArrayCollection): void {
 		const checkedQuestions: ArrayCollection = new ArrayCollection();
 		
+		if(reports.length != _catalog.sourceQuestions.length) {
+			throw new Error("assertion failed: reports.length["+reports.length+"] != _catalog.sourceQuestions.length["+_catalog.sourceQuestions.length+"]");
+		}
+		Report.sortReports(reports);
 		// FIXME use reports to get proper questions
 		for (var i: int = 0; i < Math.min(_catalog.sourceQuestions.length, MAX_QUESTIONS); i++) {
-			var question: MultipleChoiceSourceQuestion = MultipleChoiceSourceQuestion(_catalog.sourceQuestions.getItemAt(i));
+			// var question: MultipleChoiceSourceQuestion = MultipleChoiceSourceQuestion(_catalog.sourceQuestions.getItemAt(i));
+			var report: Report = Report(reports.getItemAt(i));
+			var question: MultipleChoiceSourceQuestion = MultipleChoiceSourceQuestion(report.question);
 			checkedQuestions.addItem(MultipleChoiceCheckedQuestion.newDefault(question));
 		}
 		

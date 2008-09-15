@@ -81,21 +81,23 @@ internal class ReportConverter {
 			trace("=====================================");
 		}
 		
-		if(countCheckedQuestionsTotal > 0 && checkedAnswerCorrect == true) {
-			trace("increasing countCheckedQuestionsCorrect to: " + (countCheckedQuestionsCorrect+1));
-			countCheckedQuestionsCorrect++;
-		}
-		checkedDate = obj.q_date as Date;
-		if(checkedDate.valueOf() > mostRecentDate.valueOf()) {
-			mostRecentDate = checkedDate;
-		}
-		if(report != null) {
-			report.mostRecentExecuted = mostRecentDate;
-			report.countCheckedQuestionsTotal = countCheckedQuestionsTotal;
-			report.countCheckedQuestionsCorrect = countCheckedQuestionsCorrect;
-			trace("reports.addItem("+report+");");
-			reports.addItem(report);
-			sqIds.removeItemAt(sqIds.getItemIndex(report.question.id));
+		if(obj != null) { // at least, one row was returned
+			if(countCheckedQuestionsTotal > 0 && checkedAnswerCorrect == true) {
+				trace("increasing countCheckedQuestionsCorrect to: " + (countCheckedQuestionsCorrect+1));
+				countCheckedQuestionsCorrect++;
+			}
+			checkedDate = obj.q_date as Date;
+			if(checkedDate.valueOf() > mostRecentDate.valueOf()) {
+				mostRecentDate = checkedDate;
+			}
+			if(report != null) {
+				report.mostRecentExecuted = mostRecentDate;
+				report.countCheckedQuestionsTotal = countCheckedQuestionsTotal;
+				report.countCheckedQuestionsCorrect = countCheckedQuestionsCorrect;
+				trace("reports.addItem("+report+");");
+				reports.addItem(report);
+				sqIds.removeItemAt(sqIds.getItemIndex(report.question.id));
+			}
 		}
 		
 		for each(var sqId: int in sqIds) {
