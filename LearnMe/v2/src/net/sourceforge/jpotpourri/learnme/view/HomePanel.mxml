@@ -78,6 +78,18 @@
 				// currentCatalog already set via ModelLocator
 				parentApplication.currentState = "ViewReport";
 			}
+			/*
+			private function dummyReport(): void {
+				DaoLocator.instance.catalogDao.selectCatalogs(dummyReport2);
+			}
+			private function dummyReport2(catalogs: ArrayCollection): void {
+				var c: IQuestionCatalog = IQuestionCatalog(catalogs.getItemAt(0));
+				DaoLocator.instance.reportDao.selectReports(c, dummyReport3);
+			}
+			private function dummyReport3(reports: ArrayCollection): void {
+				trace("reports.length="+reports.length);
+			}
+			*/
 		]]>
 	</mx:Script>
 	
@@ -103,6 +115,7 @@
 	<mx:HBox width="100%">
 		<mx:Button label="Start Questionairy" click="this.dispatchEvent(new StartQuestionaryEvent(IQuestionCatalog(this.catalogsDataGrid.selectedItem)))" enabled="{this.catalogsDataGrid.selectedItem != null}" />
 		<mx:Button label="View Report" click="doViewReport()" enabled="{catalogsDataGrid.selectedItem != null}" />
+		<!--<mx:Button label="Dummy Report" click="dummyReport()" />-->
 		<mx:Spacer width="100%" />
 		<mx:Button label="Refresh Data" click="this.doRefreshData()" />
 	</mx:HBox>

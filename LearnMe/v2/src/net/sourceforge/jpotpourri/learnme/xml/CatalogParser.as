@@ -1,7 +1,12 @@
 package net.sourceforge.jpotpourri.learnme.xml {
 
+import flash.filesystem.File;
+import flash.filesystem.FileMode;
+import flash.filesystem.FileStream;
 import flash.xml.XMLDocument;
 import flash.xml.XMLNode;
+
+import logging.Logger;
 
 import mx.collections.ArrayCollection;
 
@@ -13,13 +18,15 @@ import net.sourceforge.jpotpourri.learnme.vo.QuestionCatalog;
 
 public class CatalogParser {
 	
+	private static const LOG:Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.xml.CatalogParser");
+	
 	public function CatalogParser() {
-		
+		// nothing to do
 	}
 
-	public static function parse(xmlString: String): IQuestionCatalog {
+	public static function parse(file: File, xmlString: String): IQuestionCatalog {
 		var xmlDoc: XMLDocument = new XMLDocument();
-		xmlDoc.parseXML(xmlString);
+		xmlDoc.parseXML(preprocessIncludes(file, xmlString));
 		
 		for each(var child: XMLNode in xmlDoc.childNodes) {
 			if(child.nodeName == null) {
@@ -31,6 +38,37 @@ public class CatalogParser {
 			}
 		}
 		throw new Error("Invalid xml source!");
+	}
+	
+	private static function preprocessIncludes(file: File, withIncludes: String): String {
+		var includeIndexStart: int = -1;
+		var includeIndexEnd: int = -1;
+		
+		var resolvedIncludes: String = withIncludes;
+		
+		includeIndexStart = withIncludes.indexOf("<Include>");
+		includeIndexEnd = withIncludes.indexOf("</Include>");
+		while(includeIndexStart != -1) {
+			// trace("replacing at index ["+includeIndexStart+"-"+includeIndexEnd+"]");
+			var includeFileName: String = resolvedIncludes.substr(includeIndexStart + 9, includeIndexEnd - includeIndexStart - 9);
+			var includeFile: File = new File();
+			includeFile.url = "file:///" + file.parent.nativePath + "/" + includeFileName;
+			LOG.finer("includeFile: ["+includeFile.nativePath+"]");
+			if(includeFile.exists == false) {
+				throw new Error("Include file does not exist ["+includeFile.url+"]!");
+			}
+			
+			var fs:FileStream = new FileStream();
+			fs.open(includeFile, FileMode.READ);
+			var includeFileContent: String = fs.readUTFBytes(fs.bytesAvailable);
+			fs.close();
+			
+			resolvedIncludes = resolvedIncludes.replace(/<Include>[A-Za-z0-9_\/\.]*<\/Include>/, includeFileContent);
+			
+			includeIndexStart = resolvedIncludes.indexOf("<Include>");
+			includeIndexEnd = resolvedIncludes.indexOf("</Include>");
+		}
+		return resolvedIncludes;
 	}
 	
 	private static function parseCatalog(rootNode: XMLNode): IQuestionCatalog {

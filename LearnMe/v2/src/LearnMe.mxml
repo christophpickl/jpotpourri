@@ -18,6 +18,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.command.StartQuestionaryCommand;
 			import net.sourceforge.jpotpourri.learnme.event.StartQuestionaryEvent;
 			import net.sourceforge.jpotpourri.learnme.vo.ICheckedQuestion;
 			import net.sourceforge.jpotpourri.learnme.vo.Questionary;
@@ -107,19 +108,7 @@
 			
 			
 			private function onStartQuestionary(event: StartQuestionaryEvent): void {
-				const catalog: IQuestionCatalog = event.questionCatalog;
-				LOG.info("onStartQuestionary; catalog: " + catalog);
-				const checkedQuestions: ArrayCollection = new ArrayCollection();
-				for each(var question: MultipleChoiceSourceQuestion in catalog.sourceQuestions) {
-					checkedQuestions.addItem(MultipleChoiceCheckedQuestion.newDefault(question));
-				}
-				
-				const questionary: IQuestionary = new Questionary(-1, catalog, new Date(), checkedQuestions);
-				
-				ModelLocator.instance.questionary = questionary;
-				ModelLocator.instance.currentQuestion = ICheckedQuestion(questionary.checkedQuestions.getItemAt(0));
-				
-				currentState = 'Questionairy';
+				new StartQuestionaryCommand().execute(event);
 			}
 	        
 			
