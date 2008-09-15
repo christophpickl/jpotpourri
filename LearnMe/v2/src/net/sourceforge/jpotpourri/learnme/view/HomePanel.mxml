@@ -2,8 +2,17 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
 	
+	<mx:Metadata>
+	    [Event(name="startquest", type="net.sourceforge.jpotpourri.learnme.event.StartQuestionaryEvent")]
+	</mx:Metadata>
+	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.SuccessRate;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.ListEvent;
+			import logging.Logger;
+			import net.sourceforge.jpotpourri.learnme.event.StartQuestionaryEvent;
 			import net.sourceforge.jpotpourri.learnme.dao.DaoLocator;
 			import net.sourceforge.jpotpourri.learnme.xml.CatalogParser;
 			import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
@@ -12,42 +21,67 @@
 			import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceSourceAnswer;
 			import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceSourceQuestion;
 			import mx.collections.ArrayCollection;
-			import net.sourceforge.jpotpourri.learnme.vo.Questionairy;
+			import net.sourceforge.jpotpourri.learnme.vo.Questionary;
 			import net.sourceforge.jpotpourri.learnme.vo.IQuestionary;
 			import net.sourceforge.jpotpourri.learnme.model.ModelLocator;
 			
+			private static const LOG:Logger = Logger.getLogger("Home");
+
 			public function onDatabaseConnectionEstablished(): void {
+				LOG.finer("onDatabaseConnectionEstablished -> onCatalogsFetched");
 				DaoLocator.instance.catalogDao.selectCatalogs(onCatalogsFetched);
 			}
 			
 			/** ArrayCollection<IQuestionCatalog> */
 			private function onCatalogsFetched(catalogs: ArrayCollection): void {
+				LOG.finer("onCatalogsFetched(catalogs.length="+catalogs.length+")");
 				this.catalogsDataGrid.dataProvider = catalogs;
 			}
 			
-			private function doStartQuestionairy(): void {
-				const catalog:IQuestionCatalog = IQuestionCatalog(this.catalogsDataGrid.selectedItem);
-				const checkedQuestions: ArrayCollection = new ArrayCollection();
-				for each(var question: MultipleChoiceSourceQuestion in catalog.sourceQuestions) {
-					checkedQuestions.addItem(new MultipleChoiceCheckedQuestion(question));
-				}
-				const questionairy: IQuestionary = new Questionairy(checkedQuestions);
-				
-				ModelLocator.instance.questionairy = questionairy;
-				ModelLocator.instance.currentQuestion = ICheckedQuestion(questionairy.checkedQuestions.getItemAt(0));
-				parentApplication.currentState = 'Questionairy';
-			}
 			
 			private function gridLabelQuestions(item: Object, column: DataGridColumn):String {
 				const catalog: IQuestionCatalog = IQuestionCatalog(item);
 				return "" + catalog.sourceQuestions.length;
 			}
 			
+			private function onCatalogItemChanged(event: ListEvent): void {
+				var catalog: IQuestionCatalog = IQuestionCatalog(this.catalogsDataGrid.selectedItem);
+				
+				ModelLocator.instance.currentCatalog = catalog;
+				
+				DaoLocator.instance.questionaryDao.selectQuestionariesForCatalog(catalog, onQuestionariesSelected);
+			}
 			
+			private function onQuestionariesSelected(data: ArrayCollection): void {
+				this.questionariesDataGrid.dataProvider = data;
+			}
+			
+			private function labelQuestionaryCatalog(row: Object, column: DataGridColumn): String {
+				const questionary: IQuestionary = IQuestionary(row);
+				return questionary.catalog.title;
+			}
+			private function labelQuestionarySuccess(row: Object, column: DataGridColumn): String {
+				return IQuestionary(row).successRate.toNiceString;
+			}
+			private function labelQuestionaryDate(row: Object, column: DataGridColumn): String {
+				const questionary: IQuestionary = IQuestionary(row);
+				return questionary.date.toLocaleDateString() + " - " + questionary.date.toLocaleTimeString();
+			}
+			
+			private function doRefreshData(): void {
+				this.questionariesDataGrid.dataProvider = null;
+				this.onDatabaseConnectionEstablished();
+			}
+			
+			private function doViewReport(): void {
+				LOG.fine("doViewReport()");
+				// currentCatalog already set via ModelLocator
+				parentApplication.currentState = "ViewReport";
+			}
 		]]>
 	</mx:Script>
 	
-	<mx:DataGrid id="catalogsDataGrid" width="100%" height="100%">
+	<mx:DataGrid id="catalogsDataGrid" width="100%" height="50%" change="onCatalogItemChanged(event)">
 		<mx:columns>
 			<mx:DataGridColumn headerText="Title" dataField="title" />
 			<mx:DataGridColumn headerText="Questions" width="70"
@@ -55,9 +89,22 @@
 		</mx:columns>
 	</mx:DataGrid>
 	
-	<mx:HBox>
-		<mx:Button label="Start Questionairy" click="doStartQuestionairy()" enabled="{this.catalogsDataGrid.selectedItem != null}" />
-		<mx:Button label="Refresh Data" click="onDatabaseConnectionEstablished()" />
+	<mx:DataGrid id="questionariesDataGrid" width="100%" height="50%">
+		<mx:columns>
+			<mx:DataGridColumn headerText="ID" dataField="id" width="50" />
+			<mx:DataGridColumn headerText="Catalog" labelFunction="labelQuestionaryCatalog" />
+			<mx:DataGridColumn headerText="Date" labelFunction="labelQuestionaryDate" width="220" />
+			<mx:DataGridColumn headerText="Success Rate" labelFunction="labelQuestionarySuccess" textAlign="right" width="100" />
+			
+		</mx:columns>
+	</mx:DataGrid>
+	
+	
+	<mx:HBox width="100%">
+		<mx:Button label="Start Questionairy" click="this.dispatchEvent(new StartQuestionaryEvent(IQuestionCatalog(this.catalogsDataGrid.selectedItem)))" enabled="{this.catalogsDataGrid.selectedItem != null}" />
+		<mx:Button label="View Report" click="doViewReport()" enabled="{catalogsDataGrid.selectedItem != null}" />
+		<mx:Spacer width="100%" />
+		<mx:Button label="Refresh Data" click="this.doRefreshData()" />
 	</mx:HBox>
 	
 </mx:VBox>

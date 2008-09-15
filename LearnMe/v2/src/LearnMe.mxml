@@ -18,6 +18,12 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.event.StartQuestionaryEvent;
+			import net.sourceforge.jpotpourri.learnme.vo.ICheckedQuestion;
+			import net.sourceforge.jpotpourri.learnme.vo.Questionary;
+			import net.sourceforge.jpotpourri.learnme.model.ModelLocator;
+			import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceCheckedQuestion;
+			import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceSourceQuestion;
 			import net.sourceforge.jpotpourri.learnme.command.ImportCatalogCommand;
 			import mx.events.CloseEvent;
 			import mx.collections.ArrayCollection;
@@ -54,7 +60,11 @@
 			
 			private function onCreationComplete(): void {
 				LogManager.getInstance().readProperties("logging.xml");
-				DaoLocator.instance.connect(onDatabaseConnected);
+				if(DaoLocator.instance.connected == true) {
+					this.onDatabaseConnected();
+				} else {
+					DaoLocator.instance.connect(onDatabaseConnected);
+				}
 			}
 			
 			private function onDatabaseConnected(): void {
@@ -95,6 +105,22 @@
 				}
 			}
 			
+			
+			private function onStartQuestionary(event: StartQuestionaryEvent): void {
+				const catalog: IQuestionCatalog = event.questionCatalog;
+				LOG.info("onStartQuestionary; catalog: " + catalog);
+				const checkedQuestions: ArrayCollection = new ArrayCollection();
+				for each(var question: MultipleChoiceSourceQuestion in catalog.sourceQuestions) {
+					checkedQuestions.addItem(MultipleChoiceCheckedQuestion.newDefault(question));
+				}
+				
+				const questionary: IQuestionary = new Questionary(-1, catalog, new Date(), checkedQuestions);
+				
+				ModelLocator.instance.questionary = questionary;
+				ModelLocator.instance.currentQuestion = ICheckedQuestion(questionary.checkedQuestions.getItemAt(0));
+				
+				currentState = 'Questionairy';
+			}
 	        
 			
 		]]>
@@ -117,22 +143,24 @@
 	
 	<mx:states>
 		<mx:State name="Questionairy">
-			
 			<mx:RemoveChild target="{homePanel}" />
-			
 			<mx:AddChild relativeTo="{container}">
-				<view:QuestionaryPanel />
+				<view:QuestionaryPanel id="questionaryPanel" />
 			</mx:AddChild>
-			
 		</mx:State>
+		
 		<mx:State name="QuestionairyFinish">
-			
 			<mx:RemoveChild target="{homePanel}" />
-			
 			<mx:AddChild relativeTo="{container}">
 				<view:QuestionaryFinishPanel />
 			</mx:AddChild>
-			
+		</mx:State>
+		
+		<mx:State name="ViewReport">
+			<mx:RemoveChild target="{homePanel}" />
+			<mx:AddChild relativeTo="{container}">
+				<view:ReportPanel catalog="{ModelLocator.instance.currentCatalog}" />
+			</mx:AddChild>
 		</mx:State>
 	</mx:states>
 	
@@ -142,7 +170,7 @@
 	
 	
 	<mx:VBox id="container" width="100%" height="100%" styleName="container">
-		<view:HomePanel id="homePanel" />
+		<view:HomePanel id="homePanel" startquest="onStartQuestionary(event)" />
 	</mx:VBox>
 	
 	

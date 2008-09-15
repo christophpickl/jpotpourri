@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+<mx:Canvas width="100%"
+	 xmlns:mx="http://www.adobe.com/2006/mxml"
+	 xmlns:comp="net.sourceforge.jpotpourri.learnme.view.comp.*">
 
 	<mx:Script>
 		<![CDATA[
@@ -13,10 +15,15 @@
 		]]>
 	</mx:Script>
 	
+	<!-- data.class == ICheckedAnswer -->
+	
 	<mx:HBox width="100%">
 		
 		<mx:CheckBox id="checkBox" selected="{ICheckedAnswer(data).checked}" click="onClick()" />
 		
+		<comp:HtmlTextArea htmlTextObject="{ICheckedAnswer(data)}"
+			width="100%" minHeight="100" maxHeight="200" />
+		<!--
 		<mx:TextArea
 			id="questionText"
 			htmlText="{ICheckedAnswer(data).text}"
@@ -28,7 +35,7 @@
 			condenseWhite="true"
 			borderThickness="0"
 			/>
-		
+		-->
 	</mx:HBox>
 	
 </mx:Canvas>

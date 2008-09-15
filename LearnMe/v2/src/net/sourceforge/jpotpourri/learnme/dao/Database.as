@@ -17,7 +17,7 @@ internal class Database {
 	private static const LOG:Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.dao.Database");
 	private static const INSTANCE: Database = new Database();
 	
-	private var connected:Boolean = false;
+	private var _connected:Boolean = false;
 	private var sqlConnection:SQLConnection;
 	private var stmt:SQLStatement;
 	private var _fnResult: Function;
@@ -33,12 +33,16 @@ internal class Database {
 		return INSTANCE;
 	}
 	
+	public function get connected(): Boolean {
+		return this._connected;
+	}
+	
 	public function connect(fnConnected: Function = null): void {
-		if(this.connected == true) {
+		if(this._connected == true) {
 			return;
 		}
 		var dbFile:File = File.applicationStorageDirectory.resolvePath("database.db");
-		LOG.fine("opening database file [" + dbFile.nativePath + "] ...");
+		LOG.fine("opening database file [" + dbFile.nativePath + "]");
 		this.fnConnected = fnConnected;
 		// this.sqlConnection.openAsync(dbFile);
 		this.sqlConnection.open(dbFile); // use synchronized model
@@ -46,7 +50,7 @@ internal class Database {
 	
 	private function onSqlConnectionOpen(event:SQLEvent):void {
 		LOG.info("connection to sql database established.");
-		this.connected = true;
+		this._connected = true;
 		if(this.fnConnected != null) {
 			this.fnConnected();
 		}
@@ -59,12 +63,20 @@ internal class Database {
 	/**
 	 * @param fnResult Function with signature: (result: ArrayCollection): void
 	 **/
-	public function execSql(sql: String, fnResult: Function = null): void {
+	public function execSql(sql: String, fnResult: Function = null, params: Array = null): void {
 		this.connect();
 		_fnResult = fnResult;
 		this.stmt = new SQLStatement();
 		this.stmt.sqlConnection = this.sqlConnection;
 		this.stmt.text = sql;
+		
+		if(params != null) {
+			for(var key: String in params) {
+				LOG.finest("replacing statment parameter ["+key+"] with value ["+params[key]+"].");
+				this.stmt.parameters[key] = params[key];
+			}
+		}
+		
 		this.stmt.addEventListener(SQLEvent.RESULT, onSqlStmtResult);
 		this.stmt.addEventListener(SQLErrorEvent.ERROR, onSqlStmtError);
 		LOG.fine("executing sql ["+sql+"]");

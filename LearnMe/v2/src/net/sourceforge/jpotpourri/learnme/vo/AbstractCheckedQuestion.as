@@ -5,17 +5,26 @@ import mx.collections.ArrayCollection;
 [Bindable]
 internal class AbstractCheckedQuestion extends AbstractSourceQuestion {
 	
+	private var _sourceId: int;
+	
 	private var _checkedAnswers: ArrayCollection;
 	
+
 	public function AbstractCheckedQuestion(
 		id: int,
+		sourceId: int,
 		title: String,
 		text: String,
 		sourceAnswers: ArrayCollection,
 		checkedAnswers: ArrayCollection
 	) {
 		super(id, title, text, sourceAnswers);
+		this._sourceId = sourceId;
 		this._checkedAnswers = checkedAnswers;
+	}
+
+	public function get sourceId(): int {
+		return this._sourceId;
 	}
 
 	public function get checkedAnswers(): ArrayCollection {
@@ -34,5 +43,6 @@ internal class AbstractCheckedQuestion extends AbstractSourceQuestion {
 		}
 		return true;
 	}
+	
 }
 }

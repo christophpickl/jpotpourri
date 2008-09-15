@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QuestionCatalog title="Very Simple Catalog">
+
+	<MultipleChoiceQuestion title="Single question TITLE">
+		<Text><![CDATA[
+			Single question TEXT
+		]]></Text>
+		<Answers>
+			<Answer correct="false">
+				<Text><![CDATA[
+					Answer1 TEXT
+				]]></Text>
+				<Feedback><![CDATA[
+					Answer1 FEEDBACK
+				]]></Feedback>
+			</Answer>
+		</Answers>
+	</MultipleChoiceQuestion>
+
+</QuestionCatalog>

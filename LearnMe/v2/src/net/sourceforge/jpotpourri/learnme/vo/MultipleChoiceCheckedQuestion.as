@@ -9,15 +9,25 @@ public class MultipleChoiceCheckedQuestion
 	implements ICheckedQuestion {
 	
 	public function MultipleChoiceCheckedQuestion(
-		sourceQuestion: MultipleChoiceSourceQuestion
+		id: int,
+		sourceId: int,
+		title: String,
+		text: String,
+		sourceAnswers: ArrayCollection,
+		checkedAnswers: ArrayCollection 
 	) {
-		const checkedAnswers: ArrayCollection = new ArrayCollection();
-		for each(var sourceAnswer: MultipleChoiceSourceAnswer in sourceQuestion.sourceAnswers) {
-			checkedAnswers.addItem(new MultipleChoiceCheckedAnswer(sourceAnswer));
-		}
-		super(sourceQuestion.id, sourceQuestion.title, sourceQuestion.text, sourceQuestion.sourceAnswers, checkedAnswers);
+		super(id, sourceId, title, text, sourceAnswers, checkedAnswers);
 	}
 	
+	public static function newDefault(sourceQuestion: MultipleChoiceSourceQuestion): MultipleChoiceCheckedQuestion {
+		
+		const checkedAnswers: ArrayCollection = new ArrayCollection();
+		for each(var sourceAnswer: MultipleChoiceSourceAnswer in sourceQuestion.sourceAnswers) {
+			checkedAnswers.addItem(new MultipleChoiceCheckedAnswer(-1, sourceAnswer));
+		}
+		
+		return new MultipleChoiceCheckedQuestion(-1, sourceQuestion.id, sourceQuestion.title, sourceQuestion.text, sourceQuestion.sourceAnswers, checkedAnswers);
+	}
 
 }
 }

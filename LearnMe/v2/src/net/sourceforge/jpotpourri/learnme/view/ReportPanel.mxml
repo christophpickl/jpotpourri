@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+		
+	<mx:Script>
+		<![CDATA[
+			import net.sourceforge.jpotpourri.learnme.dao.DaoLocator;
+			import mx.collections.ArrayCollection;
+			import logging.Logger;
+			import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
+			import net.sourceforge.jpotpourri.learnme.model.ModelLocator;
+			
+			private static const LOG:Logger = Logger.getLogger("ReportPanel");
+			
+			[Bindable] private var _catalog: IQuestionCatalog; 
+			
+			
+			public function set catalog(value: IQuestionCatalog): void {
+				LOG.fine("set catalog invoked: " + value);
+				this._catalog = value;
+				this.catalogDataGrid.dataProvider = DaoLocator.instance.reportDao.selectReport(value);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="Report for: {_catalog.title}" />
+	
+	<mx:DataGrid id="catalogDataGrid" width="100%" height="100%" />
+	
+	<mx:Button label="Back Home" click="this.parentApplication.currentState=''" />
+
+</mx:VBox>

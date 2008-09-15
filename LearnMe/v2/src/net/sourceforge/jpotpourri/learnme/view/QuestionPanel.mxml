@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:view="net.sourceforge.jpotpourri.learnme.view.*">
+<mx:VBox width="100%" height="100%"
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:view="net.sourceforge.jpotpourri.learnme.view.*"
+	xmlns:comp="net.sourceforge.jpotpourri.learnme.view.comp.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -14,7 +17,7 @@
 	<mx:VBox width="100%" height="100%">
 		
 		<mx:Label text="{model.currentQuestion.title}" />
-		
+		<!--
 		<mx:TextArea
 			id="questionText"
 			width="100%" height="30%"
@@ -24,6 +27,8 @@
 			condenseWhite="true"
 			borderThickness="0"
 			/>
+		-->
+		<comp:HtmlTextArea htmlTextObject="{model.currentQuestion}" width="100%" height="30%" />
 		
 		<view:AnswerPanel width="100%" height="70%" />
 		
