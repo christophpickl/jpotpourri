@@ -25,7 +25,7 @@ internal class QuestionaryDao extends AbstractDao implements IQuestionaryDao {
 		"CREATE TABLE IF NOT EXISTS questionary (" +
 		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		  "id_catalog INTEGER, " +
-		  "date TIMESTAMP" +
+		  "date DATETIME" +
 		")";
 	private static const SQL_CREATE_C_QUESTION: String = 
 		"CREATE TABLE IF NOT EXISTS c_question (" +
@@ -161,7 +161,7 @@ internal class QuestionaryDao extends AbstractDao implements IQuestionaryDao {
 					result.addItem(questionary);
 				}
 				questions = new ArrayCollection();
-				questionary = new Questionary(obj.q_id, catalog, new Date(obj.q_date), questions); 
+				questionary = new Questionary(obj.q_id, catalog, obj.q_date as Date, questions); 
 				lastQuestionaryId = obj.q_id;
 			}
 			
@@ -171,7 +171,7 @@ internal class QuestionaryDao extends AbstractDao implements IQuestionaryDao {
 					answer = null;
 					questions.addItem(question);
 				}
-				sourceQuestion = getQuestionById(catalog, obj.cq_id_sq);
+				sourceQuestion = DaoUtil.getQuestionById(catalog, obj.cq_id_sq);
 				answers = new ArrayCollection();
 				question = new MultipleChoiceCheckedQuestion(obj.cq_id, sourceQuestion.id, sourceQuestion.title, sourceQuestion.text, sourceQuestion.sourceAnswers, answers);
 				lastQuestionId = obj.cq_id;
@@ -181,7 +181,7 @@ internal class QuestionaryDao extends AbstractDao implements IQuestionaryDao {
 				if(answer != null) { // store back recent finished questionary
 					answers.addItem(answer);
 				}
-				var sourceAnswer: MultipleChoiceSourceAnswer = getAnswerById(sourceQuestion, obj.ca_id_sa);
+				var sourceAnswer: MultipleChoiceSourceAnswer = DaoUtil.getAnswerById(sourceQuestion, obj.ca_id_sa);
 				answer = new MultipleChoiceCheckedAnswer(obj.ca_id, sourceAnswer);
 				answer.checked = obj.ca_checked;
 				
@@ -202,22 +202,5 @@ internal class QuestionaryDao extends AbstractDao implements IQuestionaryDao {
 		return result;
 	}
 	
-	private static function getQuestionById(catalog: IQuestionCatalog, sourceQuestionId: int): MultipleChoiceSourceQuestion {
-		for each(var sourceQuestion: ISourceQuestion in catalog.sourceQuestions) {
-			if(sourceQuestion.id == sourceQuestionId) {
-				return MultipleChoiceSourceQuestion(sourceQuestion);
-			}
-		}
-		throw new Error("Could not find source question by id ["+sourceQuestionId+"] in catalog: " + catalog);
-	}
-	
-	private static function getAnswerById(question: MultipleChoiceSourceQuestion, sourceAnswerId: int): MultipleChoiceSourceAnswer {
-		for each(var sourceAnswer: ISourceAnswer in question.sourceAnswers) {
-			if(sourceAnswer.id == sourceAnswerId) {
-				return MultipleChoiceSourceAnswer(sourceAnswer);
-			}
-		}
-		throw new Error("Could not find source answer by id ["+sourceAnswerId+"] in question: " + question);
-	}
 }
 }

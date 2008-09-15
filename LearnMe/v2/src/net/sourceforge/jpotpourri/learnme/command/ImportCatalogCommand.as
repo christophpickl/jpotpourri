@@ -28,8 +28,8 @@ public class ImportCatalogCommand {
 		new FileOpener().openFile(File.desktopDirectory, onXmlContentRead);
 	}
 	
-	private function onXmlContentRead(fileTextContent: String): void {
-		this.currentCatalogRead = CatalogParser.parse(fileTextContent);
+	private function onXmlContentRead(file: File, fileTextContent: String): void {
+		this.currentCatalogRead = CatalogParser.parse(file, fileTextContent);
 		LOG.finer("Parsed file content to catalog: " + this.currentCatalogRead);
 		
 		DaoLocator.instance.catalogDao.selectCatalogsByTitle(currentCatalogRead.title, onSimilarCatalogsReadFromDatabase);

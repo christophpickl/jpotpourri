@@ -8,8 +8,8 @@ import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
 
 public interface IReportDao {
 	
-	/** ArrayCollection<Report> */
-	function selectReport(catalog: IQuestionCatalog): ArrayCollection;
+	/** fnResult: ArrayCollection<Report> */
+	function selectReports(catalog: IQuestionCatalog, fnResult: Function): void;
 	
 }
 }

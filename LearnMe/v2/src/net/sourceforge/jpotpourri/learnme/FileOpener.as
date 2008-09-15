@@ -19,6 +19,10 @@ public class FileOpener {
 		
 	}
 
+	/**
+	 * @param file
+	 * @param fnOpen function with signature (file: File, result: String): void
+	 **/
 	public function openFile(file: File, fnOpen: Function): void {
 		LOG.fine("openFile(file:"+file.nativePath+")");
 		this._fnOpen = fnOpen;
@@ -33,7 +37,7 @@ public class FileOpener {
 		fs.open(f, FileMode.READ);
 		const result: String = fs.readUTFBytes(fs.bytesAvailable);
 		fs.close();
-		this._fnOpen(result);
+		this._fnOpen(f, result);
 	}
 }
 }
