@@ -18,7 +18,6 @@ public class ModelLocator {
 	public var currentCatalog: IQuestionCatalog;
 	
 	
-	
 	public function ModelLocator() {
 	}
 

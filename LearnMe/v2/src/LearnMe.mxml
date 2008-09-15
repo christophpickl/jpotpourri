@@ -2,13 +2,16 @@
 <mx:WindowedApplication
 	layout="vertical"
 	creationComplete="onCreationComplete()"
+	showStatusBar="false"
 	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="net.sourceforge.jpotpourri.learnme.view.*">
+	<!-- CUSTOM STATUS BAR: showStatusBar="true" statusBarFactory="{new ClassFactory(MyStatusBar)}" -->
 	
 	<mx:Style>
 		WindowedApplication {
 			padding-top: 0px;
 			padding-left: 0px;
 			padding-right: 0px;
+			padding-bottom: 5px;
 		}
 		.container {
 			padding-left: 10px;

@@ -21,7 +21,7 @@ public class StartQuestionaryCommand {
 
 	private static const LOG: Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.command.StartQuestionaryCommand");
 
-	private static const MAX_QUESTIONS: uint = 2;
+	private static const MAX_QUESTIONS: uint = 20;
 
 	private var _catalog: IQuestionCatalog;
 
