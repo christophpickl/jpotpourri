@@ -4,9 +4,10 @@ package net.sourceforge.jpotpourri.learnme.vo {
 public class MultipleChoiceCheckedAnswer extends AbstractCheckedAnswer implements ICheckedAnswer {
 	
 	public function MultipleChoiceCheckedAnswer(
+		id: int,
 		sourceAnswer: MultipleChoiceSourceAnswer
 	) {
-		super(sourceAnswer.id, sourceAnswer.text, sourceAnswer.feedback, sourceAnswer.correct);
+		super(id, sourceAnswer.id, sourceAnswer.text, sourceAnswer.feedback, sourceAnswer.correct);
 	}
 	
 	

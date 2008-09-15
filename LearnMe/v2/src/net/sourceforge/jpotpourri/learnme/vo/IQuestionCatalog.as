@@ -2,7 +2,7 @@ package net.sourceforge.jpotpourri.learnme.vo {
 
 import mx.collections.ArrayCollection;
 	
-
+[Bindable]
 public interface IQuestionCatalog {
 	
 	function get id(): int;

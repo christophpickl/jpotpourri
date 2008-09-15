@@ -1,6 +1,7 @@
 package net.sourceforge.jpotpourri.learnme.model {
 
 import net.sourceforge.jpotpourri.learnme.vo.ICheckedQuestion;
+import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
 import net.sourceforge.jpotpourri.learnme.vo.IQuestionary;
 	
 
@@ -10,9 +11,12 @@ public class ModelLocator {
 	private static const INSTANCE:ModelLocator = new ModelLocator();
 	
 	
-	public var questionairy: IQuestionary;
+	public var questionary: IQuestionary;
 	
 	public var currentQuestion: ICheckedQuestion;
+	
+	public var currentCatalog: IQuestionCatalog;
+	
 	
 	
 	public function ModelLocator() {

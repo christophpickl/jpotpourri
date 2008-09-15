@@ -3,6 +3,7 @@ package net.sourceforge.jpotpourri.learnme.dao {
 import logging.Logger;
 
 import mx.collections.ArrayCollection;
+import mx.utils.ObjectUtil;
 
 import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
 import net.sourceforge.jpotpourri.learnme.vo.ISourceAnswer;
@@ -12,10 +13,10 @@ import net.sourceforge.jpotpourri.learnme.vo.MultipleChoiceSourceQuestion;
 import net.sourceforge.jpotpourri.learnme.vo.QuestionCatalog;
 	
 
-internal class CatalogDao implements ICatalogDao {
+internal class CatalogDao extends AbstractDao implements ICatalogDao {
 	
 	private static const LOG:Logger = Logger.getLogger("net.sourceforge.jpotpourri.learnme.dao.CatalogDao");
-	private static const DB: Database = Database.instance;
+	
 	private static const SQL_CREATE_CATALOG: String = 
 		"CREATE TABLE IF NOT EXISTS catalog (" +
 		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -32,76 +33,78 @@ internal class CatalogDao implements ICatalogDao {
 		"CREATE TABLE IF NOT EXISTS s_answer (" +
 		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		  "id_s_question INTEGER, " +
-		  "text TEXT" +
+		  "text TEXT," +
 		  "feedback TEXT, " +
 		  "correct BOOLEAN " +
 		")";
-		
+	
+	// SELECT c.id AS c_id, c.title AS c_title, q.id AS q_id, q.title AS q_title, q.text AS q_text, a.id AS a_id, a.text AS a_text, a.feedback AS a_feedback, a.correct AS a_correct FROM catalog AS c JOIN s_question AS q ON c.id = q.id_catalog JOIN s_answer AS a   ON q.id = a.id_s_question 
 	private static const SQL_SELECT_ALL: String = 
 		"SELECT " +
 		  "c.id AS c_id, c.title AS c_title, " +
 		  "q.id AS q_id, q.title AS q_title, q.text AS q_text, " +
-		  "a.id AS a_id, a.text AS a_text, a.correct AS a_correct " +
+		  "a.id AS a_id, a.text AS a_text, a.feedback AS a_feedback, a.correct AS a_correct " +
 		"FROM catalog AS c " +
 		  "JOIN s_question AS q ON c.id = q.id_catalog " +
 		  "JOIN s_answer AS a   ON q.id = a.id_s_question ";
 	
-	// must be last static stuff in here	
-	private static const INSTANCE: CatalogDao = new CatalogDao();
+	private static const SQL_INSERT_CATALOG: String =
+		"INSERT INTO catalog (title) VALUES (:catalogTitle)";
+	private static const SQL_INSERT_QUESITON: String =
+		"INSERT INTO s_question (id_catalog, title, text) VALUES (:catalogId, :questionTitle, :questionText)";
+	private static const SQL_INSERT_ANSWER: String =
+		"INSERT INTO s_answer (id_s_question, text, feedback, correct) VALUES (:questionId, :answerText, :answerFeedback, :answerCorrect)";
 	
 	private var _fnResult: Function;
 	
-	private var currentInsertedCatalog: IQuestionCatalog;
-	
 	
 	public function CatalogDao() {
-		DB.execSql(SQL_CREATE_CATALOG);
-		DB.execSql(SQL_CREATE_S_QUESTION);
-		DB.execSql(SQL_CREATE_S_ANSWER);
-	}
-
-	public static function get instance(): CatalogDao {
-		return INSTANCE;
+		execSql(SQL_CREATE_CATALOG);
+		execSql(SQL_CREATE_S_QUESTION);
+		execSql(SQL_CREATE_S_ANSWER);
 	}
 	
 	public function insertCatalog(catalog: IQuestionCatalog): void {
 		LOG.info("inserting question catalog: " + catalog);
 		
-		DB.execSql("INSERT INTO catalog (title) VALUES ('"+catalog.title+"')");
-		this.currentInsertedCatalog = catalog;
+		var params: Array = new Array();
+		params[":catalogTitle"] = catalog.title;
+		execSql(SQL_INSERT_CATALOG, null, params);
 		
-		var lastCatalogId: int = DB.lastInsertId;
+		var lastCatalogId: int = this.lastInsertId;
 		LOG.finer("Setting id for inserted catalog to ["+lastCatalogId+"].");
-		this.currentInsertedCatalog.id = lastCatalogId;
+		catalog.id = lastCatalogId;
 		
-		for each(var question: ISourceQuestion in currentInsertedCatalog.sourceQuestions) {
+		for each(var question: ISourceQuestion in catalog.sourceQuestions) {
 			LOG.finer("inserting question: " + question);
-			DB.execSql("INSERT INTO s_question (id_catalog, title, text) VALUES " +
-					"("+lastCatalogId+", '"+question.title+"', '"+question.text+"')");
-			var lastQuestionId: int = DB.lastInsertId;
+			params = new Array();
+			params[":catalogId"] = lastCatalogId;
+			params[":questionTitle"] = question.title;
+			params[":questionText"] = question.text;
+			execSql(SQL_INSERT_QUESITON, null, params);
+					
+			var lastQuestionId: int = this.lastInsertId;
 			
 			for each(var answer: ISourceAnswer in question.sourceAnswers) {
-				DB.execSql("INSERT INTO s_answer (id_s_question, text, correct) VALUES " +
-					"("+lastQuestionId+", '"+answer.text+"', "+answer.correct+")");
+				params = new Array();
+				params[":questionId"] = lastQuestionId;
+				params[":answerText"] = answer.text;
+				params[":answerFeedback"] = answer.feedback;
+				params[":answerCorrect"] = answer.correct;
+				execSql(SQL_INSERT_ANSWER, null, params);
 			}
 		}
-		
-		this.currentInsertedCatalog = null;
 	}
-	
-	
 	
 	
 	public function selectCatalogs(fnResult: Function): void {
 		_fnResult = fnResult;
-		DB.execSql(SQL_SELECT_ALL, this.onSelectCatalogsResult);
-		
+		execSql(SQL_SELECT_ALL, this.onSelectCatalogsResult);
 	}
 	
 	public function selectCatalogsByTitle(title: String, fnResult: Function): void {
 		_fnResult = fnResult;
-		DB.execSql("SELECT id FROM catalog WHERE title='"+title+"'", onSelectCatalogsResult);
-		
+		execSql("SELECT id FROM catalog WHERE title='"+title+"'", onSelectCatalogsResult);
 	}
 	
 	private function onSelectCatalogsResult(result: ArrayCollection): void {
@@ -109,15 +112,7 @@ internal class CatalogDao implements ICatalogDao {
 		
 		_fnResult(convertObjectsToCatalogs(result));
 	}
-	/*
-	"SELECT " +
-	  "c.id AS c_id, c.title AS c_title," +
-	  "q.id AS q_id, q.title AS q_title, q.text AS q_text," +
-	  "a.id AS a_id, a.text AS a_text, a.correct AS a_correct" +
-	"FROM catalog AS c" +
-	  "JOIN s_question AS q ON c.id = q.id_catalog" +
-	  "JOIN s_answer AS a   ON q.id = a.id_s_question";
-	*/
+
 	private static function convertObjectsToCatalogs(data: ArrayCollection): ArrayCollection {
 		const result: ArrayCollection = new ArrayCollection();
 		
@@ -130,10 +125,11 @@ internal class CatalogDao implements ICatalogDao {
 		var answer: ISourceAnswer = null;
 		
 		for each(var obj: Object in data) {
-			if(lastCatalogId != obj.c_id) {
-				// new catalog
-				if(catalog != null) {
-					// store back recent finished catalog
+			// LOG.finest("processing object: " + ObjectUtil.toString(obj));
+			if(lastCatalogId != obj.c_id) { // new catalog
+				if(catalog != null) { // store back recent finished catalog
+					questions.addItem(question);
+					question = null; // disable adding question to next catalog, but use it right here!
 					result.addItem(catalog);
 				}
 				questions = new ArrayCollection();
@@ -141,10 +137,8 @@ internal class CatalogDao implements ICatalogDao {
 				lastCatalogId = obj.c_id;
 			}
 			
-			if(lastQuestionId != obj.q_id) {
-				// new question
-				if(question != null) {
-					// store back recent finished question
+			if(lastQuestionId != obj.q_id) { // new question
+				if(question != null) { // store back recent finished question
 					questions.addItem(question);
 				}
 				answers = new ArrayCollection();
