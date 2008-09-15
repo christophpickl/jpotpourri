@@ -65,6 +65,9 @@
 			}
 			private function labelQuestionaryDate(row: Object, column: DataGridColumn): String {
 				const questionary: IQuestionary = IQuestionary(row);
+				if(questionary.date == null) {
+					return "N/A";
+				}
 				return questionary.date.toLocaleDateString() + " - " + questionary.date.toLocaleTimeString();
 			}
 			
