@@ -4,6 +4,9 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.utils.ObjectUtil;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
 			import mx.collections.ArrayCollection;
 			import net.sourceforge.jpotpourri.learnme.dao.DaoLocator;
 			import net.sourceforge.jpotpourri.learnme.vo.IQuestionCatalog;
@@ -24,11 +27,14 @@
 			}
 			
 			private function onCreationComplete(): void {
+				/*
 				if(DaoLocator.instance.connected == true) {
 					this.onDatabaseConnected();
 				} else {
 					DaoLocator.instance.connect(onDatabaseConnected);
 				}
+				*/
+				
 				
 				/*
 				var f:File = new File();

@@ -22,7 +22,7 @@
 		<mx:CheckBox id="checkBox" selected="{ICheckedAnswer(data).checked}" click="onClick()" />
 		
 		<comp:HtmlTextArea htmlTextObject="{ICheckedAnswer(data)}"
-			width="100%" minHeight="100" maxHeight="200" />
+			width="100%" />
 		<!--
 		<mx:TextArea
 			id="questionText"

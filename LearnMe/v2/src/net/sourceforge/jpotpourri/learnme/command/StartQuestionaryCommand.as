@@ -32,7 +32,21 @@ public class StartQuestionaryCommand {
 		_catalog = event.questionCatalog;
 		LOG.info("StartQuestionaryCommand; catalog: " + _catalog);
 		
-		DaoLocator.instance.reportDao.selectReports(_catalog, onReportsFetched);
+		if(event.questionsSelection == StartQuestionaryEvent.QUESTIONS_ALL) {
+			
+			const checkedQuestions: ArrayCollection = new ArrayCollection();
+			for (var i: int = 0; i < _catalog.sourceQuestions.length; i++) {
+				var question: MultipleChoiceSourceQuestion = MultipleChoiceSourceQuestion(_catalog.sourceQuestions.getItemAt(i));
+				checkedQuestions.addItem(MultipleChoiceCheckedQuestion.newDefault(question));
+			}
+			this.doStartQuestionary(checkedQuestions);
+			
+		} else if(event.questionsSelection == StartQuestionaryEvent.QUESTIONS_LIMITED_BY_WEIGHT) {
+			DaoLocator.instance.reportDao.selectReports(_catalog, onReportsFetched);
+		} else {
+			throw new Error("unhandled event.questionsSelection ["+event.questionsSelection+"]!");
+		}
+		
 	}
 	
 	private function onReportsFetched(reports: ArrayCollection): void {
@@ -44,12 +58,16 @@ public class StartQuestionaryCommand {
 		Report.sortReports(reports);
 		// FIXME use reports to get proper questions
 		for (var i: int = 0; i < Math.min(_catalog.sourceQuestions.length, MAX_QUESTIONS); i++) {
-			// var question: MultipleChoiceSourceQuestion = MultipleChoiceSourceQuestion(_catalog.sourceQuestions.getItemAt(i));
+			
 			var report: Report = Report(reports.getItemAt(i));
 			var question: MultipleChoiceSourceQuestion = MultipleChoiceSourceQuestion(report.question);
 			checkedQuestions.addItem(MultipleChoiceCheckedQuestion.newDefault(question));
 		}
 		
+		this.doStartQuestionary(checkedQuestions);
+	}
+	
+	private function doStartQuestionary(checkedQuestions: ArrayCollection): void {
 		const questionary: IQuestionary = new Questionary(-1, _catalog, new Date(), checkedQuestions);
 		
 		ModelLocator.instance.questionary = questionary;
