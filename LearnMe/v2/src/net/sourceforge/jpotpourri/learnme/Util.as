@@ -1,4 +1,7 @@
 package net.sourceforge.jpotpourri.learnme {
+	import mx.collections.ArrayCollection;
+	import mx.collections.Sort;
+	
 
 public class Util {
 	
@@ -16,6 +19,24 @@ public class Util {
 		return replaced.replace(/[\t]+/g, "");
 	}
 	
+	public static function scrambleArrayCollection(inArray: ArrayCollection): ArrayCollection {
+		const outArray: ArrayCollection = new ArrayCollection();
+		
+		for each(var obj: Object in inArray) {
+			outArray.addItem(obj);
+		}
+		
+		var s: Sort = new Sort();
+		s.fields = [];
+		s.compareFunction = onCompare;
+		
+		outArray.sort = s;
+		outArray.refresh();
+		return outArray;
+	}
 	
+	private static function onCompare(obj1: Object, obj2: Object, fields: Array): int {
+		return Math.random() < 0.5 ? -1 : 1;
+	}
 }
 }

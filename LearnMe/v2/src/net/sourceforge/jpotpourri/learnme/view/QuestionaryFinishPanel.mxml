@@ -31,11 +31,11 @@
 	</mx:Script>
 	
 	<mx:HBox width="100%" height="100%">
-		<mx:DataGrid id="checkQuestionsDataGrid" dataProvider="{model.questionary.checkedQuestions}" width="250" height="100%">
+		<mx:DataGrid id="checkQuestionsDataGrid" dataProvider="{model.questionary.checkedQuestions}" width="350" height="100%">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Nr" labelFunction="labelQuestionNumber" width="35" textAlign="right" />
 				<mx:DataGridColumn headerText="Title" dataField="title" />
-				<mx:DataGridColumn headerText="Correct" dataField="checkedAllCorrect" width="60" textAlign="center" />
+				<mx:DataGridColumn headerText="Correct" dataField="checkedAllCorrect" width="50" textAlign="center" />
 			</mx:columns>
 		</mx:DataGrid>
 	

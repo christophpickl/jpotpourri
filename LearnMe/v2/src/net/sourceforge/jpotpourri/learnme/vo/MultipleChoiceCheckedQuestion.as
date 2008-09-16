@@ -1,6 +1,8 @@
 package net.sourceforge.jpotpourri.learnme.vo {
 
 import mx.collections.ArrayCollection;
+
+import net.sourceforge.jpotpourri.learnme.Util;
 	
 
 [Bindable]
@@ -22,7 +24,8 @@ public class MultipleChoiceCheckedQuestion
 	public static function newDefault(sourceQuestion: MultipleChoiceSourceQuestion): MultipleChoiceCheckedQuestion {
 		
 		const checkedAnswers: ArrayCollection = new ArrayCollection();
-		for each(var sourceAnswer: MultipleChoiceSourceAnswer in sourceQuestion.sourceAnswers) {
+		const scrambledSourceAnswers: ArrayCollection = Util.scrambleArrayCollection(sourceQuestion.sourceAnswers);
+		for each(var sourceAnswer: MultipleChoiceSourceAnswer in scrambledSourceAnswers) {
 			checkedAnswers.addItem(new MultipleChoiceCheckedAnswer(-1, sourceAnswer));
 		}
 		

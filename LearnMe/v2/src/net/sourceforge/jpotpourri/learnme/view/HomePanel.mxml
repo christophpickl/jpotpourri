@@ -116,7 +116,10 @@
 	
 	
 	<mx:HBox width="100%">
-		<mx:Button label="Start Questionairy" click="this.dispatchEvent(new StartQuestionaryEvent(IQuestionCatalog(this.catalogsDataGrid.selectedItem)))" enabled="{this.catalogsDataGrid.selectedItem != null}" />
+		<mx:Button label="Start Questionairy (ALL)" enabled="{this.catalogsDataGrid.selectedItem != null}"
+			click="this.dispatchEvent(new StartQuestionaryEvent(IQuestionCatalog(this.catalogsDataGrid.selectedItem), StartQuestionaryEvent.QUESTIONS_ALL))"/>
+		<mx:Button label="Start Questionairy (WEIGHT)" enabled="{this.catalogsDataGrid.selectedItem != null}"
+			click="this.dispatchEvent(new StartQuestionaryEvent(IQuestionCatalog(this.catalogsDataGrid.selectedItem), StartQuestionaryEvent.QUESTIONS_LIMITED_BY_WEIGHT))"/>
 		<mx:Button label="View Report" click="doViewReport()" enabled="{catalogsDataGrid.selectedItem != null}" />
 		<!--<mx:Button label="Dummy Report" click="dummyReport()" />-->
 		<mx:Spacer width="100%" />

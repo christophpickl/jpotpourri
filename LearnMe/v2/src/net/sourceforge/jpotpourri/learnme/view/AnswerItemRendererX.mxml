@@ -24,13 +24,14 @@
 	
 		<mx:CheckBox enabled="false" selected="{ICheckedAnswer(data).checked}" />
 	
-		<comp:HtmlTextArea htmlTextObject="{ICheckedAnswer(data)}" width="100%" minHeight="80" maxHeight="200" />
+		<!--  minHeight="80" maxHeight="200" -->
+		<comp:HtmlTextArea htmlTextObject="{ICheckedAnswer(data)}" width="100%" />
 		
 	</mx:HBox>
 	
 	<mx:VBox
 		visible="{ICheckedAnswer(data).checked != ICheckedAnswer(data).correct}"
-		width="100%"> <!-- height="{ICheckedAnswer(data).checked != ICheckedAnswer(data).correct ? 100 : 0}" -->
+		width="100%" maxHeight="50"> <!-- height="{ICheckedAnswer(data).checked != ICheckedAnswer(data).correct ? 100 : 0}" -->
 		<mx:Label text="Feedback:" />
 		<comp:HtmlTextArea2 htmlFeedbackText="{ICheckedAnswer(data)}" width="100%" />
 	</mx:VBox>

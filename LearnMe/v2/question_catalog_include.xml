@@ -15,12 +15,28 @@
 					Question From Main Answer1 FEEDBACK
 				]]></Feedback>
 			</Answer>
-			<Answer correct="false">
+			<Answer>
 				<Text><![CDATA[
 					Question From Main Answer2 TEXT
 				]]></Text>
 				<Feedback><![CDATA[
 					Question From Main Answer2 FEEDBACK
+				]]></Feedback>
+			</Answer>
+			<Answer>
+				<Text><![CDATA[
+					Question From Main Answer3 TEXT
+				]]></Text>
+				<Feedback><![CDATA[
+					Question From Main Answer3 FEEDBACK
+				]]></Feedback>
+			</Answer>
+			<Answer>
+				<Text><![CDATA[
+					Question From Main Answer4 TEXT
+				]]></Text>
+				<Feedback><![CDATA[
+					Question From Main Answer4 FEEDBACK
 				]]></Feedback>
 			</Answer>
 		</Answers>
