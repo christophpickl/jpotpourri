@@ -4,7 +4,9 @@
 
 	<MultipleChoiceQuestion title="Single question TITLE">
 		<Text><![CDATA[
-			Single question TEXT
+			<code>
+			in code function(void);
+			</code>
 		]]></Text>
 		<Answers>
 			<Answer correct="false">

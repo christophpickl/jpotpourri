@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QuestionCatalog title="Sun Certified Java Programmer for Java 5 - Chapter 6">
+
+<!-- ***************************************************** 0 ***************************************************** -->
+<MultipleChoiceQuestion title="C06Q0 - ">
+    <Text><![CDATA[
+        
+    ]]></Text>
+    <Answers>
+        <Answer>
+            <Text><![CDATA[
+                
+            ]]></Text>
+            <Feedback><![CDATA[
+                
+            ]]></Feedback>
+        </Answer>
+    </Answers>
+</MultipleChoiceQuestion>
+
+</QuestionCatalog>
