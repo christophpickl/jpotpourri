@@ -15,8 +15,9 @@ public class Util {
 	
 	
 	public static function removeLinebreaks(value: String): String {
-		var replaced: String = value.replace(/[(\n)(\r)]/g, "");
-		return replaced.replace(/[\t]+/g, "");
+		value = value.replace(/[\n\r]/g, "");
+		value = value.replace(/[\t]+/g, "");
+		return value;
 	}
 	
 	public static function scrambleArrayCollection(inArray: ArrayCollection): ArrayCollection {

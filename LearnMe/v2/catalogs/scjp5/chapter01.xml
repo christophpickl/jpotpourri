@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QuestionCatalog title="Sun Certified Java Programmer for Java 5 - Chapter 1">
 
 <!-- ***************************************************** 01 ***************************************************** -->
 <MultipleChoiceQuestion title="C01Q01 - Implementing Interfaces">
@@ -536,3 +539,5 @@
         </Answer>
     </Answers>
 </MultipleChoiceQuestion>
+
+</QuestionCatalog>

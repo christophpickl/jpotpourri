@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
-	creationComplete="onCreationComplete()">
+	creationComplete="onCreationComplete()" xmlns:comp="net.sourceforge.jpotpourri.learnme.view.comp.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -36,9 +36,8 @@
 				*/
 				
 				
-				/*
 				var f:File = new File();
-				f.url = "file:///D:/FlexDev/LearnMe/question_catalog_scjp.xml"; // TODO how relative path?
+				f.url = "file:///D:/FlexDev/LearnMe/question_catalog_easy.xml"; // TODO how relative path?
 				trace(f.nativePath);
 				
 				var fs:FileStream = new FileStream();
@@ -46,9 +45,8 @@
 				const result: String = fs.readUTFBytes(fs.bytesAvailable);
 				fs.close();
 				
-				var qc: IQuestionCatalog = CatalogParser.parse(result);
+				var qc: IQuestionCatalog = CatalogParser.parse(f, result);
 				trace("qc: " + qc);
-				*/
 				
 				/*
 				var f:File = new File();
@@ -91,7 +89,10 @@
 				*/
 				
 			}
+			[Bindable] private var myObj: Object;
 		]]>
 	</mx:Script>
+	
+	<comp:HtmlTextArea htmlTextObject="{myObj}" />
 	
 </mx:WindowedApplication>

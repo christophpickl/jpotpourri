@@ -98,6 +98,7 @@ public class CatalogParser {
 				continue; // skip empty text node stuff
 			} else if(child.nodeName == "Text") {
 				text = getNodeValue(child);
+				trace("text: " + text);
 			} else if(child.nodeName == "Answers") {
 				sourceAnswers = parseMultipleChoiceAnswers(child);
 			} else {
