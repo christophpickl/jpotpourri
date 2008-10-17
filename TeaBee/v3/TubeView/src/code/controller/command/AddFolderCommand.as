@@ -1,6 +1,7 @@
 package code.controller.command {
 
 import code.controller.event.AddFolderEvent;
+import code.controller.logic.AddDelegate;
 
 import com.adobe.cairngorm.commands.ICommand;
 import com.adobe.cairngorm.control.CairngormEvent;

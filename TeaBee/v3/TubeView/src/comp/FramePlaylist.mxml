@@ -3,10 +3,18 @@
 
 	<mx:Script>
 		<![CDATA[
-			import code.common.Model;
+			import code.model.Model;
 		]]>
 	</mx:Script>
 	
-	<mx:Label text="Playlist selected: [{Model.instance.playlist.title}]" />
+	<mx:VBox width="100%" height="100%">
+		
+		<mx:Label text="Playlist selected: [{Model.instance.playlist.title}]" />
+		
+		<mx:DataGrid width="100%" height="100%"
+			dataProvider="{Model.instance.playlist.videos}" />
+		
+	</mx:VBox>
+	
 	
 </mx:Canvas>
