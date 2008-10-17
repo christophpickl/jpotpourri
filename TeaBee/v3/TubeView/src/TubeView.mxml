@@ -11,10 +11,13 @@ TODO performance - thumbnails alle in cache zwischenspeichern
 	creationComplete="onCreationComplete()"
 	
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:comp="comp.*" xmlns:common="code.common.*">
+	xmlns:common="code.common.*"
+	xmlns:controller="code.controller.*"
+	xmlns:comp="comp.*"
+	>
 	
-	<!-- load controller class -->
-	<common:Controller />
+	<!-- load controller class first -->
+	<controller:MainFrontController />
 	
 	<mx:Script>
 		<![CDATA[
@@ -38,7 +41,16 @@ TODO performance - thumbnails alle in cache zwischenspeichern
 	
 	<comp:FrameLibrary width="50%" height="100%" />
 	
-	<comp:FramePlaylist width="50%" height="100%" />
+	<mx:VBox width="50%" height="100%">
+		
+		<mx:HBox width="100%" height="30%">
+			<comp:FramePlaylist width="50%" height="100%" />
+			<comp:FrameSearch width="50%" height="100%" />
+		</mx:HBox>
+		
+		<mx:Label text="FrameVideo" width="100%" height="70%"/>
+		
+	</mx:VBox>
 	
 	
 </mx:WindowedApplication>

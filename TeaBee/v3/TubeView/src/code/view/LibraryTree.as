@@ -1,6 +1,6 @@
 package code.view {
 
-import code.common.Model;
+import code.model.Model;
 import code.model.vo.Playlist;
 
 import logging.Logger;

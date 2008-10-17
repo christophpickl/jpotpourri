@@ -11,7 +11,7 @@
 			import code.controller.event.AddPlaylistEvent;
 			import logging.Logger;
 			import mx.events.ItemClickEvent;
-			import code.common.Model;
+			import code.model.Model;
 			
 			private static const LOG: Logger = Logger.getLogger("comp.FrameLibrary");
 			

@@ -1,13 +1,10 @@
 package code.controller.command {
 
-import code.common.Model;
 import code.controller.event.AddPlaylistEvent;
-import code.model.vo.Folder;
+import code.controller.logic.AddDelegate;
 
 import com.adobe.cairngorm.commands.ICommand;
 import com.adobe.cairngorm.control.CairngormEvent;
-
-import comp.FrameLibrary;
 
 import logging.Logger;
 	

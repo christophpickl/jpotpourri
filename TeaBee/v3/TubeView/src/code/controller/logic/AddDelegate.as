@@ -1,6 +1,6 @@
-package code.controller.command {
+package code.controller.logic {
 
-import code.common.Model;
+import code.model.Model;
 import code.model.vo.Folder;
 
 import logging.Logger;

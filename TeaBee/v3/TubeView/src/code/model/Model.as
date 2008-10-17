@@ -1,9 +1,11 @@
-package code.common {
+package code.model {
 
 import code.model.vo.Library;
 import code.model.vo.Playlist;
 
 import com.adobe.cairngorm.model.IModelLocator;
+
+import mx.collections.ArrayCollection;
 
 [Bindable]
 public class Model implements IModelLocator {
@@ -16,6 +18,10 @@ public class Model implements IModelLocator {
 	
 	/** currently selected */
 	public var playlist: Playlist;
+	
+	/** ArrayCollection<SearchResult>*/
+	public var searchResults: ArrayCollection = new ArrayCollection();
+	
 	
 	public function Model(singletonEnforcer:SingletonEnforcer) {
 		
