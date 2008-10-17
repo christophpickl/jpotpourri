@@ -1,9 +1,9 @@
 package code.common {
 
-import code.command.AddFolderCommand;
-import code.command.AddPlaylistCommand;
-import code.event.AddFolderEvent;
-import code.event.AddPlaylistEvent;
+import code.controller.command.AddFolderCommand;
+import code.controller.command.AddPlaylistCommand;
+import code.controller.event.AddFolderEvent;
+import code.controller.event.AddPlaylistEvent;
 
 import com.adobe.cairngorm.control.FrontController;
 	

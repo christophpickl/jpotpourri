@@ -1,4 +1,4 @@
-package code.vo {
+package code.model.vo {
 
 import mx.collections.ArrayCollection;
 

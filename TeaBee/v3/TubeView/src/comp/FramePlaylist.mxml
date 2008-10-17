@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Script>
+		<![CDATA[
+			import code.common.Model;
+		]]>
+	</mx:Script>
 	
-	<mx:Label text="Playlist Frame" />
+	<mx:Label text="Playlist selected: [{Model.instance.playlist.title}]" />
 	
 </mx:Canvas>

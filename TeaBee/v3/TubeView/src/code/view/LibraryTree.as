@@ -1,4 +1,7 @@
-package view {
+package code.view {
+
+import code.common.Model;
+import code.model.vo.Playlist;
 
 import logging.Logger;
 
@@ -11,28 +14,28 @@ public class LibraryTree extends Tree {
 	
 	private static const LOG: Logger = Logger.getLogger("view.LibraryTree");	
 	
+	
 	public function LibraryTree() {
 		this.showRoot = false;
 		this.editable = true;
 		
 		this.addEventListener(ListEvent.ITEM_EDIT_END, this.onItemEditEnd);
 		
-		// treeLabel(item: Object):String {
+		this.addEventListener(ListEvent.CHANGE, this.onChange);
+		
 		this.labelFunction = function(item: Object): String {
 			return item.title;
-			/*
-			if(item is Library) {
-				return "-LIBRARY-"; // wont be visible to user
-			} else {
-				return item.title;
-			}
-			*/
 		};
 	}
 	
 	private function onItemEditEnd(event: ListEvent): void {
 		var input: TextInput = this.itemEditorInstance as TextInput;
 		this.selectedItem.title = input.text;
+	}
+	private function onChange(event: ListEvent): void {
+		if(this.selectedItem is Playlist) {
+			Model.instance.playlist = this.selectedItem as Playlist;
+		}
 	}
 	
 	
