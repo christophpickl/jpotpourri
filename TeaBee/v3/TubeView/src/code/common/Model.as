@@ -1,6 +1,7 @@
 package code.common {
 
-import code.vo.Library;
+import code.model.vo.Library;
+import code.model.vo.Playlist;
 
 import com.adobe.cairngorm.model.IModelLocator;
 
@@ -13,6 +14,8 @@ public class Model implements IModelLocator {
 	public var library: Library = Library.newDefault();
 	// public var library: Library = LibraryDao.instance.load();
 	
+	/** currently selected */
+	public var playlist: Playlist;
 	
 	public function Model(singletonEnforcer:SingletonEnforcer) {
 		

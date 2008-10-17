@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:view="view.*">
+	xmlns:view="code.view.*">
 	
 	<mx:Script>
 		<![CDATA[
-			import code.event.AddFolderEvent;
-			import code.vo.Folder;
-			import code.vo.Playlist;
-			import code.event.AddPlaylistEvent;
+			import code.controller.event.AddFolderEvent;
+			import code.model.vo.Folder;
+			import code.model.vo.Playlist;
+			import code.controller.event.AddPlaylistEvent;
 			import logging.Logger;
 			import mx.events.ItemClickEvent;
 			import code.common.Model;

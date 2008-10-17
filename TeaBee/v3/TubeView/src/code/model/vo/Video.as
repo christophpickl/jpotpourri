@@ -1,4 +1,4 @@
-package code.vo {
+package code.model.vo {
 
 [Bindable]
 public class Video {
