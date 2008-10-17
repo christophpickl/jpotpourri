@@ -1,10 +1,10 @@
 package view {
 
-import code.vo.Library;
-
 import logging.Logger;
 
+import mx.controls.TextInput;
 import mx.controls.Tree;
+import mx.events.ListEvent;
 
 
 public class LibraryTree extends Tree {
@@ -14,6 +14,8 @@ public class LibraryTree extends Tree {
 	public function LibraryTree() {
 		this.showRoot = false;
 		this.editable = true;
+		
+		this.addEventListener(ListEvent.ITEM_EDIT_END, this.onItemEditEnd);
 		
 		// treeLabel(item: Object):String {
 		this.labelFunction = function(item: Object): String {
@@ -28,6 +30,10 @@ public class LibraryTree extends Tree {
 		};
 	}
 	
+	private function onItemEditEnd(event: ListEvent): void {
+		var input: TextInput = this.itemEditorInstance as TextInput;
+		this.selectedItem.title = input.text;
+	}
 	
 	
 	/*

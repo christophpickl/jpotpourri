@@ -20,13 +20,35 @@
 				const label: String = event.label;
 				
 		        if (label == "add folder") {
-		            new AddFolderEvent(Folder.newDefault()).dispatch();
+		            new AddFolderEvent(Folder.newDefault(), this.getTargetFolder()).dispatch();
 		            
 		        } else if (label == "add playlist") {
-		        	new AddPlaylistEvent(Playlist.newDefault()).dispatch();
+		        	new AddPlaylistEvent(Playlist.newDefault(), this.getTargetFolder()).dispatch();
 		        } else {
 		            throw new Error("");
 		        }
+		    }
+		    
+		    private function getTargetFolder(): Folder {
+		    	const selectedObject: Object = this.libraryTree.selectedItem;
+		    	
+		    	if(selectedObject == null) {
+		    		return Model.instance.library.rootFolder;
+		    	}
+		    	
+		    	if(selectedObject is Playlist) {
+		    		const parent: Object = this.libraryTree.getParentItem(selectedObject);
+		    		if(parent == null) { // top level playlist
+		    			return Model.instance.library.rootFolder;
+		    		}
+		    		return parent as Folder; // playlist's parent folder
+		    	}
+		    	
+		    	if(selectedObject is Folder) {
+		    		return selectedObject as Folder;
+		    	}
+		    	
+		    	throw new Error("Unhandled selected item ["+selectedObject+"]!");
 		    }
 		    
 		]]>
