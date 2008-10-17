@@ -7,7 +7,7 @@ public class Folder {
 	
 	public var title: String;
 	
-	/** ArrayCollection<Folder | Playlist> */
+	/** ArrayCollection<Folder|Playlist> */
 	public var content: ArrayCollection;
 	
 	public function Folder(pTitle: String, pContent: ArrayCollection) {
