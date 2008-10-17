@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical">
 	
 	<mx:Script>
 		<![CDATA[
@@ -12,11 +12,52 @@
 				this.treeData.addItem(new Foobar());
 			}
 			
+	
+			private var stream: URLStream;
+			private function download(): void {
+				trace("download()");
+				var req:URLRequest = new URLRequest("http://www.youtube.com/get_video.php?video_id=Y48Aly3qOZg&t=OEgsToPDskJNReemr-hfY1mcoM0VXSNj");
+				stream = new URLStream();
+				stream.addEventListener(Event.COMPLETE, onDownloadComplete);
+				
+				stream.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, onStream);
+				stream.addEventListener(HTTPStatusEvent.HTTP_STATUS, onStream);
+				stream.addEventListener(Event.ACTIVATE, onStream);
+				stream.addEventListener(IOErrorEvent.IO_ERROR, onStream);
+				stream.addEventListener(ProgressEvent.PROGRESS, onStream);
+				stream.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onStream);
+				stream.addEventListener(Event.OPEN, onStream);
+				
+				trace("stream.load(req);");
+				stream.load(req);
+			}
+			
+			private function onStream(event: Event): void {
+				trace("onStream(event="+event+")");
+			}
+			private function onDownloadComplete(event: Event):void {
+				trace("onDownloadComplete --- onDownloadComplete --- onDownloadComplete --- onDownloadComplete --- onDownloadComplete --- ");
+				
+				var fileData: ByteArray = new ByteArray();
+				stream.readBytes(fileData, 0, stream.bytesAvailable);
+				
+				var file: File = File.documentsDirectory.resolvePath("_DELME.flv");
+				trace("file.path: " + file.nativePath);
+				
+				var fileStream: FileStream = new FileStream();
+				fileStream.open(file, FileMode.WRITE);
+				fileStream.writeBytes(fileData, 0, fileData.length);
+				fileStream.close();
+				
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:Tree dataProvider="{this.treeData}" />
 	
 	<mx:Button label="add" click="this.add()" />
+	
+	<mx:Button label="download" click="this.download()" />
 	
 </mx:WindowedApplication>

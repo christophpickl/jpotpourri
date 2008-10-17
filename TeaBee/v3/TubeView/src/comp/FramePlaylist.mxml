@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="code.view.*">
 
 	<mx:Script>
 		<![CDATA[
@@ -11,7 +11,7 @@
 		
 		<mx:Label text="Playlist selected: [{Model.instance.playlist.title}]" />
 		
-		<mx:DataGrid width="100%" height="100%"
+		<view:PlaylistGrid width="100%" height="100%"
 			dataProvider="{Model.instance.playlist.videos}" />
 		
 	</mx:VBox>
