@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+<mx:WindowedApplication
+	layout="vertical"
+	creationComplete="onCreationComplete()"
 	
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="net.sourceforge.teabee.air.view.*"
+	>
+	
+	<mx:Style>
+	
+		Application {
+			backgroundGradientColors: #000000, #22223F;
+		}
+		
+		PagedList {
+			proxy-duration: 250;
+			proxy-color: #999999;
+			proxy-alpha: .6;
+			spacing: 10;
+		}
+				
+	</mx:Style>
 	
 	<mx:Script>
 		<![CDATA[
-			import net.sourceforge.teabee.air.search.SearchResultVideo;
-			import net.sourceforge.teabee.air.search.SearchResult;
-			import net.sourceforge.teabee.air.search.SearchQuery;
-			import net.sourceforge.teabee.air.search.SearchService;
-			import mx.messaging.channels.AMFChannel;
-			import mx.messaging.ChannelSet;
-			import mx.rpc.events.ResultEvent;
-			import mx.rpc.events.FaultEvent;
 			
-			private const searchService: SearchService = new SearchService();
+			// used by search item renderer to load images from yt
+			[Bindable]
+			public static var loaderContext:LoaderContext;
 			
-			private function onClick():void {
-				// SearchResult doSearch(final SearchQuery query);
+			
+			private function onCreationComplete():void {
+				// Application.application.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenHandler);
+				// fullScreenHandler(evt:FullScreenEvent):void
 				
-				trace("invoking rpc method...");
-				var query: SearchQuery = new SearchQuery();
-				query.startIndex = 1;
-				query.maxResults = 10;
-				query.searchTerm = "maven";
-				this.searchService.search(query, this.onResult);
-			}
-			
-			private function onResult(result: SearchResult): void {
-				for each(var video: SearchResultVideo in result.videos) {
-					trace("title: " + video.title);
-				}
+				// allow loading images from youtube
+				loaderContext = new LoaderContext();
+      			loaderContext.checkPolicyFile = true;
 			}
 		]]>
 	</mx:Script>
 	
-	
-	<mx:Button label="servere" click="onClick()" />
+	<view:SearchPanel id="searchPanel" />
 		
 </mx:WindowedApplication>
