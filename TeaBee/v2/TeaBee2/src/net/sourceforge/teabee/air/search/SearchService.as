@@ -54,6 +54,7 @@ public class SearchService extends RemoteObject {
 	
 	private function onFault(event: FaultEvent):void {
 		trace("Fault! " + event);
+		trace(event.fault.rootCause.cause.responseBody);
 		CursorManager.removeBusyCursor();
 		Alert.show(event.toString(), "Search Error!");
 	}
