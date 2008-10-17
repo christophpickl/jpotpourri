@@ -26,5 +26,9 @@ public class Folder {
 		return "Folder[title=" + this.title + ";content.length=" + this.content.length + "]";
 	}
 
+	/** workaround method to get this displayed as a container item in tree component*/
+	public function get children(): ArrayCollection {
+		return this.content;
+	}
 }
 }
