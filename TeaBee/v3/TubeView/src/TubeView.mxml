@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+TODO performance - thumbnails alle in cache zwischenspeichern
+-->
+
+<mx:WindowedApplication 
+	layout="horizontal"
+	
+	creationComplete="onCreationComplete()"
+	
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:comp="comp.*" xmlns:common="code.common.*">
+	
+	<!-- load controller class -->
+	<common:Controller />
+	
+	<mx:Script>
+		<![CDATA[
+			import logging.Logger;
+			
+			private static const LOG: Logger = Logger.getLogger("TubeView");
+			
+			[Bindable]
+			public static var loaderContext: LoaderContext;
+			
+			private function onCreationComplete():void {
+				// Application.application.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenHandler);
+				// fullScreenHandler(evt:FullScreenEvent):void
+				
+				// allow loading images from youtube
+				loaderContext = new LoaderContext();
+      			loaderContext.checkPolicyFile = true;
+			}
+		]]>
+	</mx:Script>
+	
+	<comp:FrameLibrary width="50%" height="100%" />
+	
+	<comp:FramePlaylist width="50%" height="100%" />
+	
+	
+</mx:WindowedApplication>
