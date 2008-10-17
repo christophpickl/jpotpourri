@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+	
+	<mx:Script>
+		<![CDATA[
+			import playground.Foobar;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable] private var treeData: ArrayCollection = new ArrayCollection();
+			
+			private function add(): void {
+				this.treeData.addItem(new Foobar());
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Tree dataProvider="{this.treeData}" />
+	
+	<mx:Button label="add" click="this.add()" />
+	
+</mx:WindowedApplication>
