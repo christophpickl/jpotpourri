@@ -1,5 +1,8 @@
 package code.model.vo {
 
+import code.common.TimeUtil;
+	
+
 [Bindable]
 public class Video {
 	
@@ -11,13 +14,8 @@ public class Video {
 	 
 	public var thumbnail: Thumbnail;
 	
-	
-	
-	public function Video() {
-		
-	}
 
-	public function Clip(title:String, url:String, duration:uint, thumbnail:Thumbnail) {
+	public function Video(title:String, url:String, duration:uint, thumbnail:Thumbnail) {
 		this.title = title;
 		this.url = url;
 		this.duration = duration;
