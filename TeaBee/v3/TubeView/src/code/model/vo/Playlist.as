@@ -4,26 +4,35 @@ import mx.collections.ArrayCollection;
 
 
 [Bindable]
-public class Playlist {
+public class Playlist extends Item {
 	
-	public var title: String;
+	public var playlistId: int;
 	
-	public var videos: ArrayCollection = new ArrayCollection();
+	private var _clips: ArrayCollection = new ArrayCollection();
 	
-	public function Playlist(pTitle: String, pVideos: ArrayCollection) {
-		if(pTitle == null) throw new Error("pTitle == null");
-		if(pVideos == null) throw new Error("pVideos == null");
+	
+	public function Playlist(pTitle: String, pClips: ArrayCollection) {
+		super(pTitle);
+		if(pClips == null) throw new Error("pClips == null");
 		
-		this.title = pTitle;
-		this.videos = pVideos;
+		this.clips = pClips;
 	}
 
 	public static function newDefault():Playlist {
 		return new Playlist("untitled playlist", new ArrayCollection());
 	}
 
+	public function get clips(): ArrayCollection {
+		return this._clips;
+	}
+	
+	public function set clips(pClips: ArrayCollection): void {
+		if(pClips == null) throw new Error("pClips == null");
+		this._clips = pClips; 
+	}
+
 	public function toString():String {
-		return "Playlist[title=" + this.title + ";videos.length=" + this.videos.length + "]";
+		return "Playlist["+this.toInnerString()+";playlistId=" + this.playlistId + ";clips.length=" + this._clips.length + "]";
 	}
 
 

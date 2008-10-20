@@ -2,7 +2,7 @@ package code.controller.logic {
 
 import code.model.Model;
 import code.model.vo.Folder;
-import code.model.vo.Video;
+import code.model.vo.Clip;
 
 import logging.Logger;
 	
@@ -27,9 +27,9 @@ public class AddDelegate {
 		targetFolder.content.addItem(playlistOrFolder);
 	}
 	
-	public static function addSearchResultToPlaylist(newVideo: Video): void {
-		new VideoDownloader(newVideo.url).doDownload();
-		Model.instance.playlist.videos.addItem(newVideo); // TODO do not only add it at last position, but on proper dropped position!
+	public static function addSearchResultToPlaylist(newClip: Clip): void {
+		new VideoDownloader(newClip).doDownload();
+		Model.instance.playlist.clips.addItem(newClip); // TODO do not only add it at last position, but on proper dropped position!
 		
 	}
 

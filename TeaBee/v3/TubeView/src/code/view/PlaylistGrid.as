@@ -2,8 +2,8 @@ package code.view {
 
 import code.controller.logic.AddDelegate;
 import code.model.Model;
+import code.model.vo.Clip;
 import code.model.vo.SearchResult;
-import code.model.vo.Video;
 
 import comp.FrameSearch;
 
@@ -15,6 +15,7 @@ import mx.controls.dataGridClasses.DataGridColumn;
 import mx.core.DragSource;
 import mx.core.UIComponent;
 import mx.events.DragEvent;
+import mx.events.ListEvent;
 import mx.managers.DragManager;
 import mx.utils.ObjectUtil;
 
@@ -42,10 +43,15 @@ public class PlaylistGrid extends DataGrid {
 		this.dropEnabled = true;
 		this.dragMoveEnabled = true;
 		
+		this.addEventListener(ListEvent.CHANGE, this.onChange);
 		this.addEventListener(DragEvent.DRAG_DROP, this.onDragDrop);
 		this.addEventListener(DragEvent.DRAG_ENTER, this.onDragEnter);
 		
 		this.columns = PlaylistGrid.createColumns();
+	}
+	
+	private function onChange(event: ListEvent): void {
+		Model.instance.clip = this.selectedItem as Clip;
 	}
 	
 	private static function createColumns(): Array {
@@ -54,6 +60,17 @@ public class PlaylistGrid extends DataGrid {
 		const columnTitle: DataGridColumn = new DataGridColumn("Title");
 		columnTitle.dataField = "title";
 		columns.push(columnTitle);
+		
+		const columnDownloaded: DataGridColumn = new DataGridColumn("Dwnd");
+		
+		/*
+		columnDownloaded.labelFunction = function(data: Object, column: DataGridColumn): Object {
+			const clip: Clip = data as Clip;
+			var b: CheckBox = new CheckBox();
+			return b;
+		}
+		*/
+		columns.push(columnDownloaded);
 		
 		return columns;
 	}
@@ -71,6 +88,7 @@ public class PlaylistGrid extends DataGrid {
     		DragManager.acceptDragDrop(UIComponent(event.currentTarget));
     		// TODO change cursor icon for drop-target-enabled
         }
+        event.stopImmediatePropagation();
 	}
 	
 	private static function isDragInitiatorSearchResult(event: DragEvent):Boolean {
@@ -97,10 +115,9 @@ public class PlaylistGrid extends DataGrid {
 				throw new Error("dropData.length != 1 but " + dropData.length + "! " + ObjectUtil.toString(dropData));
 			}
 			
-			
 			var searchResult: SearchResult = dropData[0] as SearchResult;
-			var newVideo: Video = new Video(searchResult.title, searchResult.url, searchResult.duration, searchResult.thumbnail);
-			AddDelegate.addSearchResultToPlaylist(newVideo);
+			
+			AddDelegate.addSearchResultToPlaylist(searchResult.newClip());
 			
 		}
 		event.stopImmediatePropagation();

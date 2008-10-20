@@ -3,18 +3,18 @@ package code.model.vo {
 import mx.collections.ArrayCollection;
 
 [Bindable]
-public class Folder {
+public class Folder extends Item {
 	
-	public var title: String;
+	public var folderId: int;
 	
 	/** ArrayCollection<Folder|Playlist> */
 	public var content: ArrayCollection;
 	
+	
 	public function Folder(pTitle: String, pContent: ArrayCollection) {
-		if(pTitle == null) throw new Error("pTitle == null");
+		super(pTitle);
 		if(pContent == null) throw new Error("pContent == null");
 		
-		this.title = pTitle;
 		this.content = pContent;
 	}
 	
@@ -23,7 +23,7 @@ public class Folder {
 	}
 	
 	public function toString():String {
-		return "Folder[title=" + this.title + ";content.length=" + this.content.length + "]";
+		return "Folder["+this.toInnerString()+";folderId=" + this.folderId + ";content.length=" + this.content.length + "]";
 	}
 
 	/** workaround method to get this displayed as a container item in tree component*/
