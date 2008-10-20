@@ -99,10 +99,11 @@ public class YoutubeSearch {
 				
 				var entryTitle:String = entry.title;
 				var entrySwfSource:String = YoutubeSearch.extractSwfSource(entry);
+				var clipId: String = extractIdFromUrl(entrySwfSource);
 				LOG.finest("extracted swf source: [" + entrySwfSource + "]");
 				var duration:uint = entry.group.duration.seconds as uint;
 				var thumbnail: Thumbnail = extractFirstThumbnail(entry);
-				var searchResult: SearchResult = new SearchResult(entryTitle, entrySwfSource, duration, thumbnail);
+				var searchResult: SearchResult = new SearchResult(clipId, entryTitle, entrySwfSource, duration, thumbnail);
 				
 				result.addItem(searchResult);
 			}
@@ -127,22 +128,31 @@ public class YoutubeSearch {
 			for(var i:int=0; i < item.group.content.length; i++) {
 				var obj:Object = item.group.content[i];
 				if(obj.type == "application/x-shockwave-flash") {
+					LOG.finest("found swf source ["+obj.url+"]");
 					return obj.url;
 				}
 			}
 		} else if(item.group.content is Object) { // ObjectProxy
 			var c:Object = Object(item.group.content);
 			if(c.type == "application/x-shockwave-flash") {
-				trace("item ["+c.url+"]");
+				LOG.finest("found swf source ["+c.url+"]");
 				return c.url;
 			}
 			
 		}
 		
 		// FIXME can have no "group.content" at all!!! => user player tag instead
-		LOG.warning("Could not extract swf source from item: " + item);
-		return null;
+		LOG.warning("Could not extract swf source from item: [" + item + "]!!!!!!");
+		throw new Error("Could not extract swf source from item: [" + item + "]!!!!!!");
 	}
+	
+	private static function extractIdFromUrl(url: String): String {
+		var posLastSlash: int = url.lastIndexOf("/");
+		var posFirstAmp: int = url.indexOf("&");
+		var lenId: int = posFirstAmp - (posLastSlash + 1);
+		return url.substr(posLastSlash + 1, lenId);
+	}
+	
 	
 	public function toString():String {
 		return "YoutubeSearch[_searchString="+this._searchString+"]";

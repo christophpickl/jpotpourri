@@ -1,5 +1,6 @@
 package code.model {
 
+import code.model.vo.Clip;
 import code.model.vo.Library;
 import code.model.vo.Playlist;
 
@@ -18,6 +19,9 @@ public class Model implements IModelLocator {
 	
 	/** currently selected */
 	public var playlist: Playlist;
+	
+	/** currently selected */
+	public var clip: Clip;
 	
 	/** ArrayCollection<SearchResult>*/
 	public var searchResults: ArrayCollection = new ArrayCollection();

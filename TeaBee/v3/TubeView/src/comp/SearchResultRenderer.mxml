@@ -24,7 +24,6 @@
 	<mx:VBox>
 		<mx:Label text="{data.title}" fontWeight="bold" />
 		<mx:Label text="Duration: {TimeUtil.formatSeconds(data.duration)}" />
-		<mx:Label text="URL: {data.url != null ? 'Available' : 'N/A'}" />
 	</mx:VBox>
 	
 </mx:HBox>
