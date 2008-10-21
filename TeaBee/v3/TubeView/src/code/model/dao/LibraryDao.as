@@ -1,5 +1,6 @@
 package code.model.dao {
 
+import code.model.vo.Clip;
 import code.model.vo.Folder;
 import code.model.vo.Item;
 import code.model.vo.Library;
@@ -15,63 +16,39 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 	
 	private static const LOG:Logger = Logger.getLogger("code.model.dao.LibraryDao");
 	
+	private static const TBL_ITEM: TableDefinition = new TableDefinition("item",
+		"itemId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"title CHAR(255), " +
+		"parentId INTEGER ", // reference to (parent) folder; -1 if top element,
+		"INSERT INTO item (title, parentId) VALUES(:title, :parentId)",
+		"SELECT itemId, title, parentId FROM item ORDER BY itemId ASC;"
+	);
 	
-	private static const SQL_CREATE_ITEM: String = 
-		"CREATE TABLE IF NOT EXISTS item (" +
-		  "itemId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "title CHAR(255), " +
-		  "parentId INTEGER " + // reference to (parent) folder; -1 if top element
-		")";
+	private static const TBL_FOLDER: TableDefinition = new TableDefinition("folder",
+		"folderId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"itemId INTEGER",
+		"INSERT INTO folder (itemId) VALUES(:itemId)",
+		"SELECT folderId, itemId FROM folder ORDER BY folderId ASC;"
+	);	
 	
-	private static const SQL_CREATE_FOLDER: String = 
-		"CREATE TABLE IF NOT EXISTS folder (" +
-		  "folderId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "itemId INTEGER" +
-		")";
+	private static const TBL_PLAYLIST: TableDefinition = new TableDefinition("playlist",
+		"playlistId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"itemId INTEGER",
+		"INSERT INTO playlist (itemId) VALUES(:itemId)",
+		"SELECT playlistId, itemId FROM playlist ORDER BY playlistId ASC;"
+	);	
 	
-	private static const SQL_CREATE_PLAYLIST: String = 
-		"CREATE TABLE IF NOT EXISTS playlist (" +
-		  "playlistId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "itemId INTEGER" +
-		")";
-		
-	private static const SQL_CREATE_CLIP: String = 
-		"CREATE TABLE IF NOT EXISTS clip (" +
-		  "clipId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "videoId CHAR(255)," +
-		  "title CHAR(255)," +
-		  "duration INTEGER," +
-		  // FIXME thumbnail => also store locally
-		  "playlistId INTEGER" +
-		")";
-		
-	
-	private static const SQL_INSERT_ITEM: String =
-		"INSERT INTO item (title, parentId) VALUES(:title, :parentId)";
-		
-	private static const SQL_INSERT_FOLDER: String =
-		"INSERT INTO folder (itemId) VALUES(:itemId)";
-		
-	private static const SQL_INSERT_PLAYLIST: String =
-		"INSERT INTO playlist (itemId) VALUES(:itemId)";
-		
-	private static const SQL_INSERT_CLIP: String =
-		"INSERT INTO clip (clipId, videoId, title, duraiton, playlistId) VALUES " + 
-			"(:clipId, :videoId, :title, :duraiton, :playlistId)";
-		
-		
-		
-	private static const SQL_SELECT_ITEMS: String =
-		"SELECT itemId, title, parentId FROM item ORDER BY itemId ASC;";
-		
-	private static const SQL_SELECT_FOLDERS: String =
-		"SELECT folderId, itemId FROM folder ORDER BY folderId ASC;";
-		
-	private static const SQL_SELECT_PLAYLISTS: String =
-		"SELECT playlistId, itemId FROM playlist ORDER BY playlistId ASC;";
-		
-	private static const SQL_SELECT_CLIPS: String =
-		"SELECT clipId, videoId, title, duration, playlistId FROM clip ORDER BY videoId ASC;";
+	private static const TBL_CLIP: TableDefinition = new TableDefinition("clip",
+		"clipId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"videoId CHAR(255)," +
+		"title CHAR(255)," +
+		"duration INTEGER," +
+		// FIXME thumbnail => also store locally
+		"playlistId INTEGER",
+		"INSERT INTO clip (videoId, title, duration, playlistId) VALUES " + 
+			           "(:videoId, :title, :duration, :playlistId)",
+		"SELECT clipId, videoId, title, duration, playlistId FROM clip ORDER BY videoId ASC;"
+	);	
 	
 	
 	private static const DEFAULT_PARENT_NON_ID: int = -1;
@@ -119,21 +96,22 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 	 private var tmpFetchedPlaylists: Array;
 	
 	
-	
 	public function LibraryDao() {
-		this.execSql(SQL_CREATE_ITEM);
-		this.execSql(SQL_CREATE_FOLDER);
-		this.execSql(SQL_CREATE_PLAYLIST);
-		this.execSql(SQL_CREATE_CLIP);
+		this.execSql(TBL_ITEM.sqlCreate);
+		this.execSql(TBL_FOLDER.sqlCreate);
+		this.execSql(TBL_PLAYLIST.sqlCreate);
+		this.execSql(TBL_CLIP.sqlCreate);
 	}
 	
 	
 	/**
 	 * @interface
+	 * @param fnFetchedLibrary ... fnFetchedLibrary(library: Library): void
 	 */
 	public function fetchLibrary(fnFetchedLibrary: Function): void {
+		LOG.info("fetchLibrary(fnFetchedLibrary="+fnFetchedLibrary+") invoked");
 		this.fnFetchedLibrary = fnFetchedLibrary;
-		this.execSql(SQL_SELECT_ITEMS, this.onFetch1Items);
+		this.execSql(TBL_ITEM.sqlSelect, this.onFetch1Items);
 	}
 	
 	private function onFetch1Items(result: ArrayCollection): void {
@@ -149,7 +127,7 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 			this.tmpFetchedParentals[item.parentId].addItem(item.itemId);
 		}
 		
-		this.execSql(SQL_SELECT_FOLDERS, this.onFetch2Folders);
+		this.execSql(TBL_FOLDER.sqlSelect, this.onFetch2Folders);
 	}
 	
 	private function onFetch2Folders(result: ArrayCollection): void {
@@ -160,7 +138,7 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 			this.tmpFetchedFolders[folder.itemId] = folder;
 		}
 
-		this.execSql(SQL_SELECT_PLAYLISTS, this.onFetch3Playlists);
+		this.execSql(TBL_PLAYLIST.sqlSelect, this.onFetch3Playlists);
 	}
 	
 	private function onFetch3Playlists(result: ArrayCollection): void {
@@ -220,6 +198,12 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 			rootFolder.content.addItem(newPlaylist);
 		}
 		
+		if(rootFolder.content.length == 0) {
+			LOG.finer("Seems as nothing was stored in DB (rootFolder.content.length); inserting dummy.");
+			rootFolder.content.addItem(Playlist.newDefault());
+		}
+		
+		
 		const library: Library = new Library(rootFolder);
 		
 		this.tmpFetchedItems = null;
@@ -256,7 +240,7 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 			// insert folder
 			var params: Array = new Array();
 			params[":itemId"] = lastItemId;
-			this.execSql(SQL_INSERT_FOLDER, null, params); // FIXME async call?!?!
+			this.execSql(TBL_FOLDER.sqlInsert, null, params); // FIXME async call?!?!
 		
 			// update saveFolder.parentId
 			const lastFolderId: int = this.lastInsertId;
@@ -292,7 +276,21 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		// insert playlist
 		var params: Array = new Array();
 		params[":itemId"] = lastItemId;
-		this.execSql(SQL_INSERT_PLAYLIST, null, params);
+		this.execSql(TBL_PLAYLIST.sqlInsert, null, params);
+		
+		const lastPlaylistId: int = this.lastInsertId;
+		for each(var clip: Clip in savePlaylist.clips) {
+			this.insertClip(clip, savePlaylist);
+		}
+	}
+	
+	private function insertClip(saveClip: Clip, playlist: Playlist): void {
+		var params: Array = new Array();
+		params[":videoId"] = saveClip.videoId;
+		params[":title"] = saveClip.title;
+		params[":duration"] = saveClip.duration;
+		params[":playlistId"] = playlist.playlistId;
+		this.execSql(TBL_CLIP.sqlInsert, null, params);
 	}
 	
 	private function insertItem(saveItem: Item, parentFolder: Folder): void {
@@ -306,7 +304,19 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 			params[":parentId"] = parentFolder.itemId;
 		}
 		
-		this.execSql(SQL_INSERT_ITEM, null, params);
+		this.execSql(TBL_ITEM.sqlInsert, null, params);
+	}
+	
+	
+	/**
+	 * @interface
+	 */
+	public function clearLibrary(): void {
+		LOG.info("clearLibrary() invoked");
+		this.execSql(TBL_CLIP.sqlDelete, null, null);
+		this.execSql(TBL_FOLDER.sqlDelete, null, null);
+		this.execSql(TBL_PLAYLIST.sqlDelete, null, null);
+		this.execSql(TBL_ITEM.sqlDelete, null, null);
 	}
 	
 }

@@ -21,6 +21,10 @@ TODO performance - thumbnails alle in cache zwischenspeichern
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Application;
+			import code.model.dao.DaoLocator;
+			import code.model.vo.Library;
+			import code.model.Model;
 			import logging.Logger;
 			
 			private static const LOG: Logger = Logger.getLogger("TubeView");
@@ -29,9 +33,6 @@ TODO performance - thumbnails alle in cache zwischenspeichern
 			public static var loaderContext: LoaderContext;
 			
 			private function onCreationComplete():void {
-				
-				 
-				
 				// Application.application.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenHandler);
 				// fullScreenHandler(evt:FullScreenEvent):void
 				
@@ -40,6 +41,19 @@ TODO performance - thumbnails alle in cache zwischenspeichern
 				loaderContext = new LoaderContext();
       			loaderContext.checkPolicyFile = true;
       			*/
+      			
+				 DaoLocator.instance.libraryDao.fetchLibrary(this.fnFetchedLibrary);
+				 
+				 NativeApplication.nativeApplication.addEventListener(Event.EXITING, this.onExiting);
+			}
+			
+			private function fnFetchedLibrary(lib: Library): void {
+				Model.instance.library = lib;
+			}
+			
+			private function onExiting(event: Event): void {
+				DaoLocator.instance.libraryDao.clearLibrary();
+				DaoLocator.instance.libraryDao.insertLibrary(Model.instance.library);
 			}
 		]]>
 	</mx:Script>
@@ -59,3 +73,9 @@ TODO performance - thumbnails alle in cache zwischenspeichern
 	
 	
 </mx:WindowedApplication>
+
+
+
+
+
+
