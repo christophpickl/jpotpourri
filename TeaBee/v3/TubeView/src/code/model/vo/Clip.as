@@ -8,11 +8,13 @@ import flash.filesystem.File;
 [Bindable]
 public class Clip {
 	
-	public var id: String;
+	// public var id: int; ... is database key necessary?! 
+	
+	public var videoId: String;
 	
 	public var title: String; 
 	
-	public var url: String; 
+	public var url: String; // FIXME get rid of that! only reference to file via its ID (also used by flvFile)
 	
 	public var duration: int;
 	 
@@ -23,8 +25,8 @@ public class Clip {
 	
 	private var _flvFile: File;
 	
-	public function Clip(id: String, title:String, url:String, duration:uint, thumbnail:Thumbnail) {
-		this.id = id;
+	public function Clip(videoId: String, title:String, url:String, duration:uint, thumbnail:Thumbnail) {
+		this.videoId = videoId
 		this.title = title;
 		this.url = url;
 		this.duration = duration;
@@ -40,14 +42,14 @@ public class Clip {
 	public function get flvFile(): File {
 		if(this._flvFile == null) {
 			var path: String = "TubeView";
-			path = path + "/" + this.id + ".flv";
+			path = path + "/" + this.videoId + ".flv";
 			this._flvFile = File.documentsDirectory.resolvePath(path);
 		}
 		return this._flvFile;
 	}
 	
 	public function toString():String {
-		return "Clip[id="+id+";title="+title+"]";
+		return "Clip[videoId="+videoId+";title="+title+"]";
 	}
 
 

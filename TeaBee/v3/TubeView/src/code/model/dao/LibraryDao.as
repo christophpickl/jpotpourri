@@ -15,53 +15,63 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 	
 	private static const LOG:Logger = Logger.getLogger("code.model.dao.LibraryDao");
 	
-	/*
-	private static const SQL_CREATE_LIBRARY: String = 
-		"CREATE TABLE IF NOT EXISTS library (" +
-		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "title CHAR(255)" +
-		")";
-	*/
 	
 	private static const SQL_CREATE_ITEM: String = 
 		"CREATE TABLE IF NOT EXISTS item (" +
-		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		  "itemId INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		  "title CHAR(255), " +
-		  "id_parent INTEGER " + // reference to (parent) folder; -1 if top element
+		  "parentId INTEGER " + // reference to (parent) folder; -1 if top element
 		")";
 	
 	private static const SQL_CREATE_FOLDER: String = 
 		"CREATE TABLE IF NOT EXISTS folder (" +
-		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "id_item INTEGER" +
+		  "folderId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		  "itemId INTEGER" +
 		")";
 	
 	private static const SQL_CREATE_PLAYLIST: String = 
 		"CREATE TABLE IF NOT EXISTS playlist (" +
-		  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		  "id_item INTEGER" +
+		  "playlistId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		  "itemId INTEGER" +
+		")";
+		
+	private static const SQL_CREATE_CLIP: String = 
+		"CREATE TABLE IF NOT EXISTS clip (" +
+		  "clipId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		  "videoId CHAR(255)," +
+		  "title CHAR(255)," +
+		  "duration INTEGER," +
+		  // FIXME thumbnail => also store locally
+		  "playlistId INTEGER" +
 		")";
 		
 	
 	private static const SQL_INSERT_ITEM: String =
-		"INSERT INTO item (title, id_parent) VALUES(:title, :parentId)";
+		"INSERT INTO item (title, parentId) VALUES(:title, :parentId)";
 		
 	private static const SQL_INSERT_FOLDER: String =
-		"INSERT INTO folder (id_item) VALUES(:itemId)";
+		"INSERT INTO folder (itemId) VALUES(:itemId)";
 		
 	private static const SQL_INSERT_PLAYLIST: String =
-		"INSERT INTO playlist (id_item) VALUES(:itemId)";
+		"INSERT INTO playlist (itemId) VALUES(:itemId)";
+		
+	private static const SQL_INSERT_CLIP: String =
+		"INSERT INTO clip (clipId, videoId, title, duraiton, playlistId) VALUES " + 
+			"(:clipId, :videoId, :title, :duraiton, :playlistId)";
 		
 		
 		
 	private static const SQL_SELECT_ITEMS: String =
-		"SELECT id, title, id_parent FROM item ORDER BY id ASC;";
+		"SELECT itemId, title, parentId FROM item ORDER BY itemId ASC;";
 		
 	private static const SQL_SELECT_FOLDERS: String =
-		"SELECT id, id_item FROM folder ORDER BY id ASC;";
+		"SELECT folderId, itemId FROM folder ORDER BY folderId ASC;";
 		
 	private static const SQL_SELECT_PLAYLISTS: String =
-		"SELECT id, id_item FROM playlist ORDER BY id ASC;";
+		"SELECT playlistId, itemId FROM playlist ORDER BY playlistId ASC;";
+		
+	private static const SQL_SELECT_CLIPS: String =
+		"SELECT clipId, videoId, title, duration, playlistId FROM clip ORDER BY videoId ASC;";
 	
 	
 	private static const DEFAULT_PARENT_NON_ID: int = -1;
@@ -114,6 +124,7 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		this.execSql(SQL_CREATE_ITEM);
 		this.execSql(SQL_CREATE_FOLDER);
 		this.execSql(SQL_CREATE_PLAYLIST);
+		this.execSql(SQL_CREATE_CLIP);
 	}
 	
 	
@@ -130,14 +141,12 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		this.tmpFetchedParentals = new Array();
 		
 		for each(var item: Object in result) {
-			// item.id        ==> Item.itemId
-			// item.title     ==> Item.title
-			// item.id_parent ==> Item.parentId
-			this.tmpFetchedItems[item.id] = item;
-			if(this.tmpFetchedParentals[item.id_parent] == null) {
-				this.tmpFetchedParentals[item.id_parent] = new ArrayCollection();
+			// item.itemId, item.title, item.parentId
+			this.tmpFetchedItems[item.itemId] = item;
+			if(this.tmpFetchedParentals[item.parentId] == null) {
+				this.tmpFetchedParentals[item.parentId] = new ArrayCollection();
 			}
-			this.tmpFetchedParentals[item.id_parent].addItem(item.id);
+			this.tmpFetchedParentals[item.parentId].addItem(item.itemId);
 		}
 		
 		this.execSql(SQL_SELECT_FOLDERS, this.onFetch2Folders);
@@ -147,9 +156,8 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		this.tmpFetchedFolders = new Array();
 		
 		for each(var folder: Object in result) {
-			// folder.id      ==> Folder.folderId
-			// folder.id_item ==> Item.itemId ... only needed to hold reference
-			this.tmpFetchedFolders[folder.id_item] = folder;
+			// folder.folderId, folder.itemId
+			this.tmpFetchedFolders[folder.itemId] = folder;
 		}
 
 		this.execSql(SQL_SELECT_PLAYLISTS, this.onFetch3Playlists);
@@ -159,8 +167,8 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		this.tmpFetchedPlaylists = new Array();
 		
 		for each(var playlist: Object in result) {
-			// id, id_item
-			this.tmpFetchedPlaylists[playlist.id_item] = playlist;
+			// playlistId, itemId
+			this.tmpFetchedPlaylists[playlist.itemId] = playlist;
 		}
 		
 		this.onFetch4Finish();
@@ -173,10 +181,10 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		const foldersByItemId: Array = new Array();
 		
 		for (var itemFolderId: String in this.tmpFetchedFolders) {
-			var objFolderItem: Object = this.tmpFetchedItems[itemFolderId]; // Object { id, title, id_parent }
-			var objFolder: Object = this.tmpFetchedFolders[itemFolderId]; // Object { id, id_item }
+			var objFolderItem: Object = this.tmpFetchedItems[itemFolderId]; // Object { itemId, title, parentId }
+			var objFolder: Object = this.tmpFetchedFolders[itemFolderId]; // Object { folderId, itemId }
 			
-			if(objFolderItem.id_parent != DEFAULT_PARENT_NON_ID) {
+			if(objFolderItem.parentId != DEFAULT_PARENT_NON_ID) {
 				continue; // skip, if its not directly below root
 			}
 			
@@ -184,9 +192,9 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 			const newFolder: Folder = Folder.newDefault();
 			
 			//  TODO newFolder.content
-			newFolder.folderId = objFolder.id;
-			newFolder.itemId = objFolderItem.id; // or objFolder.id_item
-			newFolder.parentId = objFolderItem.id_parent;
+			newFolder.folderId = objFolder.folderId;
+			newFolder.itemId = objFolderItem.itemId; // or objFolder.id_item
+			newFolder.parentId = objFolderItem.parentId;
 			newFolder.title = objFolderItem.title;
 			
 			rootFolder.content.addItem(newFolder);
@@ -195,17 +203,17 @@ internal class LibraryDao extends AbstractDao implements ILibraryDao {
 		
 		
 		for (var itemPlaylistId: String in this.tmpFetchedPlaylists) {
-			const objPlaylistItem: Object = this.tmpFetchedItems[itemPlaylistId]; // Object { id, title, id_parent }
-			const objPlaylist: Object = this.tmpFetchedPlaylists[itemPlaylistId]; // Object { id, id_item }
+			const objPlaylistItem: Object = this.tmpFetchedItems[itemPlaylistId]; // Object { itemId, title, parentId }
+			const objPlaylist: Object = this.tmpFetchedPlaylists[itemPlaylistId]; // Object { playlistId, itemId }
 			
-			if(objPlaylistItem.id_parent != DEFAULT_PARENT_NON_ID) {
+			if(objPlaylistItem.parentId != DEFAULT_PARENT_NON_ID) {
 				continue; // skip, if its not directly below root
 			}
 			
 			const newPlaylist: Playlist = Playlist.newDefault();
-			newPlaylist.itemId = objPlaylistItem.id; // or objPlaylist.id_item
-			newPlaylist.parentId = objPlaylistItem.id_parent;
-			newPlaylist.playlistId = objPlaylist.id;
+			newPlaylist.itemId = objPlaylistItem.itemId; // or objPlaylist.itemId
+			newPlaylist.parentId = objPlaylistItem.parentId;
+			newPlaylist.playlistId = objPlaylist.playlistId;
 			newPlaylist.title = objPlaylistItem.title;
 			// TODO newPlaylist.clips
 			
