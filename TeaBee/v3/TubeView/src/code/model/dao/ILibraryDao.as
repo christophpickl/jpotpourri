@@ -12,5 +12,7 @@ public interface ILibraryDao {
 	 **/
 	function fetchLibrary(fnFetchedLibrary: Function): void;
 	
+	function clearLibrary(): void;
+	
 }
 }

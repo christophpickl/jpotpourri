@@ -14,7 +14,8 @@ public class Model implements IModelLocator {
 	private static var INSTANCE: Model;
 	
 	
-	public var library: Library = Library.newDefault();
+	public var library: Library = null;
+	// public var library: Library = Library.newDefault();
 	// public var library: Library = LibraryDao.instance.load();
 	
 	/** currently selected */
