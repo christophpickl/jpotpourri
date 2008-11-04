@@ -111,7 +111,15 @@ public final class PtDateUtil {
     	}
     	return true;
     }
-    		
+
+    public static String formatTimestamp(final long timestamp) {
+    	return TIMESTAMP_FORMATTER.format(new Date(timestamp));
+    }
+
+    public static long parseTimestamp(final String source) throws ParseException {
+    	return TIMESTAMP_FORMATTER.parse(source).getTime();
+    }
+    
     /**
      * @param string something like "yyyy-MM-dd HH:mm:ss.SSSSSS"
      */
@@ -162,7 +170,7 @@ public final class PtDateUtil {
     	}
 
     	// day
-    	if(validateTimestampNumber(string, 8, 10, 1, 31) == false) {
+    	if(validateTimestampNumber(string, 8, 10, 0, 31) == false) {
     		return false;
     	}
 
@@ -171,7 +179,7 @@ public final class PtDateUtil {
     	}
 
     	// month
-    	if(validateTimestampNumber(string, 5, 7, 1, 12) == false) {
+    	if(validateTimestampNumber(string, 5, 7, 0, 12) == false) { // minInclusive == 0, to allow input like "01"
     		return false;
     	}
 
@@ -195,10 +203,6 @@ public final class PtDateUtil {
 			}
 		}
     	return true;
-    }
-    
-    public static String formatTimestamp(final long timestamp) {
-    	return TIMESTAMP_FORMATTER.format(new Date(timestamp));
     }
     
     

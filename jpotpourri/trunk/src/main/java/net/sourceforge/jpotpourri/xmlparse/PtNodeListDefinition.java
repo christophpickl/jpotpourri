@@ -37,8 +37,7 @@ public class PtNodeListDefinition<T> {
 		}
 		
 		if(yetProcessed == false) {
-			throw new RuntimeException("Unhandled node [" + nodeName + "]!");
+			throw new PtUnhandledNodeException(node);
 		}
 	}
-	
 }
