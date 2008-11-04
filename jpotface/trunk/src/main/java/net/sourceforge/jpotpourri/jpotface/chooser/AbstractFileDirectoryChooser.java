@@ -26,6 +26,9 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class AbstractFileDirectoryChooser extends JPanel implements ActionListener {
 // actually, this class should only visible within JPotFace
+
+	public static final String ID_BUTTON_CHOOSE = "ID_BUTTON_CHOOSE";
+	public static final String ID_TEXTFIELD_SOURCE = "ID_TEXTFIELD_SOURCE";
 	
 	private static final long serialVersionUID = 6190683599071858829L;
 
@@ -74,9 +77,11 @@ public abstract class AbstractFileDirectoryChooser extends JPanel implements Act
         
         this.defaultPath = defaultPath;
         this.textField.setEditable(false);
+        this.textField.setName(ID_TEXTFIELD_SOURCE);
         this.dialogTitle = dialogTitle;
         
         this.button = new JButton(buttonLabel);
+        this.button.setName(ID_BUTTON_CHOOSE);
         this.button.setOpaque(false);
         this.button.addActionListener(this);
         

@@ -36,4 +36,10 @@ public abstract class PtAbstractBindableSimpleObject<T> extends PtDefaultBindabl
 	public final T getValue() {
 		return this.value;
 	}
+	
+	@Override
+	public String toString() {
+		return this.propertyName + "=[" + this.value + "]";
+	}
+	
 }

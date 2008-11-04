@@ -49,12 +49,12 @@
 	<!-- =================================================================== -->
 
 	<distributionManagement>
-
+        <!--
 		<site>
 			<id>jpotpourri.sourceforge-repo</id>
 			<url>scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/jpotface</url>
 		</site>
-		
+		-->
 	</distributionManagement>
 		
 </project>
