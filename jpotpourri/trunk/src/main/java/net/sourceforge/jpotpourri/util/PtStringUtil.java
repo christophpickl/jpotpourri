@@ -117,6 +117,14 @@ public class PtStringUtil {
 	}
 	
 
+	public static String getExceptionStackTrace(final Throwable throwable) {
+		if(throwable == null) {
+			return null;
+		}
+		final StringWriter writer = new StringWriter();
+		throwable.printStackTrace(new PrintWriter(writer));
+		return writer.toString();
+	}
 
     public static String convertExceptionToString(final Throwable throwable) {
     	return convertExceptionToString(throwable, false);
