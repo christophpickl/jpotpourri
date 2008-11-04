@@ -1,5 +1,8 @@
 package net.sourceforge.jpotpourri.jcairngorm.component;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import net.sourceforge.jpotpourri.jcairngorm.IPtBindingListener;
 import net.sourceforge.jpotpourri.jcairngorm.bindobj.PtBindableLong;
 import net.sourceforge.jpotpourri.jcairngorm.event.PtBindingEvent;
@@ -16,6 +19,17 @@ public class PtBTimestampField implements IPtBindingListener<Long> {
 	public PtBTimestampField(final PtTimestampField label, final PtBindableLong value) {
 		this.field = label;
 		this.field.setText(PtDateUtil.formatTimestamp(value.getValue().longValue()));
+		
+		this.field.addKeyListener(new KeyListener() {
+			public void keyPressed(final KeyEvent event) { /* nothing to do */ }
+			public void keyTyped(final KeyEvent event) { /* nothing to do */ }
+			
+			public void keyReleased(final KeyEvent event) {
+				if(PtBTimestampField.this.field.isFullyValid()) {
+					value.setValue(PtBTimestampField.this.field.getLongValue());
+				}
+			}
+		});
 		
 		value.addBindingListener(this);
 	}

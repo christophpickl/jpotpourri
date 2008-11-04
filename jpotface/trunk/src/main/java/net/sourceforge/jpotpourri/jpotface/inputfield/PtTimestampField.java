@@ -1,12 +1,9 @@
 package net.sourceforge.jpotpourri.jpotface.inputfield;
 
 import java.awt.Toolkit;
-import java.sql.Timestamp;
+import java.text.ParseException;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -18,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * validates input for format "yyyy-MM-dd HH:mm:ss.SSSSSS"
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
@@ -39,6 +37,20 @@ public class PtTimestampField extends JTextField {
     @Override
 	protected final Document createDefaultModel() {
         return new TimestampTextDocument();
+    }
+    
+    public boolean isFullyValid() {
+    	return this.getText().length() == PtDateUtil.TIMESTAMP_FORMAT.length() &&
+    		   PtDateUtil.validateTimestampPart(this.getText()) == true;
+    }
+    
+    public long getLongValue() {
+    	assert(this.isFullyValid());
+    	try {
+			return PtDateUtil.parseTimestamp(this.getText());
+		} catch (ParseException e) {
+			throw new RuntimeException("Encountered invalid timestamp text [" + this.getText() + "]!");
+		}
     }
 
     /**
@@ -73,6 +85,7 @@ public class PtTimestampField extends JTextField {
         }
         
     }
+    
     
     public static void main(final String[] args) {
 //		JFrame f = new JFrame();

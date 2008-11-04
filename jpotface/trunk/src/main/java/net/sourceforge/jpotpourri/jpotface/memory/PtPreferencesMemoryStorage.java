@@ -1,5 +1,6 @@
 package net.sourceforge.jpotpourri.jpotface.memory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
@@ -154,6 +155,7 @@ public class PtPreferencesMemoryStorage<K extends IPtMemoryKey<String>> extends 
 			LOG.warn(errMsg);
 			throw new RuntimeException(errMsg);
 		}
+		
 		
 		this.addStorageItem(new PtStorageItem<K>(
 				key, target, propertyClass, getterMethod, setterMethod, isPrimitive, defaultValue));
