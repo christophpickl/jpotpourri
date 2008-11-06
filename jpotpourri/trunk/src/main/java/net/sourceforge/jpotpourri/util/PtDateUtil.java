@@ -170,7 +170,7 @@ public final class PtDateUtil {
     	}
 
     	// day
-    	if(validateTimestampNumber(string, 8, 10, 0, 31) == false) {
+    	if(validateTimestampNumber(string, 8, 10, 1, 31) == false) {
     		return false;
     	}
 
@@ -179,7 +179,7 @@ public final class PtDateUtil {
     	}
 
     	// month
-    	if(validateTimestampNumber(string, 5, 7, 0, 12) == false) { // minInclusive == 0, to allow input like "01"
+    	if(validateTimestampNumber(string, 5, 7, 1, 12) == false) {
     		return false;
     	}
 
