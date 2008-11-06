@@ -3,22 +3,27 @@ package net.sourceforge.jpotpourri.jpotspect.notnull;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-class Demo {
+class PtDemo {
 
 	public static void main(final String[] args) {
-		new Demo().run();
+		new PtDemo().run();
 	}
 
-	private Demo() {
+	private PtDemo() {
 		// nothing to do
 	}
 	
 	private void run() {
 		this.setSomeNull("not null");
-		this.setSomeNull(null); // NullPointerException will be thrown
+		
+		try {
+			this.setSomeNull(null);
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException was thrown");
+		}
 	}
 	
-	public void setSomeNull(@NotNull final String value) {
+	public void setSomeNull(@PtNotNull final String value) {
 		System.out.println("setting value to [" + value + "]");
 	}
 	

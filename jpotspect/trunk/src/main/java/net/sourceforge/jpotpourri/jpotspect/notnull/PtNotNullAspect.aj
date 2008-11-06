@@ -1,6 +1,4 @@
-package myannotation;
-
-import net.sourceforge.jpotpourri.jpotspect.notnull.NotNull;
+package net.sourceforge.jpotpourri.jpotspect.notnull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -11,21 +9,21 @@ import org.aspectj.lang.reflect.MethodSignature;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-public aspect NotNullAspect {
+public aspect PtNotNullAspect {
 
 	pointcut notNull():
 		// AspectJ does not -yet- support parameter pattern like ".., XX, .."
-		call(* *(@net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..)) ||
-		call(* *(*, *, *, *, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.NotNull (*), ..));
+		call(* *(@net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..)) ||
+		call(* *(*, *, *, *, *, *, *, *, *, *, @net.sourceforge.jpotpourri.jpotspect.notnull.PtNotNull (*), ..));
 
 	@SuppressAjWarnings
 	before(): notNull() {
@@ -35,7 +33,7 @@ public aspect NotNullAspect {
 		
 		for (int i = 0; i < multiAnnotations.length; i++) {
 			for (Annotation annotation : multiAnnotations[i]) {
-				if(annotation.annotationType() != NotNull.class) {
+				if(annotation.annotationType() != PtNotNull.class) {
 					continue; // skip other annotations than @NotNull
 				}
 				
