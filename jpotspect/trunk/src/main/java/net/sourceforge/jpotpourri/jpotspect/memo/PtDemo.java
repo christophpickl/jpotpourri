@@ -3,13 +3,13 @@ package net.sourceforge.jpotpourri.jpotspect.memo;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-class Demo {
+class PtDemo {
 	
 	public static void main(final String[] args) {
-		new Demo().run();
+		new PtDemo().run();
 	}
 
-	private Demo() {
+	private PtDemo() {
 		// nothing to do
 	}
 	
@@ -19,7 +19,7 @@ class Demo {
 		System.out.println("Result of: 2 + 2 = " + this.add(2, 2)); // will use cached value
 	}
 	
-	@Memorizable
+	@PtMemorizable
 	private int add(final int operand1, final int operand2) {
 		System.out.println("... computing add(" + operand1 + ", " + operand2 + ")");
 		
