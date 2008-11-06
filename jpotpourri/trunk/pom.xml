@@ -23,11 +23,12 @@
     </description>
     
 
-	<parent>
-		<groupId>net.sourceforge.jpotpourri</groupId>
-		<artifactId>jpotpom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>net.sourceforge.jpotpourri</groupId>
+        <artifactId>jpotpom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../jpotpom</relativePath>
+    </parent>
 	
 	<!-- =================================================================== -->
 	<!-- Dependencies                                                        -->
@@ -44,12 +45,12 @@
 	<!-- =================================================================== -->
 
 	<distributionManagement>
-
+        <!--
 		<site>
 			<id>jpotpourri.sourceforge-repo</id>
 			<url>scp://shell.sourceforge.net/home/groups/j/jp/jpotpourri/htdocs/</url>
 		</site>
-		
+		-->
 	</distributionManagement>
 
 </project>

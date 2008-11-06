@@ -2,6 +2,7 @@ package net.sourceforge.jpotpourri.jpotface.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -255,9 +256,17 @@ public final class PtErrorDialog extends JDialog {
 		westPanel.add(new JLabel(PtImageFactory.getInstance().getDialogError()));
 
 		final JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		final JLabel errorMessageLabel = new JLabel("<html>" + errorMessage + "</html>");
-		
-		centerPanel.add(errorMessageLabel);
+		final JTextArea txt = new JTextArea(errorMessage);
+		txt.setEditable(false);
+		txt.setLineWrap(true);
+		txt.setWrapStyleWord(true);
+//		txt.setOpaque(true);
+//		txt.setBackground(Color.WHITE);
+		final JScrollPane txtScroll = new JScrollPane(txt);
+//		txtScroll.setOpaque(false);
+//		txtScroll.setBorder(BorderFactory.createEmptyBorder());
+		txtScroll.setPreferredSize(new Dimension(300, 80));
+		centerPanel.add(txtScroll);
 		
 
 		JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
