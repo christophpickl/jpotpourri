@@ -3,26 +3,32 @@ package net.sourceforge.jpotpourri.jpotspect.memo;
 /**
  * @author christoph_pickl@users.sourceforge.net
  */
-public class Demo {
-
-	public static void main(String[] args) {
+class Demo {
+	
+	public static void main(final String[] args) {
 		new Demo().run();
+	}
+
+	private Demo() {
+		// nothing to do
 	}
 	
 	private void run() {
-		System.out.println("2 + 2 = " + this.add(2, 2));
-		System.out.println("2 + 3 = " + this.add(2, 3));
-		System.out.println("2 + 2 = " + this.add(2, 2)); // will use cached value
+		System.out.println("Result of: 2 + 2 = " + this.add(2, 2));
+		System.out.println("Result of: 2 + 3 = " + this.add(2, 3));
+		System.out.println("Result of: 2 + 2 = " + this.add(2, 2)); // will use cached value
 	}
 	
 	@Memorizable
-	private int add(int operand1, int operand2) {
-		System.out.println("computing add(" + operand1 + ", " + operand2 + ")");
+	private int add(final int operand1, final int operand2) {
+		System.out.println("... computing add(" + operand1 + ", " + operand2 + ")");
 		
 		try {
 			// simulate cpu processing
-			Thread.sleep(1000 * 2);
-		} catch (InterruptedException e) { /* ignored */ }
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		return operand1 + operand2;
 	}
