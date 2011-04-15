@@ -42,9 +42,12 @@
 		</dependency>
 
         <dependency>
-            <groupId>fest</groupId>
+            <groupId>org.easytesting</groupId>
             <artifactId>fest-swing</artifactId>
-            <version>1.0b2.1</version>
+            <version>1.2.1</version>
+<!--            <groupId>fest</groupId>-->
+<!--            <artifactId>fest-swing</artifactId>-->
+<!--            <version>1.0b2.1</version>-->
             <scope>test</scope>
         </dependency>
         
