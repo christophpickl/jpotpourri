@@ -2,18 +2,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sourceforge.jpotpourri</groupId>
-	<artifactId>jpotface</artifactId>
-	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>jpotface</name>
-	<url>http://maven.apache.org</url>
-
 	<description>
 		JPotface is another part of the JPotpurri library. Its focused
 		on GUI stuff, offering widgets and utilities to enhance your
 		application's interface.
 	</description>
+	<packaging>jar</packaging>
+	
+	<groupId>net.sourceforge.jpotpourri</groupId>
+	<artifactId>jpotface</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>net.sourceforge.jpotpourri</groupId>

@@ -2,20 +2,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<url>http://maven.apache.org</url>
-	<packaging>jar</packaging>
-
-	<groupId>net.sourceforge.jpotpourri</groupId>
-	<artifactId>jpotpourri</artifactId>
 	<name>jpotpourri</name>
-	<version>0.0.2-SNAPSHOT</version>
-
 	<description>
         JPotpourri offers some basic java classes to make a programmer's day easier.
         It includes gui enhancements (widgets, handler), code generation, functional programming and
         a lot of easy-to-use utility classes, among them: FileUtil, ZipUtil, DateUtil, CollectionUtil, ...   
     </description>
-    
+	<packaging>jar</packaging>
+
+	<groupId>net.sourceforge.jpotpourri</groupId>
+	<artifactId>jpotpourri</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 
     <parent>
         <groupId>net.sourceforge.jpotpourri</groupId>
